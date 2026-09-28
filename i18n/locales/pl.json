@@ -416,7 +416,7 @@
     "start": "Start",
     "resume": "Wznów",
     "pause": "Pauza",
-    "finish": "Zakończ",
+    "finish": "Zakończ zadanie",
     "take": "Biorę",
     "todo": "Do zrobienia",
     "waiting": "Czeka na część lub decyzję",
@@ -521,7 +521,7 @@
   },
   "attachments": {
     "title": "Zdjęcia i filmy",
-    "add": "Dodaj zdjęcia",
+    "add": "Dodaj zdjęcie",
     "empty": "Brak zdjęć. Dodaj zdjęcia przy przyjęciu pojazdu i w trakcie pracy.",
     "uploading": "Wysyłanie {done} z {total}…",
     "uploaded": "Dodano pliki: {n}",
@@ -780,5 +780,39 @@
     "none": "brak",
     "addReceipt": "Wpisz paragon",
     "editReceipt": "Popraw paragon"
+  },
+  "theme": {
+    "title": "Wygląd",
+    "light": "Jasny",
+    "dark": "Ciemny",
+    "system": "Systemowy"
+  },
+  "ui": {
+    "work": "Praca",
+    "organization": "Organizacja",
+    "mainNavigation": "Główna nawigacja",
+    "more": "Więcej",
+    "tasks": "Zadania",
+    "requests": "Zgłoszenia",
+    "retry": "Spróbuj ponownie",
+    "refresh": "Odśwież",
+    "loading": "Wczytywanie…",
+    "loadFailed": "Nie udało się wczytać danych",
+    "loadFailedHint": "Sprawdź połączenie i spróbuj ponownie. Lista może być nieaktualna.",
+    "tasksHint": "Wybierz zadanie i rozpocznij pracę. Zdjęcia i potrzeby dodasz bezpośrednio przy zadaniu.",
+    "ordersHint": "Pojazdy, postęp prac i terminy — wszystko w jednym miejscu.",
+    "allStatuses": "Wszystkie statusy",
+    "noResults": "Brak pasujących zleceń",
+    "clearFilters": "Wyczyść filtry",
+    "totalGross": "Do akceptacji · brutto",
+    "decisionHint": "Wybór zapiszesz przyciskiem „Wyślij decyzję”.",
+    "removeTask": "Usunąć zadanie „{name}”?",
+    "removeHint": "Tej operacji nie można cofnąć.",
+    "nextWork": "Twoja kolejka pracy",
+    "startDay": "Wszystko gotowe do pracy",
+    "homeHint": "Przejdź do swoich zadań lub sprawdź, co dzieje się w warsztacie.",
+    "approvalHint": "Zapoznaj się z zakresem prac i ceną. Ty decydujesz, co wykonamy.",
+    "working": "Praca trwa",
+    "progress": "Wykonano {done} z {total} zadań"
   }
 }

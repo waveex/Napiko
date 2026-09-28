@@ -22,7 +22,7 @@ watch([view, mine, q], () => {
   })
 })
 
-const { data, status } = await useFetch('/api/work-orders', {
+const { data, status, error, refresh } = await useFetch('/api/work-orders', {
   query: computed(() => ({ view: view.value, mine: mine.value ? '1' : '0', q: q.value || undefined })),
 })
 
@@ -36,6 +36,17 @@ const orders = computed(() => (data.value?.orders ?? []).map(order =>
   pendingMove.value?.id === order.id ? { ...order, status: pendingMove.value.status } : order,
 ))
 const columns = computed(() => BOARD_STATUSES.map(s => ({ status: s, orders: orders.value.filter(o => o.status === s) })))
+const mobileStatus = ref('all')
+const mobileStatuses = computed(() => [
+  { value: 'all', label: t('ui.allStatuses') },
+  ...BOARD_STATUSES.map(value => ({ value, label: t(`workOrderStatus.${value}`) })),
+])
+const mobileOrders = computed(() => mobileStatus.value === 'all' ? orders.value : orders.value.filter(order => order.status === mobileStatus.value))
+function clearFilters() {
+  search.value = ''
+  mine.value = false
+  mobileStatus.value = 'all'
+}
 
 function endDrag() {
   draggedId.value = null
@@ -157,14 +168,58 @@ const canWork = computed(() => !!me.value?.activeOrganization?.can.workOnTasks)
     </template>
 
     <template #body>
+      <div class="oxy-intro">
+        <h2>{{ $t('orders.title') }}</h2><p>{{ $t('ui.ordersHint') }}</p>
+      </div>
+      <LoadState
+        :error="error"
+        :pending="status === 'pending' && !data"
+        @retry="refresh()"
+      />
       <div
-        v-if="view === 'active'"
-        class="flex gap-4 overflow-x-auto pb-2"
+        v-if="view === 'active' && data"
+        class="space-y-4 md:hidden"
+      >
+        <USelect
+          v-model="mobileStatus"
+          :items="mobileStatuses"
+          :aria-label="$t('orders.status')"
+          class="w-full"
+        />
+        <UEmpty
+          v-if="!mobileOrders.length"
+          :title="$t('ui.noResults')"
+          icon="i-lucide-search"
+        >
+          <template #actions>
+            <UButton
+              color="neutral"
+              variant="outline"
+              :label="$t('ui.clearFilters')"
+              @click="clearFilters"
+            />
+          </template>
+        </UEmpty>
+        <div
+          v-for="order in mobileOrders"
+          :key="order.id"
+          class="space-y-2"
+        >
+          <StatusBadge
+            kind="order"
+            :status="order.status"
+          />
+          <WorkOrderCard :order="order" />
+        </div>
+      </div>
+      <div
+        v-if="view === 'active' && data"
+        class="hidden min-h-0 gap-4 overflow-x-auto pb-2 md:flex"
       >
         <section
           v-for="col in columns"
           :key="col.status"
-          class="flex min-h-64 w-72 shrink-0 flex-col gap-3 rounded-lg transition-colors"
+          class="flex min-h-64 min-w-80 flex-1 shrink-0 flex-col gap-4 rounded-2xl bg-elevated/50 p-3 transition-colors"
           :class="dropTarget === col.status ? 'bg-primary/10 ring-2 ring-primary ring-inset' : ''"
           :aria-label="$t(`workOrderStatus.${col.status}`)"
           :aria-busy="pendingMove?.status === col.status"
@@ -202,7 +257,7 @@ const canWork = computed(() => !!me.value?.activeOrganization?.can.workOnTasks)
       </div>
 
       <UTable
-        v-else
+        v-else-if="view === 'archive' && data"
         :data="orders"
         :columns="archiveColumns"
         :loading="status === 'pending'"

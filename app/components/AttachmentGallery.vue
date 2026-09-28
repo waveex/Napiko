@@ -21,6 +21,10 @@ const emit = defineEmits<{ remove: [id: string] }>()
 const { d } = useI18n()
 
 const selectedId = ref<string | null>(null)
+const confirmDelete = ref(false)
+watch(selectedId, () => {
+  confirmDelete.value = false
+})
 const selected = computed(() => props.attachments.find(a => a.id === selectedId.value) ?? null)
 const open = computed({
   get: () => !!selected.value,
@@ -125,13 +129,24 @@ function remove(id: string) {
         v-if="selected && canDelete?.(selected)"
         #footer
       >
-        <div class="flex w-full justify-end">
+        <div class="flex w-full flex-wrap items-center justify-end gap-3">
+          <template v-if="confirmDelete">
+            <p class="w-full break-words font-medium">
+              {{ selected.fileName }} · {{ $t('ui.removeHint') }}
+            </p>
+            <UButton
+              color="neutral"
+              variant="outline"
+              :label="$t('common.cancel')"
+              @click="confirmDelete = false"
+            />
+          </template>
           <UButton
             color="error"
             variant="soft"
             icon="i-lucide-trash-2"
             :label="$t('attachments.delete')"
-            @click="remove(selected.id)"
+            @click="confirmDelete ? remove(selected.id) : (confirmDelete = true)"
           />
         </div>
       </template>

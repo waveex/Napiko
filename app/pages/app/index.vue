@@ -37,10 +37,13 @@ const onboarding = computed(() => [
     </template>
 
     <template #body>
-      <div class="max-w-4xl space-y-6">
-        <h1 class="text-2xl font-semibold">
-          {{ $t('dashboard.welcome', { name: me?.user.name ?? '' }) }}
-        </h1>
+      <div class="w-full space-y-6">
+        <div class="oxy-intro">
+          <h2>
+            {{ $t('dashboard.welcome', { name: me?.user.name ?? '' }) }}
+          </h2>
+          <p>{{ $t('ui.homeHint') }}</p>
+        </div>
 
         <template v-if="org">
           <UPageGrid class="lg:grid-cols-2">

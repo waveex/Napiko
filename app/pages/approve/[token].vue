@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { toCents, URGENCY_COLOR, VEHICLE_TYPE_INFO, type VehicleType } from '#shared/workshop'
 
-definePageMeta({ layout: 'public' })
+definePageMeta({ layout: 'public', themeContext: 'customer' })
 useHead({
   meta: [
     { name: 'robots', content: 'noindex, nofollow' },
@@ -93,7 +93,7 @@ async function submit() {
 </script>
 
 <template>
-  <UContainer class="max-w-2xl py-6 sm:py-10">
+  <UContainer class="max-w-3xl py-6 sm:py-10">
     <div
       v-if="status === 'pending' || status === 'idle'"
       class="flex justify-center py-24"
@@ -116,7 +116,7 @@ async function submit() {
       v-else-if="snapshot"
       class="space-y-6"
     >
-      <header class="space-y-3">
+      <header class="oxy-surface space-y-4 border-t-4 border-t-primary p-5 sm:p-7">
         <div class="flex items-center gap-3">
           <img
             v-if="data.logoUrl"
@@ -133,6 +133,9 @@ async function submit() {
             </p>
           </div>
         </div>
+        <p class="text-base text-muted">
+          {{ $t('ui.approvalHint') }}
+        </p>
         <h1 class="text-2xl font-bold">
           {{ estimate ? $t('approve.estimate.title') : $t('approve.title') }}
         </h1>
@@ -339,15 +342,6 @@ async function submit() {
               class="w-full"
             />
           </UFormField>
-          <UButton
-            size="xl"
-            block
-            icon="i-lucide-send"
-            :disabled="!canSubmit"
-            :loading="submitting"
-            :label="$t('approve.submit')"
-            @click="submit"
-          />
           <p class="text-xs text-muted">
             {{ $t('approve.legal', { organization: snapshot.organization.name }) }}
           </p>
@@ -504,15 +498,6 @@ async function submit() {
             class="w-full"
           />
         </UFormField>
-        <UButton
-          size="xl"
-          block
-          icon="i-lucide-send"
-          :disabled="!canSubmit"
-          :loading="submitting"
-          :label="$t('approve.submit')"
-          @click="submit"
-        />
         <p class="text-xs text-muted">
           {{ $t('approve.legal', { organization: snapshot.organization.name }) }}
         </p>
@@ -523,6 +508,34 @@ async function submit() {
       >
         {{ $t('approve.yourNote') }}: {{ data.customerNote }}
       </p>
+      <div
+        v-if="data.status === 'pending'"
+        class="oxy-approval-bar space-y-3"
+      >
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <span class="text-sm text-muted">{{ $t('ui.totalGross') }}</span>
+          <strong class="text-2xl tabular-nums">{{ n((estimate ? estimate.totals.grossCents : approvedTotal) / 100, 'currency') }}</strong>
+        </div>
+        <p
+          v-if="!canSubmit"
+          class="text-sm text-muted"
+        >
+          {{ estimate ? $t('approve.estimate.choose') : $t('approve.chooseAll') }}
+        </p>
+        <UButton
+          class="min-h-14"
+          size="xl"
+          block
+          icon="i-lucide-send"
+          :disabled="!canSubmit"
+          :loading="submitting"
+          :label="$t('approve.submit')"
+          @click="submit"
+        />
+        <p class="text-sm text-muted">
+          {{ $t('ui.decisionHint') }}
+        </p>
+      </div>
     </div>
   </UContainer>
 </template>

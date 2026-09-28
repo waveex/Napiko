@@ -5,14 +5,15 @@ const { data: session } = await useAuthSession()
 <template>
   <div class="min-h-dvh flex flex-col">
     <header class="border-b border-default">
-      <UContainer class="h-16 flex items-center justify-between gap-4">
+      <UContainer class="min-h-20 flex flex-wrap items-center justify-between gap-3 py-3">
         <NuxtLink
           to="/"
           class="font-bold text-lg tracking-tight"
         >
           OXY
         </NuxtLink>
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2">
+          <ThemeSwitcher />
           <LocaleSwitcher />
           <UButton
             v-if="session"

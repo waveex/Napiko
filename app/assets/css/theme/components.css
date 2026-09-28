@@ -1,0 +1,34 @@
+  body { background: var(--oxy-page); color: var(--oxy-text); }
+  button, a, input, select, textarea { touch-action: manipulation; }
+  :focus-visible { outline: 3px solid var(--oxy-action-focus); outline-offset: 3px; }
+  .oxy-control { min-height: var(--oxy-control-height); min-width: var(--oxy-control-height); font-size: 1rem; border-radius: var(--oxy-radius-control); }
+  .oxy-primary { background: var(--oxy-action-base); color: var(--oxy-action-contrast); }
+  .oxy-primary:hover:not(:disabled) { background: var(--oxy-action-hover); }
+  .oxy-primary:active:not(:disabled) { background: var(--oxy-action-active); }
+  .oxy-work-actions button, .oxy-work-actions a { min-height: var(--oxy-work-action-height); font-size: 1rem; justify-content: center; }
+  .oxy-brand { display: inline-flex; align-items: center; gap: .75rem; font-size: 1.5rem; font-weight: 800; letter-spacing: -.06em; }
+  .oxy-brand-mark { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: .75rem; background: var(--oxy-brand-metal); color: white; }
+  .oxy-surface { border: 1px solid var(--oxy-border); border-radius: var(--oxy-radius-card); background: var(--oxy-surface); box-shadow: var(--oxy-shadow); }
+  .oxy-intro { padding-block: .25rem .5rem; }
+  .oxy-intro h2 { font-size: clamp(1.5rem, 2vw, 1.875rem); font-weight: 700; letter-spacing: -.035em; }
+  .oxy-intro p { margin-top: .375rem; color: var(--oxy-text-muted); max-width: 65ch; }
+  .oxy-dashboard { padding-top: env(safe-area-inset-top, 0px); padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px); background: var(--oxy-page); }
+  .oxy-panel-body { padding: var(--oxy-page-gutter); scroll-padding-block: 1rem 6rem; }
+  .oxy-bottom-nav { position: fixed; inset: auto 0 0; z-index: 30; display: flex; gap: .25rem; min-height: var(--oxy-bottom-nav-height); padding: .25rem max(.5rem, env(safe-area-inset-right, 0px)) calc(.25rem + var(--oxy-safe-bottom)) max(.5rem, env(safe-area-inset-left, 0px)); background: var(--oxy-surface); border-top: 1px solid var(--oxy-border); }
+  .oxy-bottom-item { display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: .25rem; min-width: 0; min-height: 3.5rem; padding: .25rem; border-radius: .75rem; font-size: .75rem; font-weight: 600; color: var(--oxy-text-muted); text-align: center; overflow-wrap: anywhere; }
+  .oxy-bottom-item[aria-current='page'], .oxy-bottom-item[aria-expanded='true'] { background: var(--oxy-action-soft); color: var(--oxy-action-base); }
+  .oxy-approval-bar { position: sticky; bottom: 0; z-index: 10; padding: 1rem 0 calc(1rem + var(--oxy-safe-bottom)); background: var(--oxy-page); border-top: 1px solid var(--oxy-border); }
+  .oxy-dialog { z-index: 50; max-height: calc(var(--oxy-viewport-height, 100dvh) - 2rem); }
+  .oxy-dialog-overlay { z-index: 40; }
+  @media (max-width: 1023px) {
+    .oxy-dashboard { bottom: calc(var(--oxy-bottom-nav-height) + .5rem + var(--oxy-safe-bottom)); }
+    .oxy-panel-body { padding-bottom: 1.5rem; }
+  }
+  @media (min-width: 1024px) { .oxy-bottom-nav { display: none; } }
+  @media (max-width: 639px) {
+    .oxy-dialog { top: var(--oxy-viewport-top, 0px); left: 0; translate: none; transform: none; width: 100%; max-width: none; height: var(--oxy-viewport-height, 100dvh); max-height: var(--oxy-viewport-height, 100dvh); border-radius: 0; padding-top: env(safe-area-inset-top, 0px); padding-bottom: var(--oxy-safe-bottom); }
+  }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}

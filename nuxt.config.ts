@@ -11,11 +11,14 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
+  colorMode: { preference: 'light', fallback: 'light' },
+
   app: {
     head: {
       htmlAttrs: { lang: 'pl' },
       title: 'OXY',
       meta: [
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
         { name: 'description', content: 'OXY – komunikacja i organizacja pracy warsztatów z klientem.' },
       ],
     },

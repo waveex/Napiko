@@ -24,20 +24,20 @@ const serial = computed(() => (!plate.value ? props.vehicle.serialNumber : null)
 </script>
 
 <template>
-  <span class="inline-flex items-center gap-2 min-w-0">
+  <span class="inline-flex flex-wrap items-center gap-2 min-w-0">
     <UIcon
       :name="VEHICLE_TYPE_INFO[vehicle.type].icon"
       class="size-4 shrink-0 text-muted"
     />
-    <span class="truncate">{{ title }}</span>
+    <span class="break-words">{{ title }}</span>
     <template v-if="identifier !== false">
       <span
         v-if="plate"
-        class="shrink-0 rounded border border-default bg-elevated px-1.5 font-mono text-xs leading-5 tracking-wide"
+        class="rounded border border-default bg-elevated px-2 py-1 font-mono text-base leading-5 tracking-wide break-all"
       >{{ plate }}</span>
       <span
         v-else-if="serial"
-        class="shrink-0 font-mono text-xs text-muted"
+        class="break-all font-mono text-base text-muted"
       >{{ serial }}</span>
     </template>
   </span>

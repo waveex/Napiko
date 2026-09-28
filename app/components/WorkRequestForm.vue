@@ -57,6 +57,7 @@ function setUrgency(value: WorkRequestUrgency) {
 }
 
 function onSubmit(event: FormSubmitEvent<Output>) {
+  if (props.loading) return
   emit('submit', event.data, files.value)
 }
 </script>

@@ -26,13 +26,16 @@ const closed = computed(() => order.value?.status === 'closed' || order.value?.s
 const busy = ref(false)
 
 async function run(request: () => Promise<Order>, success?: string) {
+  if (busy.value) return false
   busy.value = true
   try {
     order.value = await request()
     if (success) toast.add({ title: success, color: 'success', icon: 'i-lucide-check' })
+    return true
   }
   catch (err) {
     toast.add({ title: apiErrorMessage(err, t('common.error')), color: 'error' })
+    return false
   }
   finally {
     busy.value = false
@@ -62,11 +65,11 @@ function openReceipt() {
 }
 async function submitClose(data: { receiptNumber?: string | null, receiptIssuedOn?: string | null }) {
   const body = receiptMode.value === 'close' ? { status: 'closed' as const, ...data } : data
-  await run(
+  const saved = await run(
     () => $fetch(`/api/work-orders/${id}`, { method: 'PATCH', body }),
     receiptMode.value === 'close' ? t('closeOrder.closed') : t('closeOrder.receiptSaved'),
   )
-  closeOpen.value = false
+  if (saved) closeOpen.value = false
 }
 function onEstimateUpdated(value: unknown) {
   order.value = value as Order
@@ -79,8 +82,7 @@ function startEditDescription() {
   editingDescription.value = true
 }
 async function saveDescription() {
-  await run(() => $fetch(`/api/work-orders/${id}`, { method: 'PATCH', body: { description: descriptionDraft.value } }), t('common.saved'))
-  editingDescription.value = false
+  if (await run(() => $fetch(`/api/work-orders/${id}`, { method: 'PATCH', body: { description: descriptionDraft.value } }), t('common.saved'))) editingDescription.value = false
 }
 
 function setPromisedAt(value: string) {
@@ -92,8 +94,7 @@ const newTaskTitle = ref('')
 async function addTask() {
   const title = newTaskTitle.value.trim()
   if (!title) return
-  await run(() => $fetch(`/api/work-orders/${id}/tasks`, { method: 'POST', body: { title } }))
-  newTaskTitle.value = ''
+  if (await run(() => $fetch(`/api/work-orders/${id}/tasks`, { method: 'POST', body: { title } }))) newTaskTitle.value = ''
 }
 function addSubtask(parentId: string, title: string) {
   run(() => $fetch(`/api/work-orders/${id}/tasks`, { method: 'POST', body: { title, parentId } }))
@@ -108,8 +109,15 @@ function assign(taskId: string, userId: string) {
 function unassign(taskId: string, userId: string) {
   run(() => $fetch(`/api/tasks/${taskId}/assignees/${userId}`, { method: 'DELETE' }))
 }
+const removingTask = ref<{ id: string, title: string } | null>(null)
 function removeTask(taskId: string) {
-  run(() => $fetch(`/api/tasks/${taskId}`, { method: 'DELETE' }))
+  const task = order.value?.tasks.flatMap(task => [task, ...task.subtasks]).find(task => task.id === taskId)
+  if (task) removingTask.value = { id: task.id, title: task.title }
+}
+async function confirmRemoveTask() {
+  if (!removingTask.value) return
+  const taskId = removingTask.value.id
+  if (await run(() => $fetch(`/api/tasks/${taskId}`, { method: 'DELETE' }))) removingTask.value = null
 }
 
 // ── czas pracy ──
@@ -249,6 +257,28 @@ useHead({ title: () => order.value?.number ?? t('orders.title') })
     </template>
 
     <template #body>
+      <div
+        v-if="order"
+        class="oxy-surface flex flex-wrap items-center justify-between gap-4 p-5"
+      >
+        <div>
+          <VehicleLabel
+            :vehicle="order.vehicle"
+            class="text-xl font-bold"
+          /><p class="mt-2 text-muted">
+            {{ order.number }} · {{ order.customer.name }}
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <StatusBadge
+            kind="order"
+            :status="order.status"
+          /><span
+            v-if="order.promisedAt"
+            class="text-base"
+          >{{ d(new Date(order.promisedAt), 'long') }}</span>
+        </div>
+      </div>
       <div
         v-if="order"
         class="grid gap-6 lg:grid-cols-3"
@@ -719,6 +749,29 @@ useHead({ title: () => order.value?.number ?? t('orders.title') })
             :loading="reporting"
             @submit="sendNeed"
             @cancel="reportOpen = false"
+          />
+        </template>
+      </UModal>
+      <UModal
+        :open="!!removingTask"
+        :title="$t('ui.removeTask', { name: removingTask?.title ?? '' })"
+        :description="$t('ui.removeHint')"
+        @update:open="value => { if (!value && !busy) removingTask = null }"
+      >
+        <template #footer>
+          <UButton
+            color="neutral"
+            variant="outline"
+            :disabled="busy"
+            :label="$t('common.cancel')"
+            @click="removingTask = null"
+          />
+          <UButton
+            color="error"
+            icon="i-lucide-trash-2"
+            :loading="busy"
+            :label="$t('common.delete')"
+            @click="confirmRemoveTask"
           />
         </template>
       </UModal>

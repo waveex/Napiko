@@ -1,0 +1,73 @@
+/* Context and brightness are independent. All overlays inherit from html. */
+:root {
+  --oxy-brand-base: var(--color-oxy-blue-500);
+  --oxy-brand-light: var(--color-oxy-blue-300);
+  --oxy-brand-deep: var(--color-oxy-blue-800);
+  --oxy-action-base: var(--color-oxy-blue-700);
+  --oxy-action-hover: var(--color-oxy-blue-800);
+  --oxy-action-active: var(--color-oxy-blue-900);
+  --oxy-action-soft: var(--color-oxy-blue-50);
+  --oxy-action-contrast: #fff;
+  --oxy-action-focus: var(--color-oxy-blue-700);
+  --oxy-page: var(--color-oxy-slate-50);
+  --oxy-surface: #fff;
+  --oxy-surface-raised: var(--color-oxy-slate-100);
+  --oxy-text: var(--color-oxy-slate-900);
+  --oxy-text-muted: var(--color-oxy-slate-600);
+  --oxy-border: var(--color-oxy-slate-200);
+  --oxy-border-control: var(--color-oxy-slate-500);
+}
+
+:root[data-oxy-theme='customer'] {
+  --oxy-brand-base: var(--color-oxy-violet-500);
+  --oxy-brand-light: var(--color-oxy-violet-300);
+  --oxy-brand-deep: var(--color-oxy-violet-900);
+  --oxy-action-base: var(--color-oxy-violet-700);
+  --oxy-action-hover: var(--color-oxy-violet-800);
+  --oxy-action-active: var(--color-oxy-violet-900);
+  --oxy-action-soft: var(--color-oxy-violet-50);
+  --oxy-action-focus: var(--color-oxy-violet-700);
+}
+
+:root.dark {
+  --oxy-page: var(--color-oxy-slate-950);
+  --oxy-surface: var(--color-oxy-slate-900);
+  --oxy-surface-raised: var(--color-oxy-slate-800);
+  --oxy-text: var(--color-oxy-slate-50);
+  --oxy-text-muted: var(--color-oxy-slate-300);
+  --oxy-border: var(--color-oxy-slate-700);
+  --oxy-border-control: var(--color-oxy-slate-400);
+  --oxy-action-base: var(--color-oxy-blue-300);
+  --oxy-action-hover: var(--color-oxy-blue-200);
+  --oxy-action-active: var(--color-oxy-blue-100);
+  --oxy-action-soft: var(--color-oxy-blue-950);
+  --oxy-action-contrast: var(--color-oxy-slate-900);
+  --oxy-action-focus: var(--color-oxy-blue-300);
+  --oxy-shadow: none;
+}
+
+:root.dark[data-oxy-theme='customer'] {
+  --oxy-action-base: var(--color-oxy-violet-300);
+  --oxy-action-hover: var(--color-oxy-violet-200);
+  --oxy-action-active: var(--color-oxy-violet-100);
+  --oxy-action-soft: var(--color-oxy-violet-950);
+  --oxy-action-focus: var(--color-oxy-violet-300);
+}
+
+:root, :root.dark {
+  --ui-primary: var(--oxy-action-base);
+  --ui-bg: var(--oxy-surface);
+  --ui-bg-muted: var(--oxy-page);
+  --ui-bg-elevated: var(--oxy-surface-raised);
+  --ui-bg-accented: var(--oxy-border);
+  --ui-text: var(--oxy-text);
+  --ui-text-highlighted: var(--oxy-text);
+  --ui-text-toned: var(--oxy-text-muted);
+  --ui-text-muted: var(--oxy-text-muted);
+  --ui-text-dimmed: var(--oxy-text-muted);
+  --ui-border: var(--oxy-border);
+  --ui-border-muted: var(--oxy-border);
+  --ui-border-accented: var(--oxy-border-control);
+  --ui-radius: .3125rem;
+  --oxy-brand-metal: linear-gradient(120deg, var(--oxy-brand-deep), var(--oxy-brand-base) 60%, var(--oxy-brand-light));
+}

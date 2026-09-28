@@ -44,7 +44,7 @@ const finished = computed(() => props.task.status === 'done')
 
 <template>
   <article
-    class="rounded-lg border bg-default p-4"
+    class="oxy-surface p-5"
     :class="running ? 'border-primary ring-2 ring-primary/30' : 'border-default'"
   >
     <div class="flex items-start gap-3">
@@ -76,7 +76,7 @@ const finished = computed(() => props.task.status === 'done')
         </p>
         <VehicleLabel
           :vehicle="task.vehicle"
-          class="max-w-full text-sm"
+          class="max-w-full text-lg font-semibold"
         />
         <p class="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-muted">
           <ULink
@@ -95,13 +95,13 @@ const finished = computed(() => props.task.status === 'done')
         </p>
         <p
           v-if="task.description"
-          class="line-clamp-3 whitespace-pre-line pt-1 text-sm"
+          class="whitespace-pre-line pt-2 text-base"
         >
           {{ task.description }}
         </p>
         <p
           v-else-if="task.order.description"
-          class="line-clamp-3 whitespace-pre-line pt-1 text-sm"
+          class="whitespace-pre-line pt-2 text-base"
         >
           <span class="text-muted">{{ $t('myTasks.orderScope') }}:</span> {{ task.order.description }}
         </p>
@@ -158,7 +158,7 @@ const finished = computed(() => props.task.status === 'done')
 
     <div
       v-if="!finished"
-      class="mt-4 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap"
+      class="oxy-work-actions mt-5 grid grid-cols-1 gap-3 min-[390px]:grid-cols-2"
     >
       <template v-if="mode === 'available'">
         <UButton
@@ -166,7 +166,7 @@ const finished = computed(() => props.task.status === 'done')
           size="lg"
           :loading="busy"
           :label="$t('myTasks.take')"
-          class="col-span-2 justify-center"
+          class="min-[390px]:col-span-2 justify-center"
           @click="emit('take')"
         />
       </template>
@@ -198,7 +198,7 @@ const finished = computed(() => props.task.status === 'done')
           size="lg"
           :loading="busy"
           :label="task.status === 'paused' || task.status === 'in_progress' ? $t('myTasks.resume') : $t('myTasks.start')"
-          class="col-span-2 justify-center"
+          class="min-[390px]:col-span-2 justify-center"
           @click="emit('work', 'start')"
         />
       </template>

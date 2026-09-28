@@ -1,0 +1,16 @@
+<template>
+  <NuxtLink
+    to="/app"
+    class="oxy-brand"
+    aria-label="OXY"
+  >
+    <span
+      class="oxy-brand-mark"
+      aria-hidden="true"
+    ><UIcon
+      name="i-lucide-wrench"
+      class="size-5"
+    /></span>
+    OXY
+  </NuxtLink>
+</template>

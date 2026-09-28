@@ -780,5 +780,39 @@
     "none": "none",
     "addReceipt": "Add receipt",
     "editReceipt": "Correct receipt"
+  },
+  "theme": {
+    "title": "Appearance",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "ui": {
+    "work": "Work",
+    "organization": "Organization",
+    "mainNavigation": "Main navigation",
+    "more": "More",
+    "tasks": "Tasks",
+    "requests": "Requests",
+    "retry": "Try again",
+    "refresh": "Refresh",
+    "loading": "Loading…",
+    "loadFailed": "Could not load data",
+    "loadFailedHint": "Check your connection and try again. The list may be out of date.",
+    "tasksHint": "Choose a task and start working. Add photos and report needs directly from the task.",
+    "ordersHint": "Vehicles, work progress and deadlines — all in one place.",
+    "allStatuses": "All statuses",
+    "noResults": "No matching orders",
+    "clearFilters": "Clear filters",
+    "totalGross": "For approval · incl. tax",
+    "decisionHint": "Save your selection using “Send decision”.",
+    "removeTask": "Delete task “{name}”?",
+    "removeHint": "This action cannot be undone.",
+    "nextWork": "Your work queue",
+    "startDay": "Ready for work",
+    "homeHint": "Open your tasks or see what is happening in the workshop.",
+    "approvalHint": "Review the work and its cost. You decide what goes ahead.",
+    "working": "Work in progress",
+    "progress": "{done} of {total} tasks completed"
   }
 }

@@ -9,6 +9,7 @@ export function useReportNeed() {
   const saving = ref(false)
 
   async function submit(workOrderId: string, data: z.output<typeof workRequestCreateSchema>, files: File[]) {
+    if (saving.value) return false
     saving.value = true
     try {
       const { id } = await $fetch(`/api/work-orders/${workOrderId}/requests`, { method: 'POST', body: data })

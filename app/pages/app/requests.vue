@@ -42,9 +42,9 @@ const tabs = computed<TabsItem[]>(() => [
       />
       <div
         v-else
-        class="mx-auto w-full max-w-3xl space-y-3"
+        class="grid w-full gap-4 xl:grid-cols-2"
       >
-        <p class="text-sm text-muted">
+        <p class="text-base text-muted xl:col-span-2">
           {{ $t('requests.sectionHint') }}
         </p>
         <UEmpty

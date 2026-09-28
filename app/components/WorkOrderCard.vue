@@ -27,9 +27,13 @@ const overdue = computed(() =>
 <template>
   <NuxtLink
     :to="`/app/orders/${order.id}`"
-    class="block rounded-lg border border-default bg-default p-3 transition hover:border-accented hover:bg-elevated/50 focus-visible:outline-2 focus-visible:outline-primary"
+    class="oxy-surface block p-4 transition hover:border-primary focus-visible:outline-2 focus-visible:outline-primary"
   >
-    <div class="flex items-center justify-between gap-2 text-xs text-muted">
+    <VehicleLabel
+      :vehicle="order.vehicle"
+      class="mb-3 max-w-full text-lg font-semibold"
+    />
+    <div class="flex flex-wrap items-center justify-between gap-2 text-sm text-muted">
       <span class="font-mono">{{ order.number }}</span>
       <span
         v-if="order.promisedAt"
@@ -44,11 +48,7 @@ const overdue = computed(() =>
       </span>
     </div>
 
-    <VehicleLabel
-      :vehicle="order.vehicle"
-      class="mt-2 max-w-full font-medium"
-    />
-    <p class="mt-1 truncate text-sm text-muted">
+    <p class="mt-2 break-words text-sm text-muted">
       {{ order.customer.name }}
     </p>
 
@@ -62,7 +62,7 @@ const overdue = computed(() =>
         size="xs"
         class="flex-1"
       />
-      <span class="text-xs text-muted">{{ order.tasksDone }}/{{ order.tasksTotal }}</span>
+      <span class="text-sm text-muted">{{ order.tasksDone }}/{{ order.tasksTotal }}</span>
     </div>
 
     <div
@@ -83,9 +83,11 @@ const overdue = computed(() =>
       <div class="flex items-center gap-1.5">
         <span
           v-if="order.working"
-          class="size-2 animate-pulse rounded-full bg-info"
-          :title="$t('orders.workingNow')"
-        />
+          class="inline-flex items-center gap-1 text-sm text-primary"
+        ><UIcon
+          name="i-lucide-timer"
+          class="size-4"
+        />{{ $t('ui.working') }}</span>
         <UBadge
           v-if="order.openRequests"
           color="warning"

@@ -57,7 +57,7 @@ async function cancelInvitation(invitationId: string) {
     </template>
 
     <template #body>
-      <div class="max-w-3xl space-y-6">
+      <div class="w-full space-y-6">
         <UPageCard
           v-if="canInvite"
           :title="$t('team.inviteTitle')"

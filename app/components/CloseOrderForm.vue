@@ -29,6 +29,7 @@ const number = ref(props.receiptNumber ?? '')
 const issuedOn = ref(props.receiptIssuedOn ?? today())
 
 function submit() {
+  if (props.loading) return
   if (!props.canReceipt) {
     emit('submit', {})
     return

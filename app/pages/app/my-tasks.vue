@@ -7,7 +7,7 @@ const { t } = useI18n()
 const toast = useToast()
 const { data: me } = await useMe()
 
-const { data, refresh, status } = await useFetch('/api/my/tasks')
+const { data, refresh, status, error } = await useFetch('/api/my/tasks')
 const serverTime = computed(() => data.value?.serverTime)
 const now = useNow(serverTime)
 
@@ -34,6 +34,7 @@ const nothing = computed(() => !runningTask.value && !groups.value.length && !da
 const busyTask = ref<string | null>(null)
 
 async function work(task: MyTask, action: 'start' | 'pause' | 'finish') {
+  if (busyTask.value) return
   busyTask.value = task.id
   try {
     await $fetch(`/api/tasks/${task.id}/work`, { method: 'POST', body: { action } })
@@ -50,6 +51,7 @@ async function work(task: MyTask, action: 'start' | 'pause' | 'finish') {
 }
 
 async function take(taskId: string) {
+  if (busyTask.value) return
   busyTask.value = taskId
   try {
     await $fetch(`/api/tasks/${taskId}/assignees`, { method: 'POST', body: { userId: me.value!.user.id } })
@@ -101,7 +103,7 @@ onBeforeUnmount(() => clearInterval(poll))
             color="neutral"
             variant="ghost"
             :loading="status === 'pending'"
-            :aria-label="$t('common.search')"
+            :aria-label="$t('ui.refresh')"
             @click="refresh()"
           />
         </template>
@@ -109,13 +111,22 @@ onBeforeUnmount(() => clearInterval(poll))
     </template>
 
     <template #body>
+      <div class="oxy-intro">
+        <h2>{{ $t('nav.myTasks') }}</h2>
+        <p>{{ $t('ui.tasksHint') }}</p>
+      </div>
+      <LoadState
+        :error="error"
+        :pending="status === 'pending' && !data"
+        @retry="refresh()"
+      />
       <div
         v-if="data"
-        class="mx-auto w-full max-w-3xl space-y-6"
+        class="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)]"
       >
         <section
           v-if="runningTask"
-          class="space-y-2"
+          class="space-y-3 xl:sticky xl:top-0"
         >
           <h2 class="flex items-center gap-2 text-sm font-medium text-primary">
             <span class="size-2 animate-pulse rounded-full bg-primary" />
@@ -135,65 +146,80 @@ onBeforeUnmount(() => clearInterval(poll))
             :can-work="data.can.work"
             :can-report="data.can.reportNeeds"
             :can-upload="data.can.uploadFiles"
-            :busy="busyTask === runningTask.id"
+            :busy="!!busyTask"
             @work="action => work(runningTask!, action)"
             @report="reportFor = runningTask"
             @uploaded="refresh()"
           />
         </section>
 
-        <UEmpty
-          v-if="nothing"
-          icon="i-lucide-clipboard-check"
-          :title="$t('myTasks.empty')"
-          :description="$t('myTasks.emptyHint')"
-        />
-
-        <section
-          v-for="group in groups"
-          :key="group.key"
-          class="space-y-2"
+        <div
+          class="min-w-0 space-y-6"
+          :class="{ 'xl:col-span-2': !runningTask }"
         >
-          <h2 class="text-sm font-medium text-muted">
-            {{ group.title }} <span class="text-dimmed">({{ group.tasks.length }})</span>
-          </h2>
-          <MyTaskCard
-            v-for="task in group.tasks"
-            :key="task.id"
-            :task="task"
-            mode="mine"
-            :can-work="data.can.work"
-            :can-report="data.can.reportNeeds"
-            :can-upload="data.can.uploadFiles"
-            :busy="busyTask === task.id"
-            @work="action => work(task, action)"
-            @report="reportFor = task"
-            @uploaded="refresh()"
+          <UEmpty
+            v-if="nothing"
+            icon="i-lucide-clipboard-check"
+            :title="$t('myTasks.empty')"
+            :description="$t('myTasks.emptyHint')"
           />
-        </section>
 
-        <section
-          v-if="data.available.length"
-          class="space-y-2"
-        >
-          <h2 class="text-sm font-medium text-muted">
-            {{ $t('myTasks.available') }} <span class="text-dimmed">({{ data.available.length }})</span>
-          </h2>
-          <p class="text-xs text-muted">
-            {{ $t('myTasks.availableHint') }}
-          </p>
-          <MyTaskCard
-            v-for="task in data.available"
-            :key="task.id"
-            :task="task"
-            mode="available"
-            :can-work="data.can.work"
-            :can-report="false"
-            :can-upload="false"
-            :busy="busyTask === task.id"
-            @take="take(task.id)"
-          />
-        </section>
+          <section
+            v-for="group in groups"
+            :key="group.key"
+            class="space-y-3"
+          >
+            <h2 class="text-sm font-medium text-muted">
+              {{ group.title }} <span class="text-dimmed">({{ group.tasks.length }})</span>
+            </h2>
+            <div
+              class="grid gap-4"
+              :class="{ 'md:grid-cols-2': !runningTask }"
+            >
+              <MyTaskCard
+                v-for="task in group.tasks"
+                :key="task.id"
+                :task="task"
+                mode="mine"
+                :can-work="data.can.work"
+                :can-report="data.can.reportNeeds"
+                :can-upload="data.can.uploadFiles"
+                :busy="!!busyTask"
+                @work="action => work(task, action)"
+                @report="reportFor = task"
+                @uploaded="refresh()"
+              />
+            </div>
+          </section>
+
+          <section
+            v-if="data.available.length"
+            class="space-y-2"
+          >
+            <h2 class="text-sm font-medium text-muted">
+              {{ $t('myTasks.available') }} <span class="text-dimmed">({{ data.available.length }})</span>
+            </h2>
+            <p class="text-xs text-muted">
+              {{ $t('myTasks.availableHint') }}
+            </p>
+            <div
+              class="grid gap-4"
+              :class="{ 'md:grid-cols-2': !runningTask }"
+            >
+              <MyTaskCard
+                v-for="task in data.available"
+                :key="task.id"
+                :task="task"
+                mode="available"
+                :can-work="data.can.work"
+                :can-report="false"
+                :can-upload="false"
+                :busy="!!busyTask"
+                @take="take(task.id)"
+              />
+            </div>
+          </section>
+        </div>
       </div>
 
       <UModal

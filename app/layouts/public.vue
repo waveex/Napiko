@@ -1,5 +1,11 @@
 <template>
-  <div class="flex min-h-dvh flex-col bg-muted/40">
+  <div class="flex min-h-dvh flex-col bg-muted">
+    <header class="flex flex-wrap items-center justify-between gap-3 border-b border-default bg-default px-4 py-3 sm:px-6">
+      <OxyBrand />
+      <div class="flex gap-2">
+        <ThemeSwitcher /><LocaleSwitcher />
+      </div>
+    </header>
     <main class="flex-1">
       <slot />
     </main>
