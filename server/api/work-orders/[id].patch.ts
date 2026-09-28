@@ -1,0 +1,81 @@
+/**
+ * Zmiana zlecenia: status, zakres, termin, licznik i paragon. Zmiana statusu trafia do dziennika zdarzeń.
+ * Numer paragonu (rozliczenia) można wpisać także w zamkniętym zleceniu – zwykle robi się to przy zamknięciu.
+ */
+import { eq } from 'drizzle-orm'
+import { withTenant } from '../../db/tenant'
+import { recordAudit } from '../../db/audit'
+import { workOrder } from '../../db/schema'
+import { workOrderUpdateSchema } from '../../../shared/schemas'
+
+export default defineEventHandler(async (event) => {
+  const ctx = await requireTenant(event, { workOrder: ['update'] })
+  const id = await getIdParam(event)
+  const input = await readValidatedBody(event, body => workOrderUpdateSchema.parse(body))
+
+  return withTenant(useDb(), ctx, async (tx) => {
+    const [before] = await tx.select().from(workOrder).where(eq(workOrder.id, id)).limit(1)
+    if (!before) throw notFound('Nie znaleziono zlecenia.')
+    // Zamknięte zlecenie można tylko ponownie otworzyć (zmianą statusu) albo uzupełnić w nim paragon.
+    const onlyStatus = input.description === undefined && input.meterValue === undefined && input.promisedAt === undefined
+    if (!onlyStatus) assertOrderOpen(before.status)
+    const receiptChange = input.receiptNumber !== undefined || input.receiptIssuedOn !== undefined
+    if (receiptChange) assertCan(ctx, { billing: ['update'] })
+
+    const values: Partial<typeof workOrder.$inferInsert> = {}
+    if (input.receiptNumber !== undefined && input.receiptNumber !== before.receiptNumber) values.receiptNumber = input.receiptNumber
+    if (input.receiptIssuedOn !== undefined && input.receiptIssuedOn !== before.receiptIssuedOn) values.receiptIssuedOn = input.receiptIssuedOn
+    // bez numeru paragonu nie ma też jego daty
+    if (values.receiptNumber === null) values.receiptIssuedOn = null
+    if (input.description !== undefined) values.description = input.description
+    if (input.meterValue !== undefined) values.meterValue = input.meterValue
+    if (input.promisedAt !== undefined) values.promisedAt = input.promisedAt ? new Date(input.promisedAt) : null
+    if (input.status && input.status !== before.status) {
+      values.status = input.status
+      values.closedAt = input.status === 'closed' || input.status === 'cancelled' ? new Date() : null
+    }
+    if (Object.keys(values).length === 0) return loadWorkOrderDetail(tx, ctx, id)
+
+    await tx.update(workOrder).set(values).where(eq(workOrder.id, id))
+
+    if (values.status) {
+      await recordAudit(tx, {
+        orgId: ctx.orgId,
+        actorUserId: ctx.userId,
+        action: 'work_order.status_changed',
+        entityType: 'work_order',
+        entityId: id,
+        data: { number: before.number, from: before.status, to: values.status },
+        ...requestMeta(event),
+      })
+    }
+    if (values.receiptNumber !== undefined || values.receiptIssuedOn !== undefined) {
+      await recordAudit(tx, {
+        orgId: ctx.orgId,
+        actorUserId: ctx.userId,
+        action: 'work_order.receipt_recorded',
+        entityType: 'work_order',
+        entityId: id,
+        data: {
+          number: before.number,
+          receiptNumber: values.receiptNumber !== undefined ? values.receiptNumber : before.receiptNumber,
+          receiptIssuedOn: values.receiptIssuedOn !== undefined ? values.receiptIssuedOn : before.receiptIssuedOn,
+        },
+        ...requestMeta(event),
+      })
+    }
+    const otherFields = Object.keys(values).filter(k => !['status', 'closedAt', 'receiptNumber', 'receiptIssuedOn'].includes(k))
+    if (otherFields.length) {
+      await recordAudit(tx, {
+        orgId: ctx.orgId,
+        actorUserId: ctx.userId,
+        action: 'work_order.updated',
+        entityType: 'work_order',
+        entityId: id,
+        data: { number: before.number, fields: otherFields },
+        ...requestMeta(event),
+      })
+    }
+    return loadWorkOrderDetail(tx, ctx, id)
+  })
+})

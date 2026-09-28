@@ -1,0 +1,6 @@
+# Jednolite końce linii (LF) na Windowsie, Linuksie i w CI
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff2 binary

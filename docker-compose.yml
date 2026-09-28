@@ -1,0 +1,57 @@
+# Lokalne środowisko OXY: PostgreSQL, magazyn plików S3 (MinIO) i testowa skrzynka pocztowa (Mailpit).
+#   pnpm infra:up     – uruchom
+#   pnpm infra:down   – zatrzymaj (dane zostają w wolumenach)
+name: oxy
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/10-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d oxy"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  minio:
+    # Obrazy minio/minio usunięto z Docker Hub (09.2026). Ostatnie wydanie społecznościowe jest jeszcze na quay.io –
+    # to rozwiązanie tymczasowe, docelowo zamienić na utrzymywany serwer S3 (np. RustFS).
+    # To wydanie ma niezałatane luki, dlatego porty są dostępne tylko z tego komputera (127.0.0.1).
+    image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: oxy
+      MINIO_ROOT_PASSWORD: oxy-secret
+      # Pozwala przeglądarce wysyłać pliki bezpośrednio przez podpisane adresy URL
+      MINIO_API_CORS_ALLOW_ORIGIN: "http://localhost:3000"
+    ports:
+      - "127.0.0.1:9000:9000"   # API S3
+      - "127.0.0.1:9001:9001"   # konsola www
+    volumes:
+      - miniodata:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # skrzynka www: http://localhost:8025
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: "true"
+      MP_SMTP_AUTH_ALLOW_INSECURE: "true"
+
+volumes:
+  pgdata:
+  miniodata:

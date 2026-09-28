@@ -1,0 +1,17 @@
+# Netlify: OXY (Nuxt 4 + Nitro; preset "netlify" wykrywany automatycznie podczas budowania)
+#
+# Zmienne środowiskowe ustaw w: Project configuration → Environment variables (lista w .env.example).
+# Baza: Netlify Database (Neon) – adres połączenia dostarcza platforma, migracje z
+# netlify/database/migrations stosowane są automatycznie przed publikacją wdrożenia.
+
+[build]
+  command = "pnpm build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[functions]
+  # Własne funkcje Netlify (np. cykliczne przetwarzanie kolejki zadań).
+  # Funkcja serwera Nuxta trafia do .netlify/functions-internal automatycznie.
+  directory = "netlify/functions"

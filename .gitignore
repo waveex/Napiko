@@ -1,0 +1,35 @@
+# Nuxt / build
+.nuxt
+.output
+.data
+.nitro
+.cache
+dist
+
+# Netlify (katalog techniczny – nie na kod)
+.netlify
+
+# Zależności
+node_modules
+
+# Logi
+logs
+*.log
+
+# Systemowe / edytory
+.DS_Store
+Thumbs.db
+.idea
+.fleet
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Zmienne środowiskowe (sekrety!)
+.env
+.env.*
+!.env.example
+
+# Testy
+coverage
+.drizzle-draft
