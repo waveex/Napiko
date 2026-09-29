@@ -21,27 +21,26 @@ services:
       timeout: 3s
       retries: 20
 
+  # Serwer S3 (pliki). Obrazy MinIO zniknęły z Docker Hub i z quay.io (09.2026), dlatego RustFS.
+  # Nazwa usługi zostaje "minio", żeby nic innego nie trzeba było zmieniać.
   minio:
-    # Obrazy minio/minio usunięto z Docker Hub (09.2026). Ostatnie wydanie społecznościowe jest jeszcze na quay.io –
-    # to rozwiązanie tymczasowe, docelowo zamienić na utrzymywany serwer S3 (np. RustFS).
-    # To wydanie ma niezałatane luki, dlatego porty są dostępne tylko z tego komputera (127.0.0.1).
-    image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
-    command: server /data --console-address ":9001"
+    image: rustfs/rustfs:latest
+    # root, żeby wolumen był zapisywalny bez dodatkowych kroków (tylko lokalne środowisko)
+    user: "0:0"
     environment:
-      MINIO_ROOT_USER: oxy
-      MINIO_ROOT_PASSWORD: oxy-secret
+      RUSTFS_ACCESS_KEY: oxy
+      RUSTFS_SECRET_KEY: oxy-secret
+      RUSTFS_ADDRESS: ":9000"
+      RUSTFS_CONSOLE_ADDRESS: ":9001"
+      RUSTFS_CONSOLE_ENABLE: "true"
       # Pozwala przeglądarce wysyłać pliki bezpośrednio przez podpisane adresy URL
-      MINIO_API_CORS_ALLOW_ORIGIN: "http://localhost:3000"
+      RUSTFS_CORS_ALLOWED_ORIGINS: "http://localhost:3000"
+      RUSTFS_CONSOLE_CORS_ALLOWED_ORIGINS: "http://localhost:3000"
     ports:
       - "127.0.0.1:9000:9000"   # API S3
       - "127.0.0.1:9001:9001"   # konsola www
     volumes:
-      - miniodata:/data
-    healthcheck:
-      test: ["CMD", "mc", "ready", "local"]
-      interval: 3s
-      timeout: 3s
-      retries: 20
+      - rustfsdata:/data
 
   mailpit:
     image: axllent/mailpit:latest
@@ -54,4 +53,4 @@ services:
 
 volumes:
   pgdata:
-  miniodata:
+  rustfsdata:

@@ -37,6 +37,8 @@ Nuxt 4 (Vue 3, TypeScript) · Nuxt UI 4 · PostgreSQL + Drizzle ORM · Better Au
 
 Wymagania: **Node.js 22 LTS**, **pnpm** (`corepack enable`), **Docker Desktop**, Git.
 
+Najprościej jednym poleceniem: `pnpm run local` (`scripts/local.mjs`). W razie potrzeby tworzy `.env` z losowymi sekretami, uruchamia Docker Desktop, instaluje zależności po zmianie `pnpm-lock.yaml`, startuje usługi, stosuje migracje i uruchamia serwer. Krok po kroku:
+
 ```bash
 corepack enable
 pnpm install
@@ -47,7 +49,7 @@ cp .env.example .env
 node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 
 pnpm infra:up     # PostgreSQL, MinIO (S3) i Mailpit w Dockerze
-pnpm setup        # migracje bazy + bucket na pliki
+pnpm run setup    # migracje bazy + bucket na pliki (samo `pnpm setup` to wbudowane polecenie pnpm)
 pnpm dev          # http://localhost:3000
 ```
 
@@ -55,7 +57,7 @@ pnpm dev          # http://localhost:3000
 | --- | --- |
 | Aplikacja | http://localhost:3000 |
 | Skrzynka z e-mailami (Mailpit) – linki weryfikacyjne i zaproszenia | http://localhost:8025 |
-| Konsola magazynu plików (MinIO, login `oxy` / `oxy-secret`) | http://localhost:9001 |
+| Konsola magazynu plików (RustFS, login `oxy` / `oxy-secret`) | http://localhost:9001 |
 | PostgreSQL | `localhost:5432`, baza `oxy`, użytkownik `oxy` / `oxy` |
 
 ## Potwierdzanie rejestracji
@@ -81,6 +83,7 @@ Po ustawieniu kluczy uruchom serwer ponownie. Bez kluczy push jest wyłączony �
 
 | Polecenie | Opis |
 | --- | --- |
+| `pnpm run local` | Całe środowisko naraz: Docker, zależności, usługi, migracje i serwer deweloperski |
 | `pnpm dev` | Serwer deweloperski (kolejka zadań przetwarzana co 5 s) |
 | `pnpm build` | Build produkcyjny (na Netlify preset wykrywa się sam) |
 | `pnpm lint` / `pnpm lint:fix` | ESLint (również formatowanie) |
