@@ -1,9 +1,14 @@
 /**
  * Nowe zlecenie: numer z kolejnej sekwencji organizacji, opcjonalnie lista zadań i stan licznika.
+ * Klient dostaje potwierdzenie przyjęcia pojazdu z linkiem do statusu naprawy (pole „Powiadom klienta”),
+ * a przy zasadzie „mechanicy sami biorą zadania” mechanicy – powiadomienie o zadaniach do wzięcia.
  */
 import { and, eq, isNull, lt, or, sql } from 'drizzle-orm'
 import { withTenant } from '../../db/tenant'
 import { recordAudit } from '../../db/audit'
+import { notifyTasksAvailable } from '../../db/notifications'
+import { queueOrderStatusNotification } from '../../db/customer-notifications'
+import { getEnv } from '../../lib/env'
 import { task, vehicle, workOrder } from '../../db/schema'
 import { workOrderCreateSchema } from '../../../shared/schemas'
 import { formatWorkOrderNumber } from '../../../shared/workshop'
@@ -11,8 +16,9 @@ import { formatWorkOrderNumber } from '../../../shared/workshop'
 export default defineEventHandler(async (event) => {
   const ctx = await requireTenant(event, { workOrder: ['create'] })
   const input = await readValidatedBody(event, body => workOrderCreateSchema.parse(body))
+  if (input.notifyCustomer) assertCan(ctx, { customerNotification: ['send'] })
 
-  return withTenant(useDb(), ctx, async (tx) => {
+  const created = await withTenant(useDb(), ctx, async (tx) => {
     const [veh] = await tx.select({ id: vehicle.id, customerId: vehicle.customerId }).from(vehicle)
       .where(eq(vehicle.id, input.vehicleId)).limit(1)
     if (!veh) throw notFound('Nie znaleziono pojazdu.')
@@ -35,15 +41,15 @@ export default defineEventHandler(async (event) => {
       createdBy: ctx.userId,
     }).returning()
 
-    if (input.tasks.length) {
-      await tx.insert(task).values(input.tasks.map((title, position) => ({
-        orgId: ctx.orgId,
-        workOrderId: order!.id,
-        title,
-        position,
-        createdBy: ctx.userId,
-      })))
-    }
+    const tasks = input.tasks.length
+      ? await tx.insert(task).values(input.tasks.map((title, position) => ({
+          orgId: ctx.orgId,
+          workOrderId: order!.id,
+          title,
+          position,
+          createdBy: ctx.userId,
+        }))).returning({ id: task.id, title: task.title })
+      : []
 
     // Aktualizacja licznika pojazdu (tylko w górę)
     if (input.meterValue !== null) {
@@ -61,6 +67,29 @@ export default defineEventHandler(async (event) => {
       data: { number, tasks: input.tasks.length },
       ...requestMeta(event),
     })
+
+    await notifyTasksAvailable(tx, {
+      orgId: ctx.orgId,
+      actorUserId: ctx.userId,
+      workOrderId: order!.id,
+      taskIds: tasks.map(t => t.id),
+      taskTitle: tasks[0]?.title,
+    })
+    // Potwierdzenie przyjęcia pojazdu: zaznaczone pole wysyła zawsze, brak decyzji – według ustawień warsztatu
+    if (input.notifyCustomer !== false && can(ctx, { customerNotification: ['send'] })) {
+      await queueOrderStatusNotification(tx, getEnv(), {
+        orgId: ctx.orgId,
+        workOrderId: order!.id,
+        event: 'order_received',
+        trigger: 'auto',
+        force: input.notifyCustomer === true,
+        actorUserId: ctx.userId,
+        meta: requestMeta(event),
+      })
+    }
     return order!
   })
+
+  await deliverNotifications(event)
+  return created
 })

@@ -2,15 +2,16 @@
  * Odpowiedź klienta na prośbę o akceptację – prace dodatkowe (decyzja przy każdej pozycji)
  * albo kosztorys (jedna decyzja o całości). Zapisujemy decyzję, czas, adres IP i przeglądarkę
  * oraz skrót treści, którą klient zobaczył – to dowód zgody (forma dokumentowa).
+ * Osoba, która wysłała prośbę, dostaje powiadomienie (dzwonek, push, e-mail – według jej ustawień),
+ * a mechanik, który zgłosił pracę – informację o decyzji.
  */
 import { and, eq, inArray } from 'drizzle-orm'
 import type { Tx } from '../../../db/client'
 import { withSystem } from '../../../db/tenant'
-import { getEnv } from '../../../lib/env'
 import { recordAudit } from '../../../db/audit'
-import { enqueueJob } from '../../../db/jobs'
+import { loadOrderSummary, notifyApprovalOutcome } from '../../../db/notifications'
 import {
-  approvalItem, approvalRequest, isEstimateSnapshot, user, workOrder, workRequest,
+  approvalItem, approvalRequest, isEstimateSnapshot, workOrder, workRequest,
   type ApprovalSnapshot, type EstimateSnapshot,
 } from '../../../db/schema'
 import { approvalAnswerSchema, approvalTokenSchema, estimateAnswerSchema } from '../../../../shared/schemas'
@@ -63,7 +64,7 @@ export default defineEventHandler(async (event) => {
     await resumeOrderIfNoPendingApprovals(tx, approval.orgId, null, order!, meta)
   })
 
-  await runPendingJobs({ budgetMs: 3000 }).catch(() => undefined)
+  await deliverNotifications(event)
   return { ok: true }
 })
 
@@ -126,13 +127,10 @@ async function answerWorkRequests(
     ...meta,
   })
 
-  await notifySender(tx, approval, order, snapshot.vehicle, {
-    template: 'approval-answered',
-    data: {
-      approved: String(approvedIds.length),
-      rejected: String(expected.length - approvedIds.length),
-      note: input.note ?? '',
-    },
+  await notifyOutcome(tx, approval, order, {
+    approved: approvedIds.length,
+    rejected: expected.length - approvedIds.length,
+    note: input.note ?? undefined,
   })
 }
 
@@ -173,39 +171,16 @@ async function answerEstimate(
     ...meta,
   })
 
-  await notifySender(tx, approval, order, snapshot.vehicle, {
-    template: 'estimate-answered',
-    data: {
-      decision: input.decision,
-      total: formatPln(snapshot.totalGrossCents),
-      note: input.note ?? '',
-    },
+  await notifyOutcome(tx, approval, order, {
+    decision: input.decision,
+    total: formatPln(snapshot.totalGrossCents),
+    note: input.note ?? undefined,
   })
 }
 
-/** E-mail do osoby, która wysłała prośbę. */
-async function notifySender(
-  tx: Tx,
-  approval: Approval,
-  order: Order,
-  vehicle: { make: string | null, model: string | null, registrationNumber: string | null },
-  mail: { template: 'approval-answered' | 'estimate-answered', data: Record<string, string> },
-) {
-  if (!approval.sentBy) return
-  const [sender] = await tx.select({ email: user.email }).from(user).where(eq(user.id, approval.sentBy)).limit(1)
-  if (!sender) return
-  await enqueueJob(tx, {
-    type: 'email.send',
-    orgId: approval.orgId,
-    payload: {
-      to: sender.email,
-      template: mail.template,
-      data: {
-        orderNumber: order.number,
-        vehicle: [vehicle.make, vehicle.model, vehicle.registrationNumber].filter(Boolean).join(' '),
-        url: `${getEnv().appUrl}/app/orders/${order.id}`,
-        ...mail.data,
-      },
-    },
-  })
+/** Powiadomienie dla osoby, która wysłała prośbę (a gdy odeszła z zespołu – dla biura). */
+async function notifyOutcome(tx: Tx, approval: Approval, order: Order, data: Record<string, string | number | undefined>) {
+  const summary = await loadOrderSummary(tx, order.id)
+  if (!summary) return
+  await notifyApprovalOutcome(tx, 'approval.answered', approval, summary, data)
 }

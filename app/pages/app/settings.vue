@@ -184,6 +184,8 @@ async function onSubmit(event: FormSubmitEvent<OrgSettingsInput>) {
         </UForm>
       </UPageCard>
 
+      <CustomerNotificationSettings :can-edit="canEdit" />
+
       <CompanyProfileForm :can-edit="canEditCompany" />
     </template>
   </UDashboardPanel>

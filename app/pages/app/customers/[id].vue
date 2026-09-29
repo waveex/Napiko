@@ -89,74 +89,83 @@ useHead({ title: () => customer.value?.name ?? t('customers.title') })
     <template #body>
       <div
         v-if="customer"
-        class="grid gap-6 lg:grid-cols-3"
+        class="grid items-start gap-6 lg:grid-cols-3"
       >
-        <UPageCard :title="$t('customers.data')">
-          <dl class="grid grid-cols-1 text-sm [&>dd]:mb-2 [&>dt]:text-xs">
-            <dt class="text-muted">
-              {{ $t('customers.kind') }}
-            </dt>
-            <dd>{{ $t(`customerKind.${customer.kind}`) }}</dd>
-            <template v-if="customer.can.seeContact">
+        <div class="space-y-6">
+          <UPageCard :title="$t('customers.data')">
+            <dl class="grid grid-cols-1 text-sm [&>dd]:mb-2 [&>dt]:text-xs">
               <dt class="text-muted">
-                {{ $t('customers.phone') }}
+                {{ $t('customers.kind') }}
               </dt>
-              <dd>
-                <ULink
-                  v-if="customer.phone"
-                  :href="`tel:${customer.phone}`"
-                >
-                  {{ customer.phone }}
-                </ULink>
-                <span v-else>—</span>
-              </dd>
-              <dt class="text-muted">
-                {{ $t('customers.email') }}
-              </dt>
-              <dd class="break-all">
-                <ULink
-                  v-if="customer.email"
-                  :href="`mailto:${customer.email}`"
-                >
-                  {{ customer.email }}
-                </ULink>
-                <span v-else>—</span>
-              </dd>
-              <template v-if="customer.taxId">
+              <dd>{{ $t(`customerKind.${customer.kind}`) }}</dd>
+              <template v-if="customer.can.seeContact">
                 <dt class="text-muted">
-                  {{ $t('customers.taxId') }}
+                  {{ $t('customers.phone') }}
                 </dt>
-                <dd>{{ customer.taxId }}</dd>
+                <dd>
+                  <ULink
+                    v-if="customer.phone"
+                    :href="`tel:${customer.phone}`"
+                  >
+                    {{ customer.phone }}
+                  </ULink>
+                  <span v-else>—</span>
+                </dd>
+                <dt class="text-muted">
+                  {{ $t('customers.email') }}
+                </dt>
+                <dd class="break-all">
+                  <ULink
+                    v-if="customer.email"
+                    :href="`mailto:${customer.email}`"
+                  >
+                    {{ customer.email }}
+                  </ULink>
+                  <span v-else>—</span>
+                </dd>
+                <template v-if="customer.taxId">
+                  <dt class="text-muted">
+                    {{ $t('customers.taxId') }}
+                  </dt>
+                  <dd>{{ customer.taxId }}</dd>
+                </template>
               </template>
-            </template>
-            <dt class="text-muted">
-              {{ $t('customers.since') }}
-            </dt>
-            <dd>{{ d(new Date(customer.createdAt), 'short') }}</dd>
-          </dl>
-          <p
-            v-if="customer.notes"
-            class="whitespace-pre-line rounded-md bg-elevated p-3 text-sm"
-          >
-            {{ customer.notes }}
-          </p>
-          <p
-            v-if="!customer.can.seeContact"
-            class="text-sm text-muted"
-          >
-            {{ $t('customers.contactHidden') }}
-          </p>
-          <UButton
-            v-if="customer.can.update"
-            icon="i-lucide-pencil"
-            color="neutral"
-            variant="outline"
-            size="sm"
-            :label="$t('customers.edit')"
-            class="self-start justify-self-start"
-            @click="editModal = true"
+              <dt class="text-muted">
+                {{ $t('customers.since') }}
+              </dt>
+              <dd>{{ d(new Date(customer.createdAt), 'short') }}</dd>
+            </dl>
+            <p
+              v-if="customer.notes"
+              class="whitespace-pre-line rounded-md bg-elevated p-3 text-sm"
+            >
+              {{ customer.notes }}
+            </p>
+            <p
+              v-if="!customer.can.seeContact"
+              class="text-sm text-muted"
+            >
+              {{ $t('customers.contactHidden') }}
+            </p>
+            <UButton
+              v-if="customer.can.update"
+              icon="i-lucide-pencil"
+              color="neutral"
+              variant="outline"
+              size="sm"
+              :label="$t('customers.edit')"
+              class="self-start justify-self-start"
+              @click="editModal = true"
+            />
+          </UPageCard>
+
+          <CustomerNotificationConsent
+            v-if="customer.can.seeContact"
+            :customer="customer"
+            :can-edit="customer.can.update"
+            @changed="refresh()"
           />
-        </UPageCard>
+        </div>
 
         <div class="space-y-6 lg:col-span-2">
           <UPageCard :title="$t('customers.vehicles')">

@@ -1,10 +1,13 @@
 /**
  * Zmiana zlecenia: status, zakres, termin, licznik i paragon. Zmiana statusu trafia do dziennika zdarzeń.
  * Numer paragonu (rozliczenia) można wpisać także w zamkniętym zleceniu – zwykle robi się to przy zamknięciu.
+ * „Gotowe do odbioru” wysyła klientowi wiadomość (pole „Powiadom klienta” albo ustawienia warsztatu).
  */
 import { eq } from 'drizzle-orm'
 import { withTenant } from '../../db/tenant'
 import { recordAudit } from '../../db/audit'
+import { queueOrderStatusNotification } from '../../db/customer-notifications'
+import { getEnv } from '../../lib/env'
 import { workOrder } from '../../db/schema'
 import { workOrderUpdateSchema } from '../../../shared/schemas'
 
@@ -12,8 +15,10 @@ export default defineEventHandler(async (event) => {
   const ctx = await requireTenant(event, { workOrder: ['update'] })
   const id = await getIdParam(event)
   const input = await readValidatedBody(event, body => workOrderUpdateSchema.parse(body))
+  if (input.notifyCustomer) assertCan(ctx, { customerNotification: ['send'] })
+  let notified = false
 
-  return withTenant(useDb(), ctx, async (tx) => {
+  const result = await withTenant(useDb(), ctx, async (tx) => {
     const [before] = await tx.select().from(workOrder).where(eq(workOrder.id, id)).limit(1)
     if (!before) throw notFound('Nie znaleziono zlecenia.')
     // Zamknięte zlecenie można tylko ponownie otworzyć (zmianą statusu) albo uzupełnić w nim paragon.
@@ -48,6 +53,19 @@ export default defineEventHandler(async (event) => {
         data: { number: before.number, from: before.status, to: values.status },
         ...requestMeta(event),
       })
+      // Pojazd gotowy do odbioru – wiadomość do klienta (SMS / push i e-mail według ustawień warsztatu)
+      if (values.status === 'ready' && input.notifyCustomer !== false && can(ctx, { customerNotification: ['send'] })) {
+        const queued = await queueOrderStatusNotification(tx, getEnv(), {
+          orgId: ctx.orgId,
+          workOrderId: id,
+          event: 'order_ready',
+          trigger: 'auto',
+          force: input.notifyCustomer === true,
+          actorUserId: ctx.userId,
+          meta: requestMeta(event),
+        })
+        notified = queued.length > 0
+      }
     }
     if (values.receiptNumber !== undefined || values.receiptIssuedOn !== undefined) {
       await recordAudit(tx, {
@@ -78,4 +96,7 @@ export default defineEventHandler(async (event) => {
     }
     return loadWorkOrderDetail(tx, ctx, id)
   })
+
+  if (notified) await deliverNotifications(event)
+  return result
 })

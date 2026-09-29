@@ -15,6 +15,28 @@ onMounted(() => {
   const first = me.value?.organizations[0]
   if (me.value && !me.value.activeOrganization && first) switchOrganization(first.id, route.fullPath)
 })
+
+// Powiadomienia: licznik w dzwonku (sprawdzany w tle) i service worker dla push
+const hasOrganization = computed(() => !!me.value?.activeOrganization)
+const notificationCenter = useNotificationCenter()
+let stopPolling: (() => void) | undefined
+onMounted(() => {
+  if (hasOrganization.value) stopPolling = startNotificationPolling(notificationCenter)
+  if (pushSupport() === 'supported') registerServiceWorker().catch(() => undefined)
+})
+onBeforeUnmount(() => stopPolling?.())
+
+useHead({
+  link: [
+    { rel: 'manifest', href: '/manifest.webmanifest' },
+    { rel: 'apple-touch-icon', href: '/icons/apple-touch-icon.png' },
+  ],
+  meta: [
+    { name: 'theme-color', content: '#006c96' },
+    { name: 'apple-mobile-web-app-capable', content: 'yes' },
+    { name: 'apple-mobile-web-app-title', content: 'OXY' },
+  ],
+})
 </script>
 
 <template>
@@ -25,7 +47,10 @@ onMounted(() => {
       :ui="{ root: 'bg-default', header: 'h-auto flex-col items-stretch gap-5 py-6', footer: 'border-t border-default flex-col items-stretch gap-3 p-4' }"
     >
       <template #header>
-        <OxyBrand class="px-3" />
+        <div class="flex items-center justify-between gap-2 ps-3">
+          <OxyBrand />
+          <NotificationBell v-if="hasOrganization" />
+        </div>
         <OrgSwitcher />
       </template>
       <template #default>
@@ -54,6 +79,11 @@ onMounted(() => {
       </template>
     </UDashboardSidebar>
     <slot />
+    <NotificationBell
+      v-if="hasOrganization"
+      class="oxy-bell-mobile"
+    />
+    <NotificationsSlideover v-if="hasOrganization" />
     <nav
       class="oxy-bottom-nav"
       :aria-label="$t('ui.mainNavigation')"

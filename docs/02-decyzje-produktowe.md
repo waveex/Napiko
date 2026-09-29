@@ -108,6 +108,7 @@ Do rozpoczęcia SRS potrzebne są decyzje **D1–D7**. Pozostałe mogą poczeka�
 - **Rozliczenie:** (a) mały pakiet SMS w abonamencie i dokupowanie kolejnych; (b) wszystkie SMS-y płatne osobno.
 - **Rekomendacja:** nazwa warsztatu (z „OXY” jako rezerwą) oraz mały pakiet w abonamencie z możliwością dokupienia kolejnych. SMS-y tylko przy trzech zdarzeniach: przyjęcie pojazdu, prośba o akceptację i pojazd gotowy do odbioru. Pozostałe powiadomienia przez push i e-mail.
 - **Twoja decyzja (26.09.2026): (a) w obu punktach.** Nadawcą jest nazwa warsztatu (rezerwowo „OXY”), w abonamencie jest mały pakiet SMS z możliwością dokupienia kolejnych. SMS-y przy trzech zdarzeniach, jak w rekomendacji.
+- **Wdrożenie (29.09.2026):** SMS z linkiem do strony statusu naprawy wychodzi przy przyjęciu pojazdu i gotowości do odbioru (biuro może odznaczyć pole „Powiadom klienta”), a prośby o akceptację wysyła biuro ręcznie. Gdy klient włączy powiadomienia w telefonie (push), dostaje je zamiast SMS-a – bez kosztu SMS-a. Zob. [07-powiadomienia.md](07-powiadomienia.md).
 
 #### D6. Historia pojazdu i widoczność wpisów
 - **Co widzi nowy właściciel po przekazaniu historii:** (a) zakres prac i daty, bez cen i danych poprzedniego właściciela; (b) pełna historia z cenami; (c) nic.

@@ -24,6 +24,8 @@ export const statements = {
   workRequest: ['read', 'create', 'quote', 'decide'],
   /** Rozliczenia: dane firmy do dokumentów, cennik, kosztorysy, paragony. Mechanik ich nie widzi. */
   billing: ['read', 'update'],
+  /** Wiadomości do klienta (przyjęcie pojazdu, gotowy do odbioru) i link do statusu naprawy. */
+  customerNotification: ['read', 'send'],
 } as const
 
 const officeWorkshop = {
@@ -34,6 +36,7 @@ const officeWorkshop = {
   task: ['read', 'create', 'update', 'assign', 'selfAssign', 'work'],
   workRequest: ['read', 'create', 'quote', 'decide'],
   billing: ['read', 'update'],
+  customerNotification: ['read', 'send'],
 } as const
 
 export const ac = createAccessControl(statements)

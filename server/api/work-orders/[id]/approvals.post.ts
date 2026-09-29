@@ -7,6 +7,8 @@ import { and, eq, gt, inArray, sql } from 'drizzle-orm'
 import { withTenant } from '../../../db/tenant'
 import { recordAudit } from '../../../db/audit'
 import { enqueueJob } from '../../../db/jobs'
+import { queueApprovalDelivery } from '../../../db/customer-notifications'
+import { getEnv } from '../../../lib/env'
 import {
   approvalItem, approvalRequest, fileObject, organization, organizationSettings, vehicle, workOrder,
   workOrderAttachment, workRequest, type ApprovalSnapshot,
@@ -142,40 +144,37 @@ export default defineEventHandler(async (event) => {
     const url = approvalUrl(token)
     const vehicleName = [row.vehicle.make, row.vehicle.model].filter(Boolean).join(' ') || order.number
     const plate = row.vehicle.registrationNumber ? ` ${row.vehicle.registrationNumber}` : ''
-    if (input.channel === 'email' && recipient) {
-      await enqueueJob(tx, {
-        type: 'email.send',
+    if (input.channel !== 'link' && recipient) {
+      // SMS (albo push na zarejestrowany telefon klienta) lub e-mail – wpis w dzienniku wiadomości klienta
+      await queueApprovalDelivery(tx, getEnv(), {
         orgId: ctx.orgId,
-        payload: {
-          to: recipient,
-          template: 'approval-request',
-          data: {
-            organizationName: org!.name,
-            vehicle: `${vehicleName}${plate}`,
-            orderNumber: order.number,
-            message: input.message ?? '',
-            expires: expiresAt.toLocaleString('pl-PL', { timeZone: 'Europe/Warsaw', dateStyle: 'short', timeStyle: 'short' }),
-            url,
-          },
-        },
+        workOrderId,
+        approvalId: approval!.id,
+        kind: 'work_requests',
+        channel: input.channel,
+        recipient,
+        sentBy: ctx.userId,
+        organizationName: org!.name,
+        smsFrom: settings?.smsSenderName ?? null,
+        vehicle: `${vehicleName}${plate}`,
+        orderNumber: order.number,
+        url,
+        message: input.message,
+        expires: expiresAt.toLocaleString('pl-PL', { timeZone: 'Europe/Warsaw', dateStyle: 'short', timeStyle: 'short' }),
       })
     }
-    if (input.channel === 'sms' && recipient) {
-      await enqueueJob(tx, {
-        type: 'sms.send',
-        orgId: ctx.orgId,
-        payload: {
-          to: recipient,
-          from: settings?.smsSenderName ?? null,
-          message: `${org!.name}: prosimy o decyzję w sprawie dodatkowych prac (${vehicleName}${plate}). Opis i ceny: ${url}`,
-        },
-      })
-    }
+    // Po terminie linku: powiadomienie dla wysyłającego, jeśli klient nie odpowiedział
+    await enqueueJob(tx, {
+      type: 'approval.expiry-check',
+      orgId: ctx.orgId,
+      payload: { approvalId: approval!.id },
+      runAt: new Date(expiresAt.getTime() + 60_000),
+    })
 
     return { id: approval!.id, url, expiresAt }
   })
 
   // E-mail / SMS wychodzi od razu (kolejka ponowi wysyłkę, jeśli bramka nie odpowie)
-  await runPendingJobs({ budgetMs: 3000 }).catch(() => undefined)
+  await deliverNotifications(event)
   return result
 })

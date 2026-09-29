@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
   if (detailFields.length) assertCan(ctx, { task: ['update'] })
   if (input.status !== undefined) assertCan(ctx, { task: ['work'] })
 
-  return withTenant(useDb(), ctx, async (tx) => {
+  const detail = await withTenant(useDb(), ctx, async (tx) => {
     const { task: current, order } = await loadTaskWithOrder(tx, id)
     assertOrderOpen(order.status)
     const meta = requestMeta(event)
@@ -48,4 +48,8 @@ export default defineEventHandler(async (event) => {
     }
     return loadWorkOrderDetail(tx, ctx, current.workOrderId)
   })
+
+  // Zakończenie ostatniego zadania powiadamia biuro
+  if (input.status === 'done') await deliverNotifications(event)
+  return detail
 })

@@ -20,9 +20,12 @@ const { data: results, status: searchStatus } = await useFetch('/api/customers',
   default: () => [],
 })
 
+// useRequestFetch – przy renderowaniu na serwerze przekazuje ciasteczko sesji (zwykły $fetch dostałby 401
+// i po odświeżeniu strony z ?customerId= klient nie wczytywał się)
+const requestFetch = useRequestFetch()
 const { data: customer, refresh: refreshCustomer } = await useAsyncData(
   'new-order-customer',
-  () => (customerId.value ? $fetch(`/api/customers/${customerId.value}`) : Promise.resolve(null)),
+  () => (customerId.value ? requestFetch(`/api/customers/${customerId.value}`) : Promise.resolve(null)),
   { watch: [customerId] },
 )
 
@@ -112,6 +115,33 @@ function removeTaskLine(index: number) {
 
 const canSubmit = computed(() => !!customerId.value && !!vehicleId.value && !saving.value)
 
+// ── 4. Powiadomienie klienta (potwierdzenie przyjęcia z linkiem do statusu naprawy) ──
+const canNotify = computed(() => !!me.value?.activeOrganization?.can.notifyCustomers)
+const { data: notificationSettings } = await useFetch('/api/org/notification-settings', {
+  immediate: canNotify.value,
+})
+const notifyCustomer = ref(false)
+const notifyTouched = ref(false)
+/** kanały z ustawień warsztatu, którymi da się dotrzeć do wybranego klienta */
+const receiveChannels = computed(() => {
+  const rule = notificationSettings.value?.customerNotifications.order_received
+  const c = customer.value
+  if (!rule || !c) return []
+  const pushActive = c.pushDevices.some(device => device.active)
+  const list: string[] = []
+  if (rule.phone && c.phone && (c.notifySms || pushActive)) list.push(pushActive ? t('customerNotifications.via.push') : t('customerNotifications.via.sms'))
+  if (rule.email && c.email && c.notifyEmail) list.push(t('customerNotifications.via.email'))
+  return list
+})
+watch([receiveChannels, notificationSettings], () => {
+  if (notifyTouched.value) return
+  notifyCustomer.value = !!notificationSettings.value?.customerNotifications.order_received.auto && receiveChannels.value.length > 0
+}, { immediate: true })
+function setNotify(value: boolean | 'indeterminate') {
+  notifyTouched.value = true
+  notifyCustomer.value = value === true
+}
+
 async function submit() {
   if (!customerId.value || !vehicleId.value) return
   saving.value = true
@@ -125,6 +155,7 @@ async function submit() {
         meterValue: vehicle.value?.meterUnit === 'none' ? null : meterValue.value,
         promisedAt: fromDateTimeLocal(promisedAt.value),
         tasks: tasks.value.map(title => title.trim()).filter(Boolean),
+        notifyCustomer: canNotify.value ? notifyCustomer.value && receiveChannels.value.length > 0 : undefined,
       },
     })
     toast.add({ title: t('orders.created', { number: order.number }), color: 'success', icon: 'i-lucide-check' })
@@ -311,6 +342,25 @@ const noGrouping = { useGrouping: false }
               />
             </div>
           </UFormField>
+        </UPageCard>
+
+        <UPageCard
+          v-if="canNotify"
+          :title="`4. ${$t('orders.stepNotify')}`"
+          :class="{ 'opacity-60': !vehicle }"
+        >
+          <UCheckbox
+            :model-value="notifyCustomer"
+            :disabled="!customer || !receiveChannels.length"
+            :label="$t('customerNotifications.notifyOnReceive')"
+            :description="!customer ? $t('orders.selectCustomer')
+              : receiveChannels.length ? $t('customerNotifications.notifyChannels', { channels: receiveChannels.join(', ') })
+                : $t('customerNotifications.notifyNoContact')"
+            @update:model-value="setNotify"
+          />
+          <p class="text-sm text-muted">
+            {{ $t('customerNotifications.receiveHint') }}
+          </p>
         </UPageCard>
 
         <div class="flex justify-end">

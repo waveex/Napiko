@@ -324,7 +324,17 @@
     "editTitle": "Dane klienta",
     "data": "Dane klienta",
     "contactHidden": "Dane kontaktowe widzi tylko biuro warsztatu.",
-    "since": "Klient od"
+    "since": "Klient od",
+    "notifications": "Wiadomości o naprawie",
+    "notificationsHint": "Dotyczy wiadomości wysyłanych przy przyjęciu pojazdu i gotowości do odbioru. Klient może to zmienić sam na stronie statusu naprawy.",
+    "notifySms": "SMS-y o naprawie",
+    "notifyEmail": "E-maile o naprawie",
+    "pushDevices": "Telefony z powiadomieniami push",
+    "pushDeviceSince": "włączone {date}",
+    "pushDeviceInactive": "inny numer niż w karcie klienta – nieaktywny",
+    "pushDeviceUnknown": "Urządzenie",
+    "pushDisable": "Wyłącz",
+    "pushDisabled": "Wyłączono powiadomienia na telefonie klienta"
   },
   "vehicles": {
     "new": "Dodaj pojazd",
@@ -390,7 +400,8 @@
     "closedInfo": "Zlecenie jest zamknięte. Aby wprowadzić zmiany, zmień jego status.",
     "scope": "Zakres",
     "dates": "Terminy",
-    "workingNow": "Trwa praca przy pojeździe"
+    "workingNow": "Trwa praca przy pojeździe",
+    "stepNotify": "Powiadomienie klienta"
   },
   "tasks": {
     "title": "Zadania",
@@ -814,5 +825,346 @@
     "approvalHint": "Zapoznaj się z zakresem prac i ceną. Ty decydujesz, co wykonamy.",
     "working": "Praca trwa",
     "progress": "Wykonano {done} z {total} zadań"
+  },
+  "notifications": {
+    "title": "Powiadomienia",
+    "intro": "Nowe zadania, zgłoszenia mechaników i odpowiedzi klientów w jednym miejscu. Kliknij powiadomienie, aby przejść do zlecenia.",
+    "open": "Otwórz",
+    "unread": "nieprzeczytane",
+    "bellUnread": "Powiadomienia – nieprzeczytane: {count}",
+    "unreadCount": "Nieprzeczytane: {count}",
+    "allRead": "Wszystko przeczytane",
+    "markAllRead": "Oznacz wszystkie jako przeczytane",
+    "customerNote": "Uwagi klienta: „{note}”",
+    "elsewhere": "Nieprzeczytane w innych warsztatach: {count}",
+    "elsewhereHint": "Przełącz warsztat w menu po lewej (na telefonie: „Więcej”), aby je zobaczyć.",
+    "showAll": "Wszystkie powiadomienia",
+    "settings": "Ustawienia powiadomień",
+    "empty": "Nie masz jeszcze powiadomień",
+    "emptyHint": "Tu pojawią się nowe zadania, zgłoszenia mechaników i odpowiedzi klientów.",
+    "emptyUnread": "Wszystko przeczytane",
+    "emptyUnreadHint": "Nie masz nieprzeczytanych powiadomień.",
+    "loadMore": "Pokaż starsze",
+    "notFound": "Nie znaleziono powiadomienia",
+    "notFoundHint": "Mogło zostać usunięte albo dotyczy innego konta.",
+    "redirecting": "Otwieram powiadomienie…",
+    "filterLabel": "Pokaż powiadomienia",
+    "filterAll": "Wszystkie",
+    "filterUnread": "Nieprzeczytane",
+    "tabs": {
+      "list": "Powiadomienia",
+      "settings": "Ustawienia"
+    },
+    "next": {
+      "newTask": "Zadanie jest na Twojej liście."
+    },
+    "push": {
+      "title": "Powiadomienia na tym urządzeniu",
+      "hint": "Powiadomienie push przyjdzie także przy zamkniętej aplikacji. Na wspólnym telefonie wyłączamy je automatycznie przy wylogowaniu.",
+      "serverOff": "Powiadomienia push nie są jeszcze skonfigurowane na serwerze (klucze VAPID). Działają dzwonek w aplikacji i e-maile.",
+      "iosInstallTitle": "Na iPhonie dodaj OXY do ekranu początkowego",
+      "iosInstall": "W Safari dotknij „Udostępnij”, potem „Do ekranu początkowego”. Otwórz OXY z nowej ikony i włącz powiadomienia tutaj.",
+      "unsupported": "Ta przeglądarka nie obsługuje powiadomień push. Na telefonie użyj Chrome (Android) albo aplikacji dodanej do ekranu początkowego (iPhone).",
+      "deniedTitle": "Powiadomienia są zablokowane w przeglądarce",
+      "denied": "Zezwól na powiadomienia w ustawieniach strony (ikona obok adresu strony albo ustawienia telefonu), a potem odśwież stronę.",
+      "enabled": "Włączone na tym urządzeniu",
+      "disabled": "Wyłączone na tym urządzeniu",
+      "enable": "Włącz powiadomienia",
+      "enableFailed": "Nie udało się włączyć powiadomień.",
+      "disable": "Wyłącz na tym urządzeniu",
+      "test": "Wyślij próbne",
+      "testSent": "Wysłano próbne powiadomienie",
+      "testNoDevices": "Nie masz urządzeń z włączonymi powiadomieniami.",
+      "devices": "Twoje urządzenia z włączonymi powiadomieniami: {count}",
+      "enabledToast": "Powiadomienia włączone",
+      "disabledToast": "Powiadomienia wyłączone na tym urządzeniu"
+    },
+    "prefs": {
+      "title": "Co i jak do Ciebie dociera",
+      "description": "Dzwonek w aplikacji pokazuje wszystkie powiadomienia. Wybierz, o czym chcesz wiedzieć od razu – na telefonie (push) albo e-mailem.",
+      "emailTo": "E-maile wysyłamy na adres {email}.",
+      "emailUnverified": "Potwierdź adres e-mail konta, aby dostawać powiadomienia e-mailem.",
+      "push": "Push",
+      "email": "E-mail",
+      "inAppAlways": "Ustawienia dotyczą aktywnego warsztatu. Każde powiadomienie trafia też do dzwonka w aplikacji."
+    },
+    "types": {
+      "taskAssigned": {
+        "label": "Nowe zadanie dla mnie",
+        "hint": "Ktoś przydzielił Ci zadanie."
+      },
+      "taskUnassigned": {
+        "label": "Zadanie zdjęte z mojej listy",
+        "hint": "Ktoś przydzielił zadanie komuś innemu."
+      },
+      "taskAvailable": {
+        "label": "Zadania do wzięcia",
+        "hint": "Nowe zadania bez przydziału, gdy mechanicy sami biorą pracę."
+      },
+      "requestCreated": {
+        "label": "Nowa potrzeba od mechanika",
+        "hint": "Część do zamówienia albo praca dodatkowa do wyceny."
+      },
+      "requestDecided": {
+        "label": "Decyzja w moim zgłoszeniu",
+        "hint": "Biuro albo klient zatwierdził lub odrzucił pracę, którą zgłosiłem."
+      },
+      "partOrdered": {
+        "label": "Część zamówiona",
+        "hint": "Biuro zamówiło część, którą zgłosiłem."
+      },
+      "partDelivered": {
+        "label": "Część dostarczona",
+        "hint": "Część, na którą czekało zadanie, jest już w warsztacie."
+      },
+      "approvalAnswered": {
+        "label": "Odpowiedź klienta",
+        "hint": "Klient zatwierdził albo odrzucił prace dodatkowe lub kosztorys, o które pytałem."
+      },
+      "approvalExpired": {
+        "label": "Brak odpowiedzi klienta",
+        "hint": "Link z prośbą o decyzję wygasł, a klient nie odpowiedział."
+      },
+      "tasksCompleted": {
+        "label": "Wszystkie zadania zakończone",
+        "hint": "Zlecenie można oznaczyć jako gotowe do odbioru i powiadomić klienta."
+      }
+    },
+    "text": {
+      "taskAssigned": {
+        "title": "Nowe zadanie",
+        "body": "„{task}” – {vehicle}, {order}. Przydziela: {actor}."
+      },
+      "taskUnassigned": {
+        "title": "Zmiana przydziału",
+        "body": "Zadanie „{task}” zniknęło z Twojej listy – {vehicle}, {order}. Zmiana: {actor}."
+      },
+      "tasksAvailable": {
+        "title": "Zadania do wzięcia",
+        "body": "{vehicle}, {order}: nowe zadania bez przydziału ({count}). Weź je w „Moich zadaniach”."
+      },
+      "partRequested": {
+        "title": "Potrzebna część",
+        "body": "{actor}: „{title}” – {vehicle}, {order}. Do wyceny i zamówienia."
+      },
+      "partRequestedHold": {
+        "title": "Potrzebna część – praca wstrzymana",
+        "body": "{actor} czeka na część „{title}” – {vehicle}, {order}."
+      },
+      "extraWorkReported": {
+        "title": "Zgłoszona praca dodatkowa",
+        "body": "{actor}: „{title}” – {vehicle}, {order}. Wyceń i zapytaj klienta o zgodę."
+      },
+      "extraWorkReportedHold": {
+        "title": "Praca dodatkowa – zadanie wstrzymane",
+        "body": "{actor} czeka na decyzję klienta: „{title}” – {vehicle}, {order}. Wyceń i wyślij prośbę o zgodę."
+      },
+      "approvedByCustomer": {
+        "title": "Klient zatwierdził pracę",
+        "body": "„{title}” – {vehicle}, {order}. {next}"
+      },
+      "rejectedByCustomer": {
+        "title": "Klient odrzucił pracę",
+        "body": "„{title}” – {vehicle}, {order}. Wykonaj tylko pierwotny zakres."
+      },
+      "approvedByOffice": {
+        "title": "Praca zatwierdzona",
+        "body": "„{title}” – {vehicle}, {order}. Decyzja: {actor}. {next}"
+      },
+      "rejectedByOffice": {
+        "title": "Praca odrzucona",
+        "body": "„{title}” – {vehicle}, {order}. Decyzja: {actor}."
+      },
+      "partApproved": {
+        "title": "Część zatwierdzona",
+        "body": "„{title}” – {vehicle}, {order}. Biuro zajmie się zamówieniem."
+      },
+      "partRejected": {
+        "title": "Część odrzucona",
+        "body": "„{title}” – {vehicle}, {order}."
+      },
+      "partOrdered": {
+        "title": "Część zamówiona",
+        "body": "„{title}” – {vehicle}, {order}."
+      },
+      "partDelivered": {
+        "title": "Część dostarczona",
+        "body": "„{title}” – {vehicle}, {order}. Możesz wrócić do pracy."
+      },
+      "approvalAnswered": {
+        "title": "Klient odpowiedział",
+        "body": "Zatwierdzone: {approved}, odrzucone: {rejected} – {vehicle}, {order}."
+      },
+      "estimateApproved": {
+        "title": "Kosztorys zaakceptowany",
+        "body": "Klient zaakceptował kosztorys na {total} – {vehicle}, {order}."
+      },
+      "estimateRejected": {
+        "title": "Kosztorys odrzucony",
+        "body": "Klient nie zaakceptował kosztorysu na {total} – {vehicle}, {order}."
+      },
+      "approvalExpired": {
+        "title": "Brak odpowiedzi klienta",
+        "body": "Link z prośbą o zgodę wygasł – {vehicle}, {order}. Zadzwoń do klienta albo wyślij nowy link."
+      },
+      "estimateExpired": {
+        "title": "Kosztorys bez odpowiedzi",
+        "body": "Link z kosztorysem wygasł – {vehicle}, {order}. Zadzwoń do klienta albo wyślij nowy link."
+      },
+      "tasksCompleted": {
+        "title": "Zadania zakończone",
+        "body": "Wszystkie zadania w {order} ({vehicle}) są zakończone. Oznacz zlecenie jako gotowe do odbioru i powiadom klienta."
+      }
+    }
+  },
+  "customerNotifications": {
+    "title": "Powiadomienia klienta",
+    "description": "Wiadomości o naprawie: przyjęcie pojazdu, prośby o decyzję i gotowość do odbioru.",
+    "statusLink": "Link do statusu naprawy",
+    "statusLinkNone": "Link powstanie przy pierwszej wiadomości do klienta. Możesz też utworzyć go teraz i przekazać, np. w komunikatorze.",
+    "createLink": "Utwórz link",
+    "copyLink": "Kopiuj link",
+    "copied": "Skopiowano link do statusu naprawy",
+    "copyFailed": "Nie udało się skopiować – zaznacz i skopiuj link ręcznie",
+    "openLink": "Podgląd",
+    "rotateLink": "Nowy link",
+    "rotateTitle": "Utworzyć nowy link?",
+    "rotateHint": "Poprzedni link przestanie działać (np. trafił do niewłaściwej osoby). Nowy link wyślij klientowi ponownie.",
+    "rotateConfirm": "Utwórz nowy link",
+    "rotated": "Utworzono nowy link – poprzedni już nie działa",
+    "views": "Wyświetlenia: {count} · ostatnio {date}",
+    "notViewed": "Klient jeszcze nie otworzył linku.",
+    "pushActive": "Klient włączył powiadomienia w telefonie – zamiast SMS-a dostanie push.",
+    "noPhone": "Brak numeru telefonu klienta.",
+    "noEmail": "Brak adresu e-mail klienta.",
+    "optedOutSms": "Klient zrezygnował z SMS-ów o naprawie.",
+    "optedOutEmail": "Klient zrezygnował z e-maili o naprawie.",
+    "smsLog": "Bramka SMS nie jest skonfigurowana – SMS-y trafiają tylko do logów serwera.",
+    "history": "Wysłane wiadomości",
+    "empty": "Klient nie dostał jeszcze żadnej wiadomości.",
+    "events": {
+      "order_received": "Przyjęcie pojazdu",
+      "order_ready": "Gotowy do odbioru",
+      "approval_request": "Prośba o zgodę na prace",
+      "estimate_request": "Kosztorys do akceptacji"
+    },
+    "status": {
+      "queued": "W kolejce",
+      "sent": "Wysłano",
+      "failed": "Błąd",
+      "skipped": "Pominięto"
+    },
+    "via": {
+      "push": "push",
+      "sms": "SMS",
+      "email": "e-mail"
+    },
+    "trigger": {
+      "auto": "przy zmianie statusu",
+      "manual": "ręcznie"
+    },
+    "skip": {
+      "no_contact": "brak numeru albo adresu",
+      "opted_out": "klient zrezygnował z tego kanału"
+    },
+    "send": "Wyślij wiadomość",
+    "sendTitle": "Wiadomość do klienta",
+    "sendHint": "Wiadomość zawiera link do statusu naprawy.",
+    "sendEvent": "O czym",
+    "sendChannels": "Kanały",
+    "channelPhone": "SMS (albo push, gdy klient go włączył)",
+    "channelEmail": "E-mail",
+    "noChannel": "Wybierz co najmniej jeden kanał.",
+    "sendButton": "Wyślij",
+    "lastSent": "Ostatnio: {date}",
+    "neverSent": "Jeszcze nie wysłano",
+    "sent": "Wysłano wiadomość do klienta",
+    "notSent": "Nie wysłano wiadomości",
+    "readyTitle": "Gotowe do odbioru",
+    "readyDescription": "Status zlecenia {number} zmieni się na „Gotowe do odbioru”.",
+    "readyConfirm": "Zmień status",
+    "readyConfirmNotify": "Zmień status i powiadom",
+    "readyNotified": "Status zmieniony – klient dostanie wiadomość",
+    "readyNoPermission": "Wiadomość do klienta wyśle biuro według ustawień warsztatu.",
+    "notifyOnReady": "Powiadom klienta, że pojazd jest gotowy do odbioru",
+    "notifyOnReceive": "Wyślij klientowi potwierdzenie przyjęcia pojazdu",
+    "notifyChannels": "Wyślemy: {channels} – z linkiem do statusu naprawy.",
+    "notifyNoChannels": "Nie da się powiadomić klienta: brak numeru i adresu, rezygnacja klienta albo kanały wyłączone w ustawieniach warsztatu.",
+    "notifyNoContact": "Nie da się powiadomić klienta: brak numeru i adresu, rezygnacja klienta albo kanały wyłączone w ustawieniach warsztatu.",
+    "alreadyNotified": "Klient dostał już tę wiadomość: {date}.",
+    "receiveHint": "Klient zobaczy w linku etap naprawy, termin i kontakt do warsztatu – bez cen i notatek.",
+    "settings": {
+      "title": "Powiadomienia klienta",
+      "description": "Wiadomości o naprawie są transakcyjne, nie marketingowe. Klient może z nich zrezygnować – w karcie klienta albo sam, na stronie statusu naprawy.",
+      "hint": {
+        "order_received": "Potwierdzenie przyjęcia pojazdu z linkiem do statusu naprawy – przy zakładaniu zlecenia.",
+        "order_ready": "Informacja, że pojazd czeka na odbiór – przy zmianie statusu na „Gotowe do odbioru”."
+      },
+      "auto": "Proponuj wysłanie",
+      "autoHint": "Pole „Powiadom klienta” będzie domyślnie zaznaczone – przed wysłaniem zawsze można je odznaczyć.",
+      "d5": "SMS-y wysyłamy tylko przy przyjęciu pojazdu, prośbie o decyzję i gotowości do odbioru (decyzja D5). Pozostałe informacje klient widzi na stronie statusu.",
+      "pushOn": "Klient może włączyć na stronie statusu powiadomienia w telefonie – wtedy zamiast SMS-a dostaje darmowy push.",
+      "pushOff": "Powiadomienia push dla klientów są wyłączone (brak kluczy VAPID na serwerze) – kanał „telefon” oznacza SMS.",
+      "optOut": "Klient, który zrezygnował z SMS-ów albo e-maili, nie dostanie ich automatycznie. Prośby o akceptację wysyłasz świadomie na wybrany numer lub adres."
+    }
+  },
+  "statusPage": {
+    "title": "Status naprawy",
+    "pageTitle": "Status naprawy – {name}",
+    "from": "Warsztat",
+    "order": "Zlecenie {number}",
+    "preview": "Podgląd warsztatu",
+    "previewHint": "Tak klient widzi status naprawy. Twoje wejścia nie są liczone, a ustawień powiadomień nie można tu zmienić.",
+    "cancelled": "Zlecenie zostało anulowane",
+    "cancelledHint": "Skontaktuj się z warsztatem, jeśli masz pytania.",
+    "readyTitle": "Pojazd czeka na odbiór",
+    "readyHint": "Zapraszamy: {address}.",
+    "readyHintNoAddress": "Zapraszamy do warsztatu.",
+    "waiting": "Warsztat czeka na Twoją decyzję",
+    "waitingHint": "Link z opisem prac i cenami wysłaliśmy SMS-em albo e-mailem. Jeśli go nie masz – zadzwoń do warsztatu.",
+    "stepsLabel": "Etapy naprawy",
+    "steps": {
+      "received": "Przyjęty",
+      "in_progress": "W naprawie",
+      "ready": "Gotowy do odbioru",
+      "closed": "Odebrany"
+    },
+    "stepHints": {
+      "received": "Pojazd czeka na rozpoczęcie prac.",
+      "in_progress": "Trwają prace przy pojeździe.",
+      "ready": "Naprawa zakończona – zapraszamy po odbiór.",
+      "closed": "Naprawa zakończona. Dziękujemy!"
+    },
+    "current": "teraz",
+    "progress": "Postęp prac: {done} z {total}",
+    "promised": "Planowany termin odbioru: {date}",
+    "contact": "Kontakt z warsztatem",
+    "call": "Zadzwoń: {phone}",
+    "write": "Napisz e-mail",
+    "updated": "Stan na {date}",
+    "privacy": "Link działa tylko dla tej naprawy. Nie pokazujemy cen ani Twoich danych.",
+    "refresh": "Odśwież",
+    "invalidTitle": "Nie możemy pokazać statusu naprawy",
+    "invalid": "Link jest nieprawidłowy albo wygasł. Skontaktuj się z warsztatem.",
+    "notifications": {
+      "title": "Powiadomienia",
+      "description": "Zdecyduj, jak warsztat ma Cię informować o tej i kolejnych naprawach.",
+      "push": "Powiadomienia w tym telefonie",
+      "pushHint": "Zamiast SMS-a dostaniesz powiadomienie od warsztatu – od razu i bez kosztów.",
+      "pushOn": "Włączone w tym telefonie",
+      "pushEnable": "Włącz powiadomienia",
+      "pushDisable": "Wyłącz",
+      "pushEnabled": "Powiadomienia włączone",
+      "pushFailed": "Nie udało się włączyć powiadomień.",
+      "iosInstall": "Na iPhonie: dotknij „Udostępnij”, potem „Do ekranu początkowego”. Otwórz status naprawy z nowej ikony i włącz powiadomienia.",
+      "denied": "Powiadomienia są zablokowane w ustawieniach przeglądarki albo telefonu.",
+      "unsupported": "Ta przeglądarka nie obsługuje powiadomień – zostają SMS-y i e-maile.",
+      "sms": "SMS-y na numer {to}",
+      "smsHint": "Przyjęcie pojazdu i gotowość do odbioru.",
+      "email": "E-maile na adres {to}",
+      "emailHint": "Potwierdzenia i informacje o naprawie.",
+      "saved": "Zapisano ustawienia powiadomień"
+    },
+    "refreshFailed": "Nie udało się odświeżyć statusu – pokazujemy ostatnio pobrany stan."
   }
 }

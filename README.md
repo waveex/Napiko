@@ -13,16 +13,20 @@ Aplikacja do komunikacji i organizacji pracy warsztatów z klientem: biuro warsz
   - zdjęcia;
   - akceptacja prac dodatkowych przez klienta (link, SMS, e-mail);
   - rozliczenie zlecenia: dane firmy, cennik usług, kosztorys z akceptacją klienta, numer paragonu przy zamknięciu (faktury przez Fakturownię/KSeF dojdą z integracjami).
+- **Powiadomienia:**
+  - dzwonek w aplikacji, e-mail i push (także w aplikacji zainstalowanej na telefonie) dla mechaników i biura;
+  - SMS albo push i e-mail do klienta przy przyjęciu pojazdu i gotowości do odbioru, z linkiem do strony statusu naprawy bez logowania.
 
-Szczegóły w [`docs/04-moduly-warsztatu.md`](docs/04-moduly-warsztatu.md).
+Szczegóły w [`docs/04-moduly-warsztatu.md`](docs/04-moduly-warsztatu.md) i [`docs/07-powiadomienia.md`](docs/07-powiadomienia.md).
 
 | Dokument | Zawartość |
 | --- | --- |
 | [`docs/01-raport-analityczny.md`](docs/01-raport-analityczny.md) | Rynek, konkurencja, prawo, integracje, technologia |
 | [`docs/02-decyzje-produktowe.md`](docs/02-decyzje-produktowe.md) | Wnioski i decyzje przed specyfikacją wymagań |
 | [`docs/03-architektura-i-infrastruktura.md`](docs/03-architektura-i-infrastruktura.md) | Architektura, decyzje techniczne, bezpieczeństwo, wdrożenie na Netlify |
-| [`docs/04-moduly-warsztatu.md`](docs/04-moduly-warsztatu.md) | Moduły warsztatu (etapy 1–4), reguły, dowód zgody klienta, punkty do weryfikacji prawnej |
+| [`docs/04-moduly-warsztatu.md`](docs/04-moduly-warsztatu.md) | Moduły warsztatu (etapy 1–5), reguły, dowód zgody klienta, punkty do weryfikacji prawnej |
 | [`docs/05-plan-prac.md`](docs/05-plan-prac.md) | Plan prac: etapy E4–E11 i sprawy formalne, właściciele i zależności (statusy na żywo w artefakcie „Plan prac OXY”) |
+| [`docs/07-powiadomienia.md`](docs/07-powiadomienia.md) | Powiadomienia: kto co dostaje, dzwonek, wiadomości do klienta, strona statusu naprawy, push (VAPID), sprzątanie, testy |
 
 ## Technologia
 
@@ -62,6 +66,16 @@ Ustawienie `AUTH_REQUIRE_EMAIL_VERIFICATION` w `.env` steruje potwierdzaniem adr
 
 Po zmianie uruchom serwer ponownie. Na Netlify ustaw tę zmienną w konfiguracji środowiska i wdróż aplikację ponownie. Bez podanej zmiennej potwierdzanie jest domyślnie wymagane. Wyłączenie wymogu nie oznacza oznaczania adresów jako zweryfikowane; ponowne włączenie zablokuje logowanie niepotwierdzonych kont do czasu weryfikacji. Resetowanie hasła i zaproszenia nadal korzystają z poczty.
 
+## Powiadomienia push
+
+Push w przeglądarce i w aplikacji zainstalowanej na telefonie wymaga pary kluczy VAPID:
+
+```bash
+pnpm push:keys    # wypisuje VAPID_PUBLIC_KEY i VAPID_PRIVATE_KEY – wklej do .env (na Netlify: zmienne środowiskowe)
+```
+
+Po ustawieniu kluczy uruchom serwer ponownie. Bez kluczy push jest wyłączony – zespół ma dzwonek i e-mail, a klient dostaje SMS-a. Zmiana kluczy unieważnia włączone powiadomienia. iPhone i iPad pokazują powiadomienia push tylko w aplikacji dodanej do ekranu początkowego. Szczegóły: [`docs/07-powiadomienia.md`](docs/07-powiadomienia.md).
+
 ## Skrypty
 
 | Polecenie | Opis |
@@ -70,12 +84,13 @@ Po zmianie uruchom serwer ponownie. Na Netlify ustaw tę zmienną w konfiguracji
 | `pnpm build` | Build produkcyjny (na Netlify preset wykrywa się sam) |
 | `pnpm lint` / `pnpm lint:fix` | ESLint (również formatowanie) |
 | `pnpm typecheck` | Sprawdzenie typów (vue-tsc) |
-| `pnpm test` | Testy integracyjne na bazie `oxy_test` (RLS, dziennik, kolejka, schemat, warsztat, praca mechanika, akceptacje) |
+| `pnpm test` | Testy integracyjne na bazie `oxy_test` (RLS, dziennik, kolejka, schemat, warsztat, praca mechanika, akceptacje, powiadomienia) |
 | `pnpm infra:up` / `pnpm infra:down` | Start / stop usług w Dockerze |
 | `pnpm db:migrate` | Zastosuj nowe migracje |
 | `pnpm db:reset` | Wyczyść lokalną bazę i zastosuj migracje od nowa |
 | `pnpm db:new <nazwa>` | Nowa migracja w `netlify/database/migrations` |
 | `pnpm storage:init` | Utwórz bucket i reguły CORS |
+| `pnpm push:keys` | Nowa para kluczy VAPID do powiadomień push |
 
 ## Struktura
 
@@ -89,7 +104,9 @@ server/
 shared/                   kod wspólny dla serwera i interfejsu (role i uprawnienia, walidacja)
 netlify/
   database/migrations/    migracje SQL (Netlify stosuje je przy wdrożeniu)
-  functions/              funkcje Netlify (cykliczne przetwarzanie kolejki)
+  functions/              funkcje Netlify (cykliczne przetwarzanie kolejki i codzienne sprzątanie powiadomień)
+public/                   service worker powiadomień push, manifest aplikacji (PWA), ikony
+scripts/                  polecenia pomocnicze (migracje, klucze VAPID)
 i18n/locales/             tłumaczenia (pl, en)
 tests/                    testy integracyjne
 docker/, docker-compose.yml  lokalne usługi

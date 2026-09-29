@@ -1,11 +1,12 @@
 /**
  * Mechanik zgłasza potrzebę: część do zamówienia albo pracę dodatkową (np. „tylne klocki do wymiany”).
- * Biuro dostaje zgłoszenie do wyceny; praca dodatkowa wymaga później zgody klienta.
+ * Biuro dostaje zgłoszenie do wyceny (powiadomienie); praca dodatkowa wymaga później zgody klienta.
  * Opcjonalnie wstrzymuje zadanie do czasu dostawy części / decyzji.
  */
 import { eq } from 'drizzle-orm'
 import { withTenant } from '../../../db/tenant'
 import { recordAudit } from '../../../db/audit'
+import { notifyWorkRequestCreated } from '../../../db/notifications'
 import { workOrder, workRequest } from '../../../db/schema'
 import { workRequestCreateSchema } from '../../../../shared/schemas'
 
@@ -15,7 +16,7 @@ export default defineEventHandler(async (event) => {
   const input = await readValidatedBody(event, body => workRequestCreateSchema.parse(body))
   const meta = requestMeta(event)
 
-  return withTenant(useDb(), ctx, async (tx) => {
+  const created = await withTenant(useDb(), ctx, async (tx) => {
     const [order] = await tx.select({ id: workOrder.id, number: workOrder.number, status: workOrder.status })
       .from(workOrder).where(eq(workOrder.id, workOrderId)).limit(1)
     if (!order) throw notFound('Nie znaleziono zlecenia.')
@@ -54,6 +55,10 @@ export default defineEventHandler(async (event) => {
       await applyTaskStatus(tx, ctx, related.task, order, input.kind === 'part' ? 'waiting_parts' : 'waiting_approval', meta)
     }
 
+    await notifyWorkRequestCreated(tx, { orgId: ctx.orgId, actorUserId: ctx.userId, request: row!, hold: !!(input.holdTask && related) })
     return { id: row!.id }
   })
+
+  await deliverNotifications(event)
+  return created
 })

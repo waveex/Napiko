@@ -76,6 +76,9 @@ export const customerSchema = z.object({
   email: nullableText(200).refine(v => v === null || z.email().safeParse(v).success, 'Nieprawidłowy adres e-mail.'),
   phone: nullableText(20).refine(v => v === null || /^[+\d][\d\s()-]{6,19}$/.test(v), 'Nieprawidłowy numer telefonu.'),
   notes: nullableText(2000),
+  /** Wiadomości o naprawie SMS-em / e-mailem (klient może z nich zrezygnować). Brak pola = bez zmian / domyślnie tak. */
+  notifySms: z.boolean().optional(),
+  notifyEmail: z.boolean().optional(),
 })
 export type CustomerInput = z.input<typeof customerSchema>
 
@@ -105,6 +108,11 @@ export const workOrderCreateSchema = z.object({
   meterValue: z.number().int().min(0).max(100_000_000).nullish().transform(v => v ?? null),
   promisedAt: z.iso.datetime({ offset: true }).nullish().transform(v => v ?? null),
   tasks: z.array(z.string().trim().min(1).max(200)).max(50).default([]),
+  /**
+   * Potwierdzenie przyjęcia pojazdu dla klienta: true – wyślij (kanały z ustawień warsztatu), false – nie wysyłaj,
+   * brak pola – według ustawień warsztatu.
+   */
+  notifyCustomer: z.boolean().optional(),
 })
 export type WorkOrderCreateInput = z.input<typeof workOrderCreateSchema>
 
@@ -116,6 +124,8 @@ export const workOrderUpdateSchema = z.object({
   /** Paragon z kasy fiskalnej – zwykle wpisywany przy zamknięciu zlecenia. */
   receiptNumber: nullableText(40).optional(),
   receiptIssuedOn: z.iso.date().nullish().transform(v => v ?? null).optional(),
+  /** Przy zmianie statusu na „gotowe do odbioru”: true – powiadom klienta, false – nie, brak pola – według ustawień. */
+  notifyCustomer: z.boolean().optional(),
 }).superRefine((value, ctx) => {
   if (value.receiptIssuedOn && value.receiptNumber === null) {
     ctx.addIssue({ code: 'custom', path: ['receiptNumber'], message: 'Podaj numer paragonu.' })

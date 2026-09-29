@@ -17,6 +17,13 @@
   .oxy-bottom-nav { position: fixed; inset: auto 0 0; z-index: 30; display: flex; gap: .25rem; min-height: var(--oxy-bottom-nav-height); padding: .25rem max(.5rem, env(safe-area-inset-right, 0px)) calc(.25rem + var(--oxy-safe-bottom)) max(.5rem, env(safe-area-inset-left, 0px)); background: var(--oxy-surface); border-top: 1px solid var(--oxy-border); }
   .oxy-bottom-item { display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: .25rem; min-width: 0; min-height: 3.5rem; padding: .25rem; border-radius: .75rem; font-size: .75rem; font-weight: 600; color: var(--oxy-text-muted); text-align: center; overflow-wrap: anywhere; }
   .oxy-bottom-item[aria-current='page'], .oxy-bottom-item[aria-expanded='true'] { background: var(--oxy-action-soft); color: var(--oxy-action-base); }
+  .oxy-notification { display: flex; width: 100%; align-items: flex-start; gap: .75rem; padding: .75rem; border-radius: .75rem; text-align: start; color: var(--oxy-text); transition: background-color var(--oxy-motion); }
+  .oxy-notification:hover { background: var(--oxy-surface-raised); }
+  .oxy-notification-unread { background: var(--oxy-action-soft); }
+  .oxy-notification-unread:hover { background: var(--oxy-action-soft); box-shadow: inset 0 0 0 1px var(--oxy-border-control); }
+  .oxy-bell-count { position: absolute; top: .25rem; inset-inline-end: .125rem; display: grid; place-items: center; min-width: 1.25rem; height: 1.25rem; padding-inline: .3125rem; border-radius: 999px; background: var(--oxy-action-base); color: var(--oxy-action-contrast); font-size: .75rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; box-shadow: 0 0 0 2px var(--oxy-surface); }
+  /* Telefon: dzwonek w prawym górnym rogu, w linii nagłówka strony (panel boczny jest ukryty) */
+  .oxy-bell-mobile { position: fixed; z-index: 35; top: calc(env(safe-area-inset-top, 0px) + 1rem); inset-inline-end: calc(env(safe-area-inset-right, 0px) + .5rem); border-radius: var(--oxy-radius-control); background: var(--oxy-surface); }
   .oxy-approval-bar { position: sticky; bottom: 0; z-index: 10; padding: 1rem 0 calc(1rem + var(--oxy-safe-bottom)); background: var(--oxy-page); border-top: 1px solid var(--oxy-border); }
   .oxy-dialog { z-index: 50; max-height: calc(var(--oxy-viewport-height, 100dvh) - 2rem); }
   .oxy-dialog-overlay { z-index: 40; }
@@ -24,7 +31,7 @@
     .oxy-dashboard { bottom: calc(var(--oxy-bottom-nav-height) + .5rem + var(--oxy-safe-bottom)); }
     .oxy-panel-body { padding-bottom: 1.5rem; }
   }
-  @media (min-width: 1024px) { .oxy-bottom-nav { display: none; } }
+  @media (min-width: 1024px) { .oxy-bottom-nav, .oxy-bell-mobile { display: none; } }
   @media (max-width: 639px) {
     .oxy-dialog { top: var(--oxy-viewport-top, 0px); left: 0; translate: none; transform: none; width: 100%; max-width: none; height: var(--oxy-viewport-height, 100dvh); max-height: var(--oxy-viewport-height, 100dvh); border-radius: 0; padding-top: env(safe-area-inset-top, 0px); padding-bottom: var(--oxy-safe-bottom); }
   }

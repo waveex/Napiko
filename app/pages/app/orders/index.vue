@@ -84,10 +84,28 @@ async function dropOrder(event: DragEvent, target: BoardStatus) {
   endDrag()
   const order = orders.value.find(order => order.id === id)
   if (!canDrag.value || !order || order.status === target) return
+  // Gotowe do odbioru: najpierw pytanie, czy powiadomić klienta
+  if (target === 'ready') {
+    readyOrder.value = { id: order.id, number: order.number }
+    return
+  }
+  await moveOrder(order.id, target)
+}
 
+// ── gotowe do odbioru: okno z powiadomieniem klienta ──
+const readyOrder = ref<{ id: string, number: string } | null>(null)
+async function confirmReady(notifyCustomer: boolean | undefined) {
+  const target = readyOrder.value
+  readyOrder.value = null
+  if (target) await moveOrder(target.id, 'ready', notifyCustomer)
+}
+
+async function moveOrder(id: string, target: BoardStatus, notifyCustomer?: boolean) {
+  const order = orders.value.find(order => order.id === id)
+  if (!order) return
   pendingMove.value = { id: order.id, status: target }
   try {
-    await $fetch(`/api/work-orders/${order.id}`, { method: 'PATCH', body: { status: target } })
+    await $fetch(`/api/work-orders/${order.id}`, { method: 'PATCH', body: { status: target, notifyCustomer } })
     // Commit only the changed status; preserve the current search results.
     if (data.value) {
       data.value = {
@@ -95,7 +113,11 @@ async function dropOrder(event: DragEvent, target: BoardStatus) {
         orders: data.value.orders.map(row => row.id === order.id ? { ...row, status: target } : row),
       }
     }
-    toast.add({ title: t('orders.statusChanged'), color: 'success', icon: 'i-lucide-check' })
+    toast.add({
+      title: notifyCustomer ? t('customerNotifications.readyNotified') : t('orders.statusChanged'),
+      color: 'success',
+      icon: 'i-lucide-check',
+    })
   }
   catch (err) {
     toast.add({ title: apiErrorMessage(err, t('common.error')), color: 'error' })
@@ -281,6 +303,13 @@ const canWork = computed(() => !!me.value?.activeOrganization?.can.workOnTasks)
           />
         </template>
       </UTable>
+
+      <OrderReadyDialog
+        :order="readyOrder"
+        :loading="!!pendingMove"
+        @confirm="confirmReady"
+        @cancel="readyOrder = null"
+      />
     </template>
   </UDashboardPanel>
 </template>

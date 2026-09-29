@@ -324,7 +324,17 @@
     "editTitle": "Customer details",
     "data": "Customer details",
     "contactHidden": "Contact details are visible to the workshop office only.",
-    "since": "Customer since"
+    "since": "Customer since",
+    "notifications": "Repair messages",
+    "notificationsHint": "Applies to messages sent when the vehicle is received and ready for pickup. The customer can change this on the repair status page.",
+    "notifySms": "Repair SMS messages",
+    "notifyEmail": "Repair e-mails",
+    "pushDevices": "Phones with push notifications",
+    "pushDeviceSince": "turned on {date}",
+    "pushDeviceInactive": "a different number than on the customer card – inactive",
+    "pushDeviceUnknown": "Device",
+    "pushDisable": "Turn off",
+    "pushDisabled": "Notifications turned off on the customer's phone"
   },
   "vehicles": {
     "new": "Add vehicle",
@@ -390,7 +400,8 @@
     "closedInfo": "This work order is closed. Change its status to make changes.",
     "scope": "Scope",
     "dates": "Dates",
-    "workingNow": "Work in progress right now"
+    "workingNow": "Work in progress right now",
+    "stepNotify": "Customer notification"
   },
   "tasks": {
     "title": "Tasks",
@@ -814,5 +825,346 @@
     "approvalHint": "Review the work and its cost. You decide what goes ahead.",
     "working": "Work in progress",
     "progress": "{done} of {total} tasks completed"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "intro": "New tasks, mechanics' requests and customer replies in one place. Click a notification to open the order.",
+    "open": "Open",
+    "unread": "unread",
+    "bellUnread": "Notifications – unread: {count}",
+    "unreadCount": "Unread: {count}",
+    "allRead": "All caught up",
+    "markAllRead": "Mark all as read",
+    "customerNote": "Customer's note: “{note}”",
+    "elsewhere": "Unread in other workshops: {count}",
+    "elsewhereHint": "Switch the workshop in the menu on the left (on the phone: “More”) to see them.",
+    "showAll": "All notifications",
+    "settings": "Notification settings",
+    "empty": "No notifications yet",
+    "emptyHint": "New tasks, mechanics' requests and customer replies will show up here.",
+    "emptyUnread": "All caught up",
+    "emptyUnreadHint": "You have no unread notifications.",
+    "loadMore": "Show older",
+    "notFound": "Notification not found",
+    "notFoundHint": "It may have been removed or belong to another account.",
+    "redirecting": "Opening the notification…",
+    "filterLabel": "Show notifications",
+    "filterAll": "All",
+    "filterUnread": "Unread",
+    "tabs": {
+      "list": "Notifications",
+      "settings": "Settings"
+    },
+    "next": {
+      "newTask": "The task is on your list."
+    },
+    "push": {
+      "title": "Notifications on this device",
+      "hint": "Push notifications arrive even when the app is closed. On a shared phone they are turned off automatically when you sign out.",
+      "serverOff": "Push notifications are not configured on the server yet (VAPID keys). The in-app bell and e-mails work.",
+      "iosInstallTitle": "On iPhone, add OXY to the Home Screen",
+      "iosInstall": "In Safari tap “Share”, then “Add to Home Screen”. Open OXY from the new icon and turn on notifications here.",
+      "unsupported": "This browser does not support push notifications. On a phone use Chrome (Android) or the app added to the Home Screen (iPhone).",
+      "deniedTitle": "Notifications are blocked in the browser",
+      "denied": "Allow notifications in the site settings (the icon next to the address or the phone settings), then reload the page.",
+      "enabled": "On for this device",
+      "disabled": "Off for this device",
+      "enable": "Turn on notifications",
+      "enableFailed": "Could not turn on notifications.",
+      "disable": "Turn off on this device",
+      "test": "Send a test",
+      "testSent": "Test notification sent",
+      "testNoDevices": "You have no devices with notifications turned on.",
+      "devices": "Your devices with notifications on: {count}",
+      "enabledToast": "Notifications turned on",
+      "disabledToast": "Notifications turned off on this device"
+    },
+    "prefs": {
+      "title": "What reaches you and how",
+      "description": "The in-app bell shows every notification. Choose what you want to know right away – on your phone (push) or by e-mail.",
+      "emailTo": "E-mails go to {email}.",
+      "emailUnverified": "Confirm your account e-mail to receive notifications by e-mail.",
+      "push": "Push",
+      "email": "E-mail",
+      "inAppAlways": "Settings apply to the active workshop. Every notification also goes to the in-app bell."
+    },
+    "types": {
+      "taskAssigned": {
+        "label": "A new task for me",
+        "hint": "Someone assigned a task to you."
+      },
+      "taskUnassigned": {
+        "label": "A task removed from my list",
+        "hint": "Someone gave the task to another person."
+      },
+      "taskAvailable": {
+        "label": "Tasks to take",
+        "hint": "New unassigned tasks when mechanics take work themselves."
+      },
+      "requestCreated": {
+        "label": "A new request from a mechanic",
+        "hint": "A part to order or additional work to quote."
+      },
+      "requestDecided": {
+        "label": "A decision on my request",
+        "hint": "The office or the customer approved or rejected work I reported."
+      },
+      "partOrdered": {
+        "label": "Part ordered",
+        "hint": "The office ordered a part I requested."
+      },
+      "partDelivered": {
+        "label": "Part delivered",
+        "hint": "The part a task was waiting for is in the workshop."
+      },
+      "approvalAnswered": {
+        "label": "Customer reply",
+        "hint": "The customer approved or rejected the additional work or estimate I sent."
+      },
+      "approvalExpired": {
+        "label": "No reply from the customer",
+        "hint": "The approval link expired without a reply."
+      },
+      "tasksCompleted": {
+        "label": "All tasks done",
+        "hint": "The order can be marked as ready for pickup and the customer notified."
+      }
+    },
+    "text": {
+      "taskAssigned": {
+        "title": "New task",
+        "body": "“{task}” – {vehicle}, {order}. Assigned by {actor}."
+      },
+      "taskUnassigned": {
+        "title": "Assignment changed",
+        "body": "Task “{task}” was removed from your list – {vehicle}, {order}. Changed by {actor}."
+      },
+      "tasksAvailable": {
+        "title": "Tasks to take",
+        "body": "{vehicle}, {order}: new unassigned tasks ({count}). Take them in “My tasks”."
+      },
+      "partRequested": {
+        "title": "Part needed",
+        "body": "{actor}: “{title}” – {vehicle}, {order}. To quote and order."
+      },
+      "partRequestedHold": {
+        "title": "Part needed – work on hold",
+        "body": "{actor} is waiting for the part “{title}” – {vehicle}, {order}."
+      },
+      "extraWorkReported": {
+        "title": "Additional work reported",
+        "body": "{actor}: “{title}” – {vehicle}, {order}. Quote it and ask the customer for approval."
+      },
+      "extraWorkReportedHold": {
+        "title": "Additional work – task on hold",
+        "body": "{actor} is waiting for the customer's decision: “{title}” – {vehicle}, {order}. Quote it and send an approval request."
+      },
+      "approvedByCustomer": {
+        "title": "Customer approved the work",
+        "body": "“{title}” – {vehicle}, {order}. {next}"
+      },
+      "rejectedByCustomer": {
+        "title": "Customer rejected the work",
+        "body": "“{title}” – {vehicle}, {order}. Do only the original scope."
+      },
+      "approvedByOffice": {
+        "title": "Work approved",
+        "body": "“{title}” – {vehicle}, {order}. Decided by {actor}. {next}"
+      },
+      "rejectedByOffice": {
+        "title": "Work rejected",
+        "body": "“{title}” – {vehicle}, {order}. Decided by {actor}."
+      },
+      "partApproved": {
+        "title": "Part approved",
+        "body": "“{title}” – {vehicle}, {order}. The office will order it."
+      },
+      "partRejected": {
+        "title": "Part rejected",
+        "body": "“{title}” – {vehicle}, {order}."
+      },
+      "partOrdered": {
+        "title": "Part ordered",
+        "body": "“{title}” – {vehicle}, {order}."
+      },
+      "partDelivered": {
+        "title": "Part delivered",
+        "body": "“{title}” – {vehicle}, {order}. You can get back to work."
+      },
+      "approvalAnswered": {
+        "title": "Customer replied",
+        "body": "Approved: {approved}, rejected: {rejected} – {vehicle}, {order}."
+      },
+      "estimateApproved": {
+        "title": "Estimate approved",
+        "body": "The customer approved the estimate of {total} – {vehicle}, {order}."
+      },
+      "estimateRejected": {
+        "title": "Estimate rejected",
+        "body": "The customer did not approve the estimate of {total} – {vehicle}, {order}."
+      },
+      "approvalExpired": {
+        "title": "No reply from the customer",
+        "body": "The approval link has expired – {vehicle}, {order}. Call the customer or send a new link."
+      },
+      "estimateExpired": {
+        "title": "Estimate not answered",
+        "body": "The estimate link has expired – {vehicle}, {order}. Call the customer or send a new link."
+      },
+      "tasksCompleted": {
+        "title": "All tasks done",
+        "body": "All tasks in {order} ({vehicle}) are done. Mark the order as ready for pickup and notify the customer."
+      }
+    }
+  },
+  "customerNotifications": {
+    "title": "Customer notifications",
+    "description": "Repair messages: vehicle received, approval requests and ready for pickup.",
+    "statusLink": "Repair status link",
+    "statusLinkNone": "The link is created with the first message to the customer. You can also create it now and share it, e.g. in a messenger.",
+    "createLink": "Create link",
+    "copyLink": "Copy link",
+    "copied": "Repair status link copied",
+    "copyFailed": "Could not copy – select and copy the link manually",
+    "openLink": "Preview",
+    "rotateLink": "New link",
+    "rotateTitle": "Create a new link?",
+    "rotateHint": "The previous link will stop working (e.g. it reached the wrong person). Send the new link to the customer again.",
+    "rotateConfirm": "Create a new link",
+    "rotated": "New link created – the previous one no longer works",
+    "views": "Views: {count} · last {date}",
+    "notViewed": "The customer has not opened the link yet.",
+    "pushActive": "The customer turned on phone notifications – they get a push instead of an SMS.",
+    "noPhone": "The customer has no phone number.",
+    "noEmail": "The customer has no e-mail address.",
+    "optedOutSms": "The customer opted out of repair SMS messages.",
+    "optedOutEmail": "The customer opted out of repair e-mails.",
+    "smsLog": "The SMS gateway is not configured – SMS messages only go to the server logs.",
+    "history": "Sent messages",
+    "empty": "The customer has not received any messages yet.",
+    "events": {
+      "order_received": "Vehicle received",
+      "order_ready": "Ready for pickup",
+      "approval_request": "Approval request",
+      "estimate_request": "Estimate for approval"
+    },
+    "status": {
+      "queued": "Queued",
+      "sent": "Sent",
+      "failed": "Failed",
+      "skipped": "Skipped"
+    },
+    "via": {
+      "push": "push",
+      "sms": "SMS",
+      "email": "e-mail"
+    },
+    "trigger": {
+      "auto": "on status change",
+      "manual": "manually"
+    },
+    "skip": {
+      "no_contact": "no phone number or address",
+      "opted_out": "the customer opted out of this channel"
+    },
+    "send": "Send a message",
+    "sendTitle": "Message to the customer",
+    "sendHint": "The message includes the repair status link.",
+    "sendEvent": "Topic",
+    "sendChannels": "Channels",
+    "channelPhone": "SMS (or push if the customer turned it on)",
+    "channelEmail": "E-mail",
+    "noChannel": "Choose at least one channel.",
+    "sendButton": "Send",
+    "lastSent": "Last: {date}",
+    "neverSent": "Not sent yet",
+    "sent": "Message sent to the customer",
+    "notSent": "The message was not sent",
+    "readyTitle": "Ready for pickup",
+    "readyDescription": "Order {number} will change to “Ready for pickup”.",
+    "readyConfirm": "Change status",
+    "readyConfirmNotify": "Change status and notify",
+    "readyNotified": "Status changed – the customer will get a message",
+    "readyNoPermission": "The office will message the customer according to the workshop settings.",
+    "notifyOnReady": "Tell the customer the vehicle is ready for pickup",
+    "notifyOnReceive": "Send the customer a vehicle received confirmation",
+    "notifyChannels": "We will send: {channels} – with the repair status link.",
+    "notifyNoChannels": "The customer cannot be notified: no phone or address, the customer opted out, or the channels are off in the workshop settings.",
+    "notifyNoContact": "The customer cannot be notified: no phone or address, the customer opted out, or the channels are off in the workshop settings.",
+    "alreadyNotified": "The customer already got this message: {date}.",
+    "receiveHint": "The link shows the repair stage, the promised date and the workshop contact – no prices or notes.",
+    "settings": {
+      "title": "Customer notifications",
+      "description": "Repair messages are transactional, not marketing. Customers can opt out – on the customer card or themselves on the repair status page.",
+      "hint": {
+        "order_received": "Vehicle received confirmation with the repair status link – when creating the order.",
+        "order_ready": "The vehicle is waiting for pickup – when the status changes to “Ready for pickup”."
+      },
+      "auto": "Suggest sending",
+      "autoHint": "The “Notify the customer” box will be ticked by default – it can always be unticked before sending.",
+      "d5": "SMS messages are sent only when the vehicle is received, for approval requests and when it is ready (decision D5). Other updates are on the status page.",
+      "pushOn": "Customers can turn on phone notifications on the status page – they then get a free push instead of an SMS.",
+      "pushOff": "Push notifications for customers are off (no VAPID keys on the server) – the phone channel means SMS.",
+      "optOut": "Customers who opted out of SMS or e-mails will not get them automatically. You send approval requests deliberately to a chosen number or address."
+    }
+  },
+  "statusPage": {
+    "title": "Repair status",
+    "pageTitle": "Repair status – {name}",
+    "from": "Workshop",
+    "order": "Order {number}",
+    "preview": "Workshop preview",
+    "previewHint": "This is what the customer sees. Your visits are not counted and notification settings cannot be changed here.",
+    "cancelled": "The order was cancelled",
+    "cancelledHint": "Contact the workshop if you have any questions.",
+    "readyTitle": "Your vehicle is waiting for pickup",
+    "readyHint": "You are welcome at: {address}.",
+    "readyHintNoAddress": "You are welcome at the workshop.",
+    "waiting": "The workshop is waiting for your decision",
+    "waitingHint": "We sent a link with the work description and prices by SMS or e-mail. If you don't have it, call the workshop.",
+    "stepsLabel": "Repair stages",
+    "steps": {
+      "received": "Received",
+      "in_progress": "In repair",
+      "ready": "Ready for pickup",
+      "closed": "Picked up"
+    },
+    "stepHints": {
+      "received": "The vehicle is waiting for work to start.",
+      "in_progress": "Work on the vehicle is in progress.",
+      "ready": "The repair is done – you are welcome to pick it up.",
+      "closed": "The repair is complete. Thank you!"
+    },
+    "current": "now",
+    "progress": "Progress: {done} of {total}",
+    "promised": "Planned pickup: {date}",
+    "contact": "Contact the workshop",
+    "call": "Call: {phone}",
+    "write": "Send an e-mail",
+    "updated": "As of {date}",
+    "privacy": "This link only works for this repair. We don't show prices or your data.",
+    "refresh": "Refresh",
+    "invalidTitle": "We can't show the repair status",
+    "invalid": "The link is invalid or has expired. Please contact the workshop.",
+    "notifications": {
+      "title": "Notifications",
+      "description": "Decide how the workshop keeps you informed about this and future repairs.",
+      "push": "Notifications on this phone",
+      "pushHint": "Instead of an SMS you get a notification from the workshop – instantly and free of charge.",
+      "pushOn": "On for this phone",
+      "pushEnable": "Turn on notifications",
+      "pushDisable": "Turn off",
+      "pushEnabled": "Notifications turned on",
+      "pushFailed": "Could not turn on notifications.",
+      "iosInstall": "On iPhone: tap “Share”, then “Add to Home Screen”. Open the repair status from the new icon and turn on notifications.",
+      "denied": "Notifications are blocked in the browser or phone settings.",
+      "unsupported": "This browser does not support notifications – SMS and e-mails remain.",
+      "sms": "SMS messages to {to}",
+      "smsHint": "Vehicle received and ready for pickup.",
+      "email": "E-mails to {to}",
+      "emailHint": "Confirmations and repair updates.",
+      "saved": "Notification settings saved"
+    },
+    "refreshFailed": "Could not refresh the status – showing the last known state."
   }
 }

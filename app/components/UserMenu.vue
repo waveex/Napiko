@@ -7,12 +7,15 @@ const { t } = useI18n()
 const { data: me } = await useMe()
 
 async function signOut() {
+  // Powiadomienia push na tym urządzeniu należą do wylogowanej osoby – wyłączamy je (wspólne telefony w warsztacie)
+  await disableTeamPushOnThisDevice()
   await authClient.signOut()
   reloadNuxtApp({ path: '/' })
 }
 
 const items = computed<DropdownMenuItem[][]>(() => [
   [{ type: 'label', label: me.value?.user.email ?? '' }],
+  [{ label: t('notifications.settings'), icon: 'i-lucide-bell-ring', to: '/app/notifications?tab=settings' }],
   [{ label: t('common.logout'), icon: 'i-lucide-log-out', onSelect: signOut }],
 ])
 </script>

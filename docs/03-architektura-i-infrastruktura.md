@@ -1,7 +1,7 @@
 # OXY – architektura i infrastruktura (fundament techniczny)
 
-**Faza:** 3 – projekt (fundament techniczny) · **Wersja:** 0.1 · **Data:** 26.09.2026
-**Powiązane:** [01-raport-analityczny.md](01-raport-analityczny.md), [02-decyzje-produktowe.md](02-decyzje-produktowe.md), [README](../README.md)
+**Faza:** 3 – projekt (fundament techniczny) · **Wersja:** 0.2 · **Data:** 29.09.2026
+**Powiązane:** [01-raport-analityczny.md](01-raport-analityczny.md), [02-decyzje-produktowe.md](02-decyzje-produktowe.md), [07-powiadomienia.md](07-powiadomienia.md), [README](../README.md)
 
 Dokument opisuje fundament, na którym powstaną moduły biznesowe: jak działa aplikacja, jakie decyzje podjęto i dlaczego, co jest zabezpieczone, jak wdrożyć ją na Netlify i czego brakuje przed pilotażem.
 
@@ -17,6 +17,7 @@ Dokument opisuje fundament, na którym powstaną moduły biznesowe: jak działa 
 | Logowanie i organizacje | Better Auth | E-mail + hasło, weryfikacja e-maila, reset hasła, organizacje, role, zaproszenia, limit prób |
 | Pliki (zdjęcia, wideo, dokumenty) | Magazyn zgodny z S3 | Lokalnie MinIO, produkcyjnie np. OVHcloud Object Storage w UE |
 | E-mail | SMTP | Lokalnie Mailpit, produkcyjnie dostawca z serwerami w UE |
+| Powiadomienia push | Web Push (biblioteka `web-push`, klucze VAPID), service worker w PWA | Zespół i klienci; bez własnego dostawcy, wiadomość przechodzi przez usługę push przeglądarki. iPhone tylko w aplikacji dodanej do ekranu początkowego |
 | Zadania w tle | Kolejka w bazie (outbox) + funkcja cykliczna Netlify | Działa bez długo żyjących procesów |
 | CI | GitHub Actions | Lint, typy, testy na PostgreSQL, build dla Netlify |
 | Aplikacje mobilne | Capacitor (następny etap) | Ta sama baza kodu co panel web |
@@ -29,8 +30,9 @@ Netlify CDN ──► funkcja serwera Nuxta (API + renderowanie stron)
                   │  withTenant(): set_config(app.user_id, app.org_id)
                   ├──► PostgreSQL (RLS wymuszone dla danych warsztatów)
                   ├──► S3: tylko podpisywanie adresów (pliki idą z przeglądarki prosto do magazynu)
-                  └──► kolejka zadań ──► SMTP (e-maile), SMS (SMSAPI), usuwanie plików; w przyszłości KSeF
+                  └──► kolejka zadań ──► SMTP (e-maile), SMS (SMSAPI), Web Push (usługa push przeglądarki), usuwanie plików; w przyszłości KSeF
 Netlify: funkcja cykliczna co 5 min ──► /api/internal/jobs/run (zaległe zadania, ponowienia)
+Netlify: funkcja cykliczna raz na dobę ──► /api/internal/housekeeping (sprzątanie powiadomień i zadań)
 ```
 
 ---
@@ -107,6 +109,7 @@ Netlify: funkcja cykliczna co 5 min ──► /api/internal/jobs/run (zaległe z
   - cyklicznie co 5 min przez funkcję Netlify (`netlify/functions/jobs-cron.mts`), która obsługuje ponowienia i zaległości.
 - **Błędy:** wykładnicze ponowienia (30 s … 1 h), limit prób, porzucone zadania wracają do kolejki po 5 min.
 - Po udanym wykonaniu **treść zadania jest czyszczona** (adres e-mail, link z tokenem) – minimalizacja danych.
+- **Powiadomienia (29.09.2026):** ta sama kolejka wysyła push (`push.send`), wiadomości do klientów (`customer-notification.send`: push z SMS-em jako zapasem, SMS, e-mail) i sprawdza wygaśnięcie linków (`approval.expiry-check`). Po żądaniu przetwarzanie ma krótszy limit (2,5 s, na Netlify po odpowiedzi), a raz na dobę działa sprzątanie (`housekeeping-cron`). Szczegóły: [07-powiadomienia.md](07-powiadomienia.md).
 
 ### ADR-009. Wielojęzyczność od początku
 
@@ -125,8 +128,11 @@ Netlify: funkcja cykliczna co 5 min ──► /api/internal/jobs/run (zaległe z
 | `file_object` | Metadane plików w S3 | ✔ FORCE |
 | `audit_event` | Dziennik zdarzeń (łańcuch hashy) | ✔ FORCE |
 | `job` | Kolejka zadań | ✔ FORCE (członek może tylko dodać zadanie) |
+| `notification`, `notification_preference` | Powiadomienia zespołu (dzwonek) i wybór kanałów dla typu | ✔ FORCE (każdy widzi tylko swoje) |
+| `push_subscription`, `customer_push_subscription` | Urządzenia z włączonym push: członków zespołu (należą do osoby) i klientów („zarejestrowane telefony”) | ✔ FORCE |
+| `customer_notification`, `work_order_status_link` | Dziennik wiadomości do klienta; skrót tokenu strony statusu naprawy | ✔ FORCE |
 
-Tabele modułów warsztatu (klienci, pojazdy, zlecenia, praca mechanika, akceptacje, rozliczenia: `company_profile`, `service_price`, `estimate_item`) powstały według reguł z sekcji 8 – opisuje je dokument [04-moduly-warsztatu.md](04-moduly-warsztatu.md). Rejestr zgód dojdzie w etapie E6.
+Tabele modułów warsztatu (klienci, pojazdy, zlecenia, praca mechanika, akceptacje, rozliczenia: `company_profile`, `service_price`, `estimate_item`) powstały według reguł z sekcji 8 – opisuje je dokument [04-moduly-warsztatu.md](04-moduly-warsztatu.md). Rejestr zgód dojdzie w etapie E6. Tabele powiadomień opisuje [07-powiadomienia.md](07-powiadomienia.md).
 
 ---
 
@@ -143,7 +149,10 @@ Tabele modułów warsztatu (klienci, pojazdy, zlecenia, praca mechanika, akcepta
 - dziennik zdarzeń tylko do dopisywania;
 - czyszczenie treści wykonanych zadań;
 - sekrety wyłącznie w zmiennych środowiskowych;
-- endpoint kolejki chroniony kluczem (porównanie odporne na ataki czasowe).
+- endpointy kolejki i sprzątania chronione kluczem (porównanie odporne na ataki czasowe);
+- powiadomienia zespołu bez danych kontaktowych klienta, niezmienne po utworzeniu (wyzwalacz w bazie), odbiorca może tylko oznaczyć je jako przeczytane;
+- strona statusu naprawy: token liczony z sekretu serwera (HMAC, w bazie tylko skrót), wersje i unieważnianie linku, `noindex`, `no-referrer`, `no-store`, maskowanie telefonu i e-maila;
+- wiadomości do klienta z rezygnacją z SMS-ów i e-maili (`List-Unsubscribe` jednym kliknięciem), SMS w logach bez numeru i linku.
 
 **Do zrobienia przed pilotażem:**
 - Content-Security-Policy;
@@ -179,6 +188,7 @@ Tabele modułów warsztatu (klienci, pojazdy, zlecenia, praca mechanika, akcepta
    - `BETTER_AUTH_SECRET` – losowe, min. 32 znaki;
    - `INTERNAL_API_KEY` – losowy, min. 24 znaki;
    - `SMTP_URL`, `MAIL_FROM`;
+   - opcjonalnie powiadomienia push: `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` (parę kluczy wygeneruje `pnpm push:keys`; bez nich push jest wyłączony);
    - `S3_ENDPOINT`, `S3_REGION`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_FORCE_PATH_STYLE`;
    - opcjonalnie `BETTER_AUTH_URL` (przy własnej domenie) i `AUTH_TRUSTED_ORIGINS`.
 4. **Baza:**
@@ -200,7 +210,8 @@ Tabele modułów warsztatu (klienci, pojazdy, zlecenia, praca mechanika, akcepta
 8. **Weryfikacja:**
    - `/api/health` odpowiada;
    - rejestracja przysyła e-mail;
-   - w zakładce *Functions* widać przebiegi `jobs-cron` co 5 min.
+   - w zakładce *Functions* widać przebiegi `jobs-cron` co 5 min i `housekeeping-cron` raz na dobę;
+   - po ustawieniu kluczy VAPID: w ustawieniach powiadomień przycisk „Włącz” działa, a powiadomienie próbne dochodzi na telefon.
 
 ---
 
@@ -212,9 +223,10 @@ Tabele modułów warsztatu (klienci, pojazdy, zlecenia, praca mechanika, akcepta
   - logowanie w aplikacji mobilnej przez tokeny (plugin `bearer` Better Auth);
   - zaufane originy aplikacji w `AUTH_TRUSTED_ORIGINS`.
 - **Tryb offline mechanika:** synchronizacja (np. PowerSync) w v1.1.
-- **Aktualizacje na żywo:** odświeżanie cykliczne, później usługa zewnętrzna.
+- **Aktualizacje na żywo:** odświeżanie cykliczne (dzwonek co 30 s i po pushu), później usługa zewnętrzna.
+- **Powiadomienia push:** działają w przeglądarce i w aplikacji zainstalowanej z przeglądarki (PWA). Natywny push w aplikacjach ze sklepów dojdzie razem z Capacitorem (E10.4).
 - **SMS:** zadanie `sms.send` wysyła przez SMSAPI.pl (`SMS_PROVIDER=smsapi`) albo tylko zapisuje w logach (`log`, domyślnie). Brakuje testu na prawdziwym koncie i rejestru zgód (konto klienta).
-- **Moduły biznesowe:** etapy 1–3 gotowe – zob. [04-moduly-warsztatu.md](04-moduly-warsztatu.md). Decyzje D1–D7 nadal czekają na zatwierdzenie.
+- **Moduły biznesowe:** etapy 1–5 gotowe (klienci, praca mechanika, akceptacje, rozliczenia, powiadomienia) – zob. [04-moduly-warsztatu.md](04-moduly-warsztatu.md) i [07-powiadomienia.md](07-powiadomienia.md). Decyzje D1–D7 zapadły 26.09.2026 ([02-decyzje-produktowe.md](02-decyzje-produktowe.md)).
 
 ---
 

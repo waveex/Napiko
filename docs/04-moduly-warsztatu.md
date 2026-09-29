@@ -1,11 +1,11 @@
-# OXY – moduły warsztatu (etapy 1–4)
+# OXY – moduły warsztatu (etapy 1–5)
 
-**Wersja:** 0.3 · **Data:** 26.09.2026
-**Powiązane:** [02-decyzje-produktowe.md](02-decyzje-produktowe.md), [03-architektura-i-infrastruktura.md](03-architektura-i-infrastruktura.md), [README](../README.md)
+**Wersja:** 0.4 · **Data:** 29.09.2026
+**Powiązane:** [02-decyzje-produktowe.md](02-decyzje-produktowe.md), [03-architektura-i-infrastruktura.md](03-architektura-i-infrastruktura.md), [07-powiadomienia.md](07-powiadomienia.md), [README](../README.md)
 
-Dokument opisuje, co działa w aplikacji po czterech etapach budowy, jak przebiega praca w warsztacie, jakie reguły pilnuje system i co trzeba jeszcze sprawdzić przed pilotażem.
+Dokument opisuje, co działa w aplikacji po pięciu etapach budowy, jak przebiega praca w warsztacie, jakie reguły pilnuje system i co trzeba jeszcze sprawdzić przed pilotażem.
 
-Decyzje D1–D7 zapadły 26.09.2026 (dokument 02). Etap 4 (rozliczenie zlecenia) powstał bez integracji zewnętrznych: faktury przez Fakturownię z wysyłką do KSeF, SMS-y z prawdziwej bramki i dane z CEPiK dojdą później – plan prac, dokument 05.
+Decyzje D1–D7 zapadły 26.09.2026 (dokument 02). Etap 4 (rozliczenie zlecenia) powstał bez integracji zewnętrznych: faktury przez Fakturownię z wysyłką do KSeF, SMS-y z prawdziwej bramki i dane z CEPiK dojdą później – plan prac, dokument 05. Etap 5 (powiadomienia dla zespołu i klienta, strona statusu naprawy, push) opisuje osobno dokument [07-powiadomienia.md](07-powiadomienia.md); tu jest tylko jego skrót.
 
 ---
 
@@ -48,6 +48,9 @@ Biuro: zamknięcie zlecenia ─► numer i data paragonu z kasy fiskalnej
 | 4 | Kosztorys | Pozycje: robocizna, części, inne – z cennika albo wpisane ręcznie (ilość, jednostka, cena netto, rabat, VAT). Wartość pozycji i sumy netto / VAT / brutto, zestawienie według stawek VAT. Zatwierdzone wyceny zgłoszeń trafiają do kosztorysu same (robocizna i części osobno) |
 | 4 | Akceptacja kosztorysu | Ten sam link co przy pracach dodatkowych. Klient widzi dane warsztatu, pozycje, sumy i stopkę; akceptuje całość z wyraźną zgodą na kwotę albo odrzuca z uwagą. Po zmianie kosztorysu biuro widzi, że zaakceptowana wersja jest nieaktualna |
 | 4 | Zamknięcie zlecenia | Okno zamknięcia z numerem i datą paragonu z kasy fiskalnej (decyzja D4a). Paragon można uzupełnić albo poprawić także w zamkniętym zleceniu. Karta „Rozliczenie” z kwotą kosztorysu i paragonem |
+| 5 | Powiadomienia zespołu | Dzwonek w panelu (komputer i telefon): lista, licznik, przejście do zlecenia. Nowe zadanie, zadania do wzięcia, zgłoszenie potrzeby, decyzja, część zamówiona i dostarczona, odpowiedź klienta, wygaśnięcie linku, wszystkie zadania zakończone. Każda osoba wybiera kanały (dzwonek, e-mail, push) osobno dla każdego typu. Push w przeglądarce i w aplikacji zainstalowanej na telefonie (PWA) |
+| 5 | Wiadomości do klienta | Przy przyjęciu pojazdu i gotowości do odbioru (decyzja D5): SMS albo push i e-mail. Pole „Powiadom klienta” jest zaznaczone od razu, biuro może je odznaczyć; ustawienia warsztatu wybierają zdarzenia i kanały. Dziennik wiadomości i ponowna wysyłka w zleceniu; rezygnacja klienta z SMS-ów i e-maili |
+| 5 | Status naprawy | Strona bez logowania: etap naprawy, postęp prac, termin odbioru, kontakt do warsztatu; bez cen i danych klienta. Klient włącza na niej powiadomienia w telefonie (push zamiast SMS-a) albo rezygnuje z wiadomości. Biuro widzi liczbę otwarć i może unieważnić link |
 
 ## 3. Role i uprawnienia
 
@@ -63,6 +66,9 @@ Biuro: zamknięcie zlecenia ─► numer i data paragonu z kasy fiskalnej
 | Ceny, wycena, decyzje, prośby o akceptację | ✓ | ✓ | – |
 | Rozliczenia: stawka roboczogodziny, cennik, kosztorys, paragon (uprawnienie `billing`) | ✓ | ✓ | – |
 | Dane firmy – odczyt / zmiana | ✓ / ✓ | ✓ / ✓ | ✓ (bez stawki) / – |
+| Wiadomości do klienta: wysyłka, dziennik, link do statusu (uprawnienie `customerNotification`) | ✓ | ✓ | – |
+| Automatyczne powiadomienia klienta w ustawieniach warsztatu (uprawnienie `settings`) – zmiana | ✓ | ✓ | – |
+| Własne powiadomienia, kanały i push na własnym urządzeniu | ✓ | ✓ | ✓ |
 
 Mechanik widzi nazwisko klienta i pojazd, ale nie widzi danych kontaktowych klienta, cen, kosztorysu, paragonu ani notatek biura (minimalizacja danych).
 
@@ -77,13 +83,16 @@ Mechanik widzi nazwisko klienta i pojazd, ale nie widzi danych kontaktowych klie
 - **Kosztorys:** pozycja z wyceny zgłoszenia musi należeć do tego samego zlecenia (wyzwalacz), a ta sama wycena trafia do kosztorysu tylko raz (unikalny indeks). Ilość > 0, cena ≥ 0, rabat i VAT 0–100% (ograniczenia w bazie). W zamkniętym zleceniu kosztorysu nie da się zmienić.
 - **Jeden kosztorys naraz czeka na klienta** – kolejną wersję wyśle się po odpowiedzi, wycofaniu albo wygaśnięciu linku.
 - **Zlecenie wraca do realizacji**, gdy nic już nie czeka na klienta: po odpowiedzi albo po wycofaniu prośby.
+- **Powiadomienia zespołu** powstają w tej samej transakcji co zmiana danych, więc nie zginą po błędzie. Nikt nie dostaje powiadomienia o własnym działaniu. Zawierają tylko teksty i liczby, bez danych kontaktowych klienta; treści nie da się zmienić, odbiorca może je tylko oznaczyć jako przeczytane.
+- **Wiadomości do klienta** wychodzą automatycznie raz na zlecenie i zdarzenie; ponowna wysyłka wymaga decyzji biura. Rezygnacja klienta z SMS-ów albo e-maili zatrzymuje wiadomości automatyczne, ale nie prośby o akceptację, które biuro wysyła świadomie.
 - **Dziennik zdarzeń** (łańcuch skrótów, bez możliwości zmian) obejmuje:
   - zmiany statusów,
   - przydziały,
   - zgłoszenia, wyceny i decyzje,
   - zdjęcia,
   - wysłanie, otwarcie, odpowiedź i wycofanie prośby o akceptację (prace dodatkowe i kosztorys),
-  - dane firmy, cennik, pozycje kosztorysu i zapis paragonu.
+  - dane firmy, cennik, pozycje kosztorysu i zapis paragonu,
+  - wysłanie wiadomości do klienta, zmianę ustawień powiadomień klienta, unieważnienie linku statusu i wyłączenie telefonu klienta.
 
   Wpisy nie powielają danych kontaktowych klienta.
 
@@ -117,6 +126,7 @@ Poniższe punkty to założenia techniczne – wymagają potwierdzenia.
 6. **Wizerunek i tablice rejestracyjne na zdjęciach:** zasady dla zdjęć pokazywanych klientowi.
 7. **Akceptacja kosztorysu przez link** jako uzgodnienie wynagrodzenia kosztorysowego (art. 630 KC): czy treść zgody i zapis wersji kosztorysu wystarczą, także gdy warsztat później rozszerza zakres (wtedy prosi o zgodę na prace dodatkowe).
 8. **Paragon:** OXY zapisuje tylko numer i datę paragonu z kasy warsztatu – obowiązki fiskalne zostają po stronie warsztatu. Do potwierdzenia z doradcą podatkowym, zanim dojdą faktury (KSeF).
+9. **Powiadomienia i strona statusu naprawy** (etap 5): wiadomości transakcyjne z możliwością rezygnacji, push w telefonie klienta, zakres danych na stronie bez logowania i okres ważności linku – zob. [07-powiadomienia.md](07-powiadomienia.md), punkt 7.
 
 ## 7. Ograniczenia i następne kroki
 
@@ -128,18 +138,19 @@ Poniższe punkty to założenia techniczne – wymagają potwierdzenia.
   - dokumentów PDF (kosztorys, protokół);
   - konta klienta (hub z historią pojazdu);
   - magazynu i zamówień u hurtowni;
-  - powiadomień push;
   - eksportu dowodu zgody do PDF;
   - przeciągania kart na tablicy.
-- **Aplikacje mobilne (Capacitor):** ikony dynamiczne są już w paczce klienta; mechanizm logowania dla aplikacji mobilnej jest do zaprojektowania.
+- **Powiadomienia push** działają w przeglądarce i w aplikacji zainstalowanej z przeglądarki (PWA), ale wymagają kluczy VAPID (`pnpm push:keys`) – bez nich zespół ma dzwonek i e-mail, a klient SMS-a. Ograniczenia: [07-powiadomienia.md](07-powiadomienia.md), punkt 9.
+- **Aplikacje mobilne (Capacitor):** ikony dynamiczne są już w paczce klienta; mechanizm logowania dla aplikacji mobilnej jest do zaprojektowania. Natywny push w aplikacjach ze sklepów – razem z Capacitorem (E10.4).
 
 ## 8. Testy
 
 | Zestaw | Zakres | Wynik |
 | --- | --- | --- |
-| `pnpm test` (8 plików) | Baza: RLS i izolacja warsztatów, dziennik, kolejka, schemat, rdzeń warsztatu, praca mechanika, akceptacje, rozliczenia (rachunek w groszach, NIP, IBAN, reguły kosztorysu i cennika) | 91 / 91 |
+| `pnpm test` (13 plików) | Baza: RLS i izolacja warsztatów, dziennik, kolejka, schemat, rdzeń warsztatu, praca mechanika, akceptacje, rozliczenia (rachunek w groszach, NIP, IBAN, reguły kosztorysu i cennika), powiadomienia (rozsyłanie, wiadomości do klienta, push, strona statusu – dwa pliki) | 139 / 139 |
 | E2E etap 1 (API) | Klienci, pojazdy, zlecenia, zadania, polityki przydziału, uprawnienia ról, izolacja | 53 / 53 |
 | E2E etap 2 (API) | Licznik czasu, zgłoszenia, wycena, decyzje, części, zdjęcia, kolejka usuwania plików | 44 / 44 |
 | E2E etap 3 (API) | Wysyłka e-mail / SMS / link, strona klienta, podgląd warsztatu, zgoda, wygaśnięcie, wycofanie, dziennik | 44 / 44 |
 | E2E etap 4 (API) | Dane firmy, cennik, kosztorys, akceptacja kosztorysu, wyceny w kosztorysie, wycofanie, zamknięcie z paragonem, uprawnienia mechanika | 58 / 58 |
-| Przegląd w przeglądarce | Biuro (desktop i telefon), mechanik i klient (telefon 390 px), w tym kosztorys, cennik, akceptacja kosztorysu i zamknięcie – bez błędów w konsoli | ✓ |
+| E2E etap 5 (API) | Push z prawdziwym szyfrowaniem do atrapy usługi push, e-mail z `List-Unsubscribe`, SMS w logu bez numeru, strona statusu (etapy, maskowanie, wyświetlenia), push zamiast SMS-a, rezygnacja jednym kliknięciem, unieważnienie linku, uprawnienia | 64 / 64 |
+| Przegląd w przeglądarce | Biuro (desktop i telefon), mechanik i klient (telefon 390 px), w tym kosztorys, cennik, akceptacja kosztorysu i zamknięcie, a w etapie 5 dzwonek, ustawienia powiadomień, okno „Powiadom klienta” i strona statusu – bez błędów w konsoli | ✓ |

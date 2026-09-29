@@ -9,6 +9,7 @@ import { getEnv } from '../lib/env'
 import { createMailer, type Mailer } from '../lib/mailer'
 import { createStorage, type FileStorage } from '../lib/storage'
 import { createSmsSender, type SmsSender } from '../lib/sms'
+import { createPushSender, type PushSender } from '../lib/push'
 import { enqueueJob } from '../db/jobs'
 import { recordAudit } from '../db/audit'
 import { withSystem } from '../db/tenant'
@@ -20,6 +21,7 @@ let auth: Auth | undefined
 let mailer: Mailer | undefined
 let storage: FileStorage | undefined
 let sms: SmsSender | undefined
+let push: PushSender | undefined
 
 function resolveDatabaseUrl() {
   // Lokalnie i przy zewnętrznej bazie (np. Neon w UE): DATABASE_URL.
@@ -51,6 +53,12 @@ export function useFileStorage(): FileStorage {
 export function useSms(): SmsSender {
   sms ??= createSmsSender(getEnv())
   return sms
+}
+
+/** Web Push (klucze VAPID); bez kluczy `enabled: false` – powiadomienia idą innymi kanałami. */
+export function usePush(): PushSender {
+  push ??= createPushSender(getEnv())
+  return push
 }
 
 export function useAuth(): Auth {

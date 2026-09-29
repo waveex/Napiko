@@ -1,6 +1,6 @@
 # 05 — Plan prac OXY
 
-Stan na 26.09.2026. Żywa wersja ze statusami to artefakt **„Plan prac OXY”** (https://claude.ai/artifact/EcRpKhpcZeHpkwwfG4pcNN) — tam zmienia się statusy i tam są aktualne. Ten dokument to zrzut struktury planu: etapy, zadania, kto je robi i co od czego zależy.
+Stan na 29.09.2026. Żywa wersja ze statusami to artefakt **„Plan prac OXY”** (https://claude.ai/artifact/EcRpKhpcZeHpkwwfG4pcNN) — tam zmienia się statusy i tam są aktualne. Ten dokument to zrzut struktury planu: etapy, zadania, kto je robi i co od czego zależy.
 
 Właściciel: **Claude** (budowa aplikacji), **Michał**, **prawnik**, **warsztaty** (pilotaż). Rozmiar: S — do dnia pracy, M — kilka dni, L — tydzień lub więcej. „Po:” — zadania, które muszą być skończone wcześniej.
 
@@ -8,7 +8,7 @@ Właściciel: **Claude** (budowa aplikacji), **Michał**, **prawnik**, **warszta
 
 | Wydanie | Etapy | Zadania | Zrobione |
 |---|---|---|---|
-| v1.0 — pilotaż w 3–5 warsztatach | E0, E1, E2, E3, D, E4, K, E5, E6, E7, E8, E9 | 64 | 19 |
+| v1.0 — pilotaż w 3–5 warsztatach | E0, E1, E2, E3, D, E4, K, E5, E6, E7, E8, E9 | 64 | 22 |
 | v1.1 — start komercyjny | E10 | 9 | 0 |
 | v2 — rozwój | E11 | 4 | 0 |
 
@@ -27,7 +27,7 @@ Rzeczy po Twojej stronie – bez nich nie ruszy pilotaż. Można je robić równ
 
 - **D.1 Zatwierdź decyzje D1–D7 albo wskaż zmiany** (Michał · S · zrobione). Decyzje zapisane w dokumencie 02 (26.09.2026). D1 szerzej niż rekomendacja: auta, maszyny rolnicze i budowlane, podnośniki i wózki widłowe już w v1.0, z katalogiem pojazdów i schematami – nowy etap K. D2–D7 zgodnie z rekomendacjami.
 - **D.2 Rozmowy z 5–8 warsztatami z Podlasia** (Michał · S). Pokaż działającą aplikację (przyjęcie, akceptacja klienta, widok mechanika). Zapytaj o cenę, program do faktur, kasę fiskalną i SMS-y. Scenariusz rozmowy przygotuje Claude.
-- **D.3 Konsultacja prawna przed pilotażem** (prawnik · M). Pytania z dokumentów 02 (pkt 3) i 04 (pkt 6): forma dokumentowa akceptacji, treść zgody, umowa na odległość, role RODO, okresy przechowywania, SMS-y a zgody (PKE). Doszły: odczyt kodu Aztec z dowodu rejestracyjnego (K.5), prawa do dokumentacji wgrywanej przez warsztaty (K.8), przypomnienia o terminach UDT a zgody (K.6).
+- **D.3 Konsultacja prawna przed pilotażem** (prawnik · M). Pytania z dokumentów 02 (pkt 3), 04 (pkt 6) i 07 (pkt 7): forma dokumentowa akceptacji, treść zgody, umowa na odległość, role RODO, okresy przechowywania, SMS-y a zgody (PKE), push w telefonie klienta, strona statusu bez logowania. Doszły: odczyt kodu Aztec z dowodu rejestracyjnego (K.5), prawa do dokumentacji wgrywanej przez warsztaty (K.8), przypomnienia o terminach UDT a zgody (K.6).
 - **D.4 Regulamin, polityka prywatności, umowa powierzenia** (prawnik · M · po: D.3). Teksty prawne OXY: regulamin dla warsztatów, polityka prywatności, wzór umowy powierzenia danych (warsztat = administrator, OXY = podmiot przetwarzający).
 - **D.5 Znak „OXY” i forma prawna** (Michał · S). Sprawdzenie w bazach EUIPO i UPRP, czy nazwa nie koliduje z zarejestrowanymi znakami (D13). Forma prawna przed pierwszą umową z warsztatem.
 - **D.6 Konta usług zewnętrznych** (Michał · S · po: D.1). Netlify Pro (region UE), magazyn plików w UE (np. OVHcloud), poczta z serwerami w UE, SMSAPI (z nazwą nadawcy), konto testowe Fakturowni, domena. Claude przygotuje listę kroków do każdego konta.
@@ -67,7 +67,7 @@ Protokół z podpisem klienta, inspekcja ze zdjęciami, raport i status naprawy 
 - **E5.3 Dokumenty PDF** (Claude · M · po: E5.1, E4.1). Protokół przyjęcia, zlecenie naprawy, raport końcowy i dowód zgody klienta jako PDF z danymi warsztatu.
 - **E5.4 Inspekcja pojazdu z listą kontrolną** (Claude · L). Szablony dla typów pojazdów i maszyn, punkty zielone / żółte / czerwone ze zdjęciem; punkt żółty lub czerwony jednym kliknięciem staje się zgłoszeniem do wyceny.
 - **E5.5 Zdjęcia widoczne dla klienta** (Claude · S). Przełącznik przy każdym zdjęciu w galerii zlecenia – decyduje, co trafi do raportu dla klienta.
-- **E5.6 Status naprawy dla klienta** (Claude · M). Link do śledzenia naprawy (przyjęte → w realizacji → gotowe do odbioru) i powiadomienie „pojazd gotowy do odbioru”.
+- **E5.6 Status naprawy dla klienta** (Claude · M · zrobione). Strona bez logowania z linku w SMS-ie albo e-mailu: etap naprawy (przyjęty → w naprawie → gotowy do odbioru → odebrany), postęp prac, termin odbioru i kontakt do warsztatu, bez cen i danych klienta. Powiadomienie „pojazd gotowy do odbioru” przy zmianie statusu. Link można unieważnić, klient może włączyć powiadomienia w telefonie albo zrezygnować z wiadomości (dokument 07).
 - **E5.7 Raport końcowy dla klienta** (Claude · M · po: E4.3, E5.5). Wykonane prace, zdjęcia, stan licznika, zalecenia na kolejną wizytę (pozycje „może poczekać”), kwota i faktura PDF – z linku, bez instalowania aplikacji.
 - **E5.8 Notatki wewnętrzne** (Claude · S). Przy zleceniu, zadaniu i pojeździe: notatka wewnętrzna albo widoczna dla klienta. Wewnętrzne nie trafiają do raportu ani do historii pojazdu przekazywanej nowemu właścicielowi (D6).
 
@@ -76,9 +76,9 @@ Protokół z podpisem klienta, inspekcja ze zdjęciami, raport i status naprawy 
 Rejestr zgód, SMS przy 3 zdarzeniach, powiadomienia w aplikacji dla zespołu.
 
 - **E6.1 Rejestr zgód klienta** (Claude · M · po: D.3). Zgody osobno dla SMS i e-maila (art. 398 PKE): data, źródło, treść, wycofanie jednym kliknięciem z wiadomości. Wiadomości transakcyjne oddzielone od marketingu.
-- **E6.2 Powiadomienia dla klienta według zdarzeń** (Claude · M · po: E6.1, E5.6). Przyjęcie pojazdu, prośba o akceptację (jest), gotowy do odbioru, raport końcowy. SMS tylko przy 3 zdarzeniach (D5), reszta e-mailem.
+- **E6.2 Powiadomienia dla klienta według zdarzeń** (Claude · M · częściowo · po: E6.1, E5.6). Przyjęcie pojazdu, prośba o akceptację (jest), gotowy do odbioru, raport końcowy. SMS tylko przy 3 zdarzeniach (D5), reszta e-mailem. Zrobione (29.09.2026): przyjęcie i gotowość do odbioru – SMS albo push (push zamiast SMS-a, gdy klient włączył powiadomienia w telefonie) i e-mail, pole „Powiadom klienta” przy zleceniu, ustawienia warsztatu, dziennik wiadomości, rezygnacja klienta. Brakuje: raportu końcowego (E5.7) i rejestru zgód (E6.1).
 - **E6.3 SMSAPI na produkcji** (Claude · M · wstrzymane · po: D.6). Później – integracja zewnętrzna. Test na prawdziwym koncie, nazwa nadawcy warsztatu, raporty doręczenia, licznik SMS-ów warsztatu (pod pakiety w abonamencie).
-- **E6.4 Powiadomienia w aplikacji dla zespołu** (Claude · M). Dzwonek z listą: nowa potrzeba od mechanika, odpowiedź klienta, przydzielone zadanie, część dostarczona.
+- **E6.4 Powiadomienia w aplikacji dla zespołu** (Claude · M · zrobione). Dzwonek z listą (komputer i telefon), strona „Powiadomienia” i ustawienia kanałów osobno dla każdego typu: nowa potrzeba od mechanika, odpowiedź klienta, przydzielone zadanie, część dostarczona, wszystkie zadania zakończone, wygaśnięcie linku.
 
 ### E7 · RODO i bezpieczeństwo
 
@@ -95,11 +95,11 @@ Prawa klienta, retencja danych, dokumenty prawne, zarządzanie zespołem, przegl
 
 Aplikacja instalowana z przeglądarki, zdjęcia bez zasięgu, praca w kilku warsztatach.
 
-- **E8.1 Aplikacja instalowana z przeglądarki (PWA)** (Claude · S). Ikona na ekranie telefonu, start od razu w „Moich zadaniach”, pełny ekran.
+- **E8.1 Aplikacja instalowana z przeglądarki (PWA)** (Claude · S · częściowo). Ikona na ekranie telefonu, start od razu w „Moich zadaniach”, pełny ekran. Zrobione (29.09.2026): manifest (tryb standalone, ikony, skróty „Moje zadania” i „Powiadomienia”), service worker, instalacja z przeglądarki. Brakuje: startu od razu w „Moich zadaniach” i sprawdzenia na prawdziwych telefonach.
 - **E8.2 Zdjęcia bez zasięgu** (Claude · M · po: E8.1). Zdjęcia i filmy zrobione bez internetu czekają w telefonie i wysyłają się same, gdy wróci zasięg.
 - **E8.3 Limity wideo** (Claude · M · po: D.1). Nagrania do 60 s w 720p (D7): nagrywanie w aplikacji z tymi ustawieniami, a dla filmów z galerii sprawdzenie długości przed wysyłką. Zdjęcia są już pomniejszane do ok. 1600 px.
 - **E8.4 Mechanik w kilku warsztatach** (Claude · M). Wspólny widok dnia z zadaniami ze wszystkich warsztatów, w których pracuje, bez przełączania organizacji.
-- **E8.5 Powiadomienia push** (Claude · M · po: E8.1, E6.4). Push w zainstalowanej aplikacji: nowe zadanie dla mechanika, odpowiedź klienta dla biura.
+- **E8.5 Powiadomienia push** (Claude · M · zrobione · po: E8.1, E6.4). Push w zainstalowanej aplikacji: nowe zadanie dla mechanika, odpowiedź klienta dla biura. Działa w przeglądarce i w PWA (Web Push, klucze VAPID z `pnpm push:keys`), każda osoba wybiera kanały; na iPhonie tylko po dodaniu strony do ekranu początkowego (dokument 07).
 
 ### E9 · Wdrożenie i pilotaż
 

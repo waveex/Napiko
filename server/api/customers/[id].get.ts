@@ -1,8 +1,10 @@
 /**
- * Karta klienta: dane (kontakt tylko dla uprawnionych), pojazdy i ostatnie zlecenia.
+ * Karta klienta: dane (kontakt tylko dla uprawnionych), zgody na wiadomości o naprawie, telefony z włączonymi
+ * powiadomieniami, pojazdy i ostatnie zlecenia.
  */
 import { and, desc, eq, isNull } from 'drizzle-orm'
 import { withTenant } from '../../db/tenant'
+import { loadCustomerPushDevices } from '../../db/customer-notifications'
 import { customer, vehicle, workOrder } from '../../db/schema'
 
 export default defineEventHandler(async (event) => {
@@ -30,6 +32,7 @@ export default defineEventHandler(async (event) => {
       .limit(50)
     return {
       ...maskCustomer(row, contact),
+      pushDevices: contact ? await loadCustomerPushDevices(tx, id, row.phone) : [],
       vehicles,
       workOrders: orders,
       can: {

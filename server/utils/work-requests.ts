@@ -4,11 +4,12 @@
  *  - zatwierdzona praca dodatkowa staje się nowym zadaniem, przydzielonym mechanikowi, który ją zgłosił,
  *  - zadanie wstrzymane w oczekiwaniu na decyzję wraca do mechanika,
  *  - zatwierdzona wycena trafia do kosztorysu zlecenia (robocizna i części osobno),
- *  - wpis w dzienniku zdarzeń.
+ *  - wpis w dzienniku zdarzeń i powiadomienie dla mechanika, który zgłosił potrzebę.
  */
 import { and, eq, isNull, sql } from 'drizzle-orm'
 import type { Tx } from '../db/client'
 import { recordAudit } from '../db/audit'
+import { notifyWorkRequestDecided } from '../db/notifications'
 import { member, task, taskAssignment, workRequest } from '../db/schema'
 import type { WorkRequestKind } from '../../shared/workshop'
 import type { Actor, OrderRef, RequestMeta } from './task-status'
@@ -113,5 +114,13 @@ export async function decideWorkRequest(
     }
   }
 
+  await notifyWorkRequestDecided(tx, {
+    orgId: actor.orgId,
+    actorUserId: actor.userId,
+    request,
+    decision,
+    via: options.via,
+    createdTaskId,
+  })
   return { createdTaskId }
 }

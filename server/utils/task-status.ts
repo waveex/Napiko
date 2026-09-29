@@ -4,11 +4,13 @@
  *  - daty rozpoczęcia i zakończenia zadania,
  *  - zatrzymanie liczników czasu, gdy zadanie przestaje być „w trakcie”,
  *  - automatyczne przejście przyjętego zlecenia do realizacji,
- *  - wpisy w dzienniku zdarzeń.
+ *  - wpisy w dzienniku zdarzeń,
+ *  - powiadomienie biura, gdy zakończono ostatnie zadanie zlecenia (można wydać pojazd).
  */
 import { and, eq, isNull, sql } from 'drizzle-orm'
 import type { Tx } from '../db/client'
 import { recordAudit } from '../db/audit'
+import { notifyIfAllTasksDone } from '../db/notifications'
 import { task, timeEntry, workOrder } from '../db/schema'
 import type { TaskStatus, WorkOrderStatus } from '../../shared/workshop'
 
@@ -81,6 +83,10 @@ export async function applyTaskStatus(
       ...meta,
     })
     order.status = 'in_progress'
+  }
+
+  if (next === 'done') {
+    await notifyIfAllTasksDone(tx, { orgId: ctx.orgId, actorUserId: ctx.userId, workOrderId: order.id })
   }
   return true
 }

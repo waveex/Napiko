@@ -9,6 +9,7 @@
 import { sql } from 'drizzle-orm'
 import { bigint, bigserial, index, integer, jsonb, pgTable, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core'
 import { organization, user } from './auth'
+import { DEFAULT_CUSTOMER_NOTIFICATION_SETTINGS, type CustomerNotificationSettings } from '../../../shared/notifications'
 
 const timestamps = {
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
@@ -28,6 +29,9 @@ export const organizationSettings = pgTable('organization_settings', {
   timezone: text('timezone').notNull().default('Europe/Warsaw'),
   locale: text('locale').notNull().default('pl'),
   logoFileId: uuid('logo_file_id'),
+  /** Powiadomienia klienta: które zdarzenia proponować automatycznie i którymi kanałami (migracja 20260929080000_notifications). */
+  customerNotifications: jsonb('customer_notifications').$type<CustomerNotificationSettings>().notNull()
+    .default(DEFAULT_CUSTOMER_NOTIFICATION_SETTINGS),
   ...timestamps,
 })
 

@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
   const meta = requestMeta(event)
 
   try {
-    return await withTenant(useDb(), ctx, async (tx) => {
+    const result = await withTenant(useDb(), ctx, async (tx) => {
       const { task: current, order } = await loadTaskWithOrder(tx, id)
       assertOrderOpen(order.status)
       if (!can(ctx, { task: ['update'] }) && !(await isAssignedToTask(tx, current.id, current.parentId, ctx.userId))) {
@@ -60,6 +60,9 @@ export default defineEventHandler(async (event) => {
 
       return { taskId: id, status: current.status, orderStatus: order.status }
     })
+    // Zakończenie ostatniego zadania powiadamia biuro
+    if (action === 'finish') await deliverNotifications(event)
+    return result
   }
   catch (error) {
     // Dwa równoległe „start” tej samej osoby – drugi trafia na unikalny indeks liczników

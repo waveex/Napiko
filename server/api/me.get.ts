@@ -41,6 +41,7 @@ export default defineEventHandler(async (event) => {
           quoteRequests: hasPermission(row.role, { workRequest: ['quote'] }),
           readBilling: hasPermission(row.role, { billing: ['read'] }),
           updateBilling: hasPermission(row.role, { billing: ['update'] }),
+          notifyCustomers: hasPermission(row.role, { customerNotification: ['send'] }),
         },
       }
     }

@@ -24,8 +24,9 @@ export default defineAppConfig({
     navigationMenu: { slots: { link: 'min-h-12 rounded-xl text-base gap-3', list: 'gap-2' } },
     table: { slots: { th: 'text-sm py-4', td: 'text-base py-4 whitespace-normal' } },
     dashboardPanel: { slots: { root: 'min-h-0 h-full', body: 'oxy-panel-body' } },
-    dashboardNavbar: { slots: { root: 'h-auto min-h-20 flex-wrap gap-2 py-3 lg:px-8 bg-default', title: 'text-xl font-bold whitespace-normal', toggle: 'hidden' } },
+    // max-lg:pe-16 – miejsce na dzwonek powiadomień w prawym górnym rogu na telefonie (layout dashboard)
+    dashboardNavbar: { slots: { root: 'h-auto min-h-20 flex-wrap gap-2 py-3 max-lg:pe-16 lg:px-8 bg-default', title: 'text-xl font-bold whitespace-normal', toggle: 'hidden' } },
     dashboardToolbar: { slots: { root: 'flex-wrap gap-2 py-3 lg:px-8 bg-default' } },
-    modal: { slots: { content: 'oxy-dialog', overlay: 'oxy-dialog-overlay', header: 'pe-20 shrink-0', title: 'text-xl', description: 'text-base', body: 'min-h-0', close: 'top-3 end-3', footer: 'flex-wrap gap-2 shrink-0' } },
+    modal: { slots: { content: 'oxy-dialog', overlay: 'oxy-dialog-overlay', header: 'pe-20 sm:pe-20 shrink-0', title: 'text-xl', description: 'text-base', body: 'min-h-0', close: 'top-3 end-3', footer: 'flex-wrap gap-2 shrink-0' } },
   },
 })

@@ -5,10 +5,12 @@
  *    pracy dodatkowej tworzy nowe zadanie w zleceniu,
  *  - status: zamówione / gotowe / anulowane.
  * Zadanie wstrzymane w oczekiwaniu na część lub decyzję wraca do mechanika jako „wstrzymane”.
+ * Mechanik, który zgłosił potrzebę, dostaje powiadomienie o decyzji, zamówieniu i dostawie części.
  */
 import { eq, sql } from 'drizzle-orm'
 import { withTenant } from '../../db/tenant'
 import { recordAudit } from '../../db/audit'
+import { notifyPartStatus } from '../../db/notifications'
 import { workOrder, workRequest } from '../../db/schema'
 import { workRequestActionSchema } from '../../../shared/schemas'
 import { grossCents, type WorkRequestStatus } from '../../../shared/workshop'
@@ -29,7 +31,7 @@ export default defineEventHandler(async (event) => {
   const input = await readValidatedBody(event, body => workRequestActionSchema.parse(body))
   const meta = requestMeta(event)
 
-  return withTenant(useDb(), ctx, async (tx) => {
+  const updated = await withTenant(useDb(), ctx, async (tx) => {
     const [request] = await tx.select().from(workRequest).where(eq(workRequest.id, id)).limit(1)
     if (!request) throw notFound('Nie znaleziono zgłoszenia.')
     const [order] = await tx.select({ id: workOrder.id, number: workOrder.number, status: workOrder.status })
@@ -92,9 +94,20 @@ export default defineEventHandler(async (event) => {
       await tx.update(workRequest).set({ status: input.status }).where(eq(workRequest.id, id))
       await audit('work_request.status_changed', { from: request.status, to: input.status })
       if (input.status === 'done' && request.kind === 'part') await releaseHeldTask('waiting_parts')
+      if (request.kind === 'part' && (input.status === 'ordered' || input.status === 'done')) {
+        await notifyPartStatus(tx, {
+          orgId: ctx.orgId,
+          actorUserId: ctx.userId,
+          request,
+          status: input.status === 'ordered' ? 'ordered' : 'delivered',
+        })
+      }
     }
 
-    const [updated] = await tx.select().from(workRequest).where(eq(workRequest.id, id)).limit(1)
-    return maskRequestPrices(updated!, can(ctx, { workRequest: ['quote'] }))
+    const [row] = await tx.select().from(workRequest).where(eq(workRequest.id, id)).limit(1)
+    return maskRequestPrices(row!, can(ctx, { workRequest: ['quote'] }))
   })
+
+  if (input.action !== 'quote') await deliverNotifications(event)
+  return updated
 })

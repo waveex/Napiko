@@ -8,6 +8,11 @@ const bool = z
   .enum(['true', 'false', '1', '0'])
   .transform(v => v === 'true' || v === '1')
 
+/** Zmienna opcjonalna: pusta wartość (np. `VAPID_PUBLIC_KEY=` w .env) oznacza brak ustawienia. */
+function optional<T extends z.ZodType>(schema: T) {
+  return z.preprocess(v => (typeof v === 'string' && v.trim() === '' ? undefined : typeof v === 'string' ? v.trim() : v), schema.optional())
+}
+
 const EnvSchema = z.object({
   NODE_ENV: z.string().default('development'),
 
@@ -46,6 +51,15 @@ const EnvSchema = z.object({
    */
   SMS_PROVIDER: z.enum(['log', 'smsapi']).default('log'),
   SMSAPI_TOKEN: z.string().min(10).optional(),
+
+  /**
+   * Powiadomienia push (Web Push): para kluczy VAPID z `pnpm push:keys`. Bez kluczy push jest wyłączony –
+   * zespół ma dzwonek w aplikacji i e-maile, a klient dostaje SMS-y. Zmiana kluczy unieważnia włączone powiadomienia.
+   */
+  VAPID_PUBLIC_KEY: optional(z.string().regex(/^[\w-]{80,100}$/, 'VAPID_PUBLIC_KEY: klucz publiczny z `pnpm push:keys` (base64url)')),
+  VAPID_PRIVATE_KEY: optional(z.string().regex(/^[\w-]{40,50}$/, 'VAPID_PRIVATE_KEY: klucz prywatny z `pnpm push:keys` (base64url)')),
+  /** Kontakt dla operatorów usług push (mailto: albo https://); domyślnie adres z MAIL_FROM. */
+  VAPID_SUBJECT: optional(z.string().regex(/^(mailto:|https:\/\/)\S+$/, 'VAPID_SUBJECT: mailto:adres@domena albo https://…')),
 })
 
 export type Env = z.infer<typeof EnvSchema> & { appUrl: string }

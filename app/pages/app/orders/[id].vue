@@ -53,7 +53,27 @@ function setOrderStatus(status: WorkOrderStatus) {
     closeOpen.value = true
     return
   }
+  // Gotowe do odbioru: pytanie, czy powiadomić klienta
+  if (status === 'ready' && order.value) {
+    readyOrder.value = { id: order.value.id, number: order.value.number }
+    return
+  }
   run(() => $fetch(`/api/work-orders/${id}`, { method: 'PATCH', body: { status } }), t('orders.statusChanged'))
+}
+
+// ── gotowe do odbioru i powiadomienia klienta ──
+const readyOrder = ref<{ id: string, number: string } | null>(null)
+const customerNotificationsKey = ref(0)
+const canNotifyCustomers = computed(() => !!me.value?.activeOrganization?.can.notifyCustomers)
+async function confirmReady(notifyCustomer: boolean | undefined) {
+  const saved = await run(
+    () => $fetch(`/api/work-orders/${id}`, { method: 'PATCH', body: { status: 'ready', notifyCustomer } }),
+    notifyCustomer ? t('customerNotifications.readyNotified') : t('orders.statusChanged'),
+  )
+  if (saved) {
+    readyOrder.value = null
+    customerNotificationsKey.value++
+  }
 }
 
 // ── zamknięcie i paragon ──
@@ -73,6 +93,11 @@ async function submitClose(data: { receiptNumber?: string | null, receiptIssuedO
 }
 function onEstimateUpdated(value: unknown) {
   order.value = value as Order
+}
+/** Prośba o akceptację (prace dodatkowe, kosztorys) trafia też do historii wiadomości klienta. */
+function onApprovalSent() {
+  refresh()
+  customerNotificationsKey.value++
 }
 
 const editingDescription = ref(false)
@@ -236,10 +261,12 @@ useHead({ title: () => order.value?.number ?? t('orders.title') })
           />
         </template>
         <template #trailing>
+          <!-- na telefonie status jest w karcie pod nagłówkiem – tu zostawiamy miejsce na numer zlecenia -->
           <StatusBadge
             v-if="order"
             kind="order"
             :status="order.status"
+            class="max-sm:hidden"
           />
         </template>
         <template #right>
@@ -528,7 +555,7 @@ useHead({ title: () => order.value?.number ?? t('orders.title') })
             :customer-email="order.customer.email"
             :customer-phone="order.customer.phone"
             @updated="onEstimateUpdated"
-            @refresh="refresh()"
+            @refresh="onApprovalSent"
           />
 
           <UPageCard
@@ -630,6 +657,13 @@ useHead({ title: () => order.value?.number ?? t('orders.title') })
             />
           </UPageCard>
 
+          <CustomerNotificationsCard
+            v-if="canNotifyCustomers"
+            :work-order-id="order.id"
+            :closed="closed"
+            :refresh-key="customerNotificationsKey"
+          />
+
           <UPageCard
             v-if="order.can.billing && order.estimate"
             :title="$t('settlement.title')"
@@ -711,7 +745,7 @@ useHead({ title: () => order.value?.number ?? t('orders.title') })
             :requests="quotedForApproval"
             :customer-email="order.customer.email"
             :customer-phone="order.customer.phone"
-            @sent="refresh()"
+            @sent="onApprovalSent"
             @close="approvalOpen = false"
           />
         </template>
@@ -736,6 +770,13 @@ useHead({ title: () => order.value?.number ?? t('orders.title') })
           />
         </template>
       </UModal>
+
+      <OrderReadyDialog
+        :order="readyOrder"
+        :loading="busy"
+        @confirm="confirmReady"
+        @cancel="readyOrder = null"
+      />
 
       <UModal
         v-model:open="reportOpen"

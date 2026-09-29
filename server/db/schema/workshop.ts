@@ -4,7 +4,7 @@
  * Klucze obce w bazie są złożone (org_id, id) – nie da się powiązać danych dwóch warsztatów.
  */
 import { relations } from 'drizzle-orm'
-import { date, index, integer, jsonb, pgTable, primaryKey, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core'
+import { boolean, date, index, integer, jsonb, pgTable, primaryKey, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core'
 import { organization, user } from './auth'
 import { CUSTOMER_KINDS, METER_UNITS, TASK_STATUSES, VEHICLE_TYPES, WORK_ORDER_STATUSES } from '../../../shared/workshop'
 
@@ -29,6 +29,9 @@ export const customer = pgTable('customer', {
   email: text('email'),
   phone: text('phone'),
   notes: text('notes'),
+  /** Wiadomości o naprawie (transakcyjne): klient może zrezygnować z SMS-ów albo e-maili. */
+  notifySms: boolean('notify_sms').notNull().default(true),
+  notifyEmail: boolean('notify_email').notNull().default(true),
   clientUserId: uuid('client_user_id').references(() => user.id, { onDelete: 'set null' }),
   createdBy: uuid('created_by').references(() => user.id, { onDelete: 'set null' }),
   ...timestamps,
