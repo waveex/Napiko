@@ -1,3 +1,17 @@
+const UNITS: [Intl.RelativeTimeFormatUnit, number][] = [
+  ['day', 86_400_000],
+  ['hour', 3_600_000],
+  ['minute', 60_000],
+]
+
+/** Czas względny w języku interfejsu: „2 godz. temu”, „za 3 dni”, „wczoraj”. */
+export function formatRelative(date: string | Date, now: number, locale: string) {
+  const diff = new Date(date).getTime() - now
+  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto', style: 'short' })
+  const [unit, ms] = UNITS.find(([, size]) => Math.abs(diff) >= size) ?? UNITS[UNITS.length - 1]!
+  return rtf.format(Math.round(diff / ms), unit)
+}
+
 /**
  * Czas względny do list (powiadomienia): „przed chwilą”, „5 min temu”, „wczoraj”, a starsze – data.
  * Intl.RelativeTimeFormat odmienia jednostki poprawnie w każdym języku (np. „2 godziny temu”, „5 godzin temu”).

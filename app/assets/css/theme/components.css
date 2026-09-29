@@ -9,6 +9,10 @@
   .oxy-brand { display: inline-flex; align-items: center; gap: .75rem; font-size: 1.5rem; font-weight: 800; letter-spacing: -.06em; }
   .oxy-brand-mark { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: .75rem; background: var(--oxy-brand-metal); color: white; }
   .oxy-surface { border: 1px solid var(--oxy-border); border-radius: var(--oxy-radius-card); background: var(--oxy-surface); box-shadow: var(--oxy-shadow); }
+  /* Modyfikatory po .oxy-surface – klasy narzędziowe (border-*, ring-*) nie nadpisują reguł spoza warstw. */
+  .oxy-surface-active { border-color: var(--oxy-action-base); box-shadow: 0 0 0 3px color-mix(in srgb, var(--oxy-action-base) 25%, transparent); }
+  .oxy-surface-link { transition: border-color var(--oxy-motion); }
+  .oxy-surface-link:hover { border-color: var(--oxy-action-base); }
   .oxy-intro { padding-block: .25rem .5rem; }
   .oxy-intro h2 { font-size: clamp(1.5rem, 2vw, 1.875rem); font-weight: 700; letter-spacing: -.035em; }
   .oxy-intro p { margin-top: .375rem; color: var(--oxy-text-muted); max-width: 65ch; }

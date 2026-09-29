@@ -24,6 +24,8 @@ export const statements = {
   workRequest: ['read', 'create', 'quote', 'decide'],
   /** Rozliczenia: dane firmy do dokumentów, cennik, kosztorysy, paragony. Mechanik ich nie widzi. */
   billing: ['read', 'update'],
+  /** Wyniki warsztatu na pulpicie: wartość zamkniętych zleceń, akceptacje prac dodatkowych, czas pracy zespołu. */
+  report: ['read'],
   /** Wiadomości do klienta (przyjęcie pojazdu, gotowy do odbioru) i link do statusu naprawy. */
   customerNotification: ['read', 'send'],
 } as const
@@ -42,13 +44,14 @@ const officeWorkshop = {
 export const ac = createAccessControl(statements)
 
 export const roles = {
-  /** Właściciel: pełne prawa, w tym usunięcie organizacji. */
+  /** Właściciel: pełne prawa, w tym usunięcie organizacji i wyniki warsztatu. */
   owner: ac.newRole({
     ...ownerAc.statements,
     ...officeWorkshop,
     settings: ['read', 'update'],
     file: ['upload', 'read'],
     audit: ['read'],
+    report: ['read'],
   }),
   /** Biuro: przyjmuje zlecenia, zarządza zespołem i ustawieniami, bez usuwania organizacji. */
   office: ac.newRole({

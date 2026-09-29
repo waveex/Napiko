@@ -52,6 +52,18 @@ Biuro: zamknięcie zlecenia ─► numer i data paragonu z kasy fiskalnej
 | 5 | Wiadomości do klienta | Przy przyjęciu pojazdu i gotowości do odbioru (decyzja D5): SMS albo push i e-mail. Pole „Powiadom klienta” jest zaznaczone od razu, biuro może je odznaczyć; ustawienia warsztatu wybierają zdarzenia i kanały. Dziennik wiadomości i ponowna wysyłka w zleceniu; rezygnacja klienta z SMS-ów i e-maili |
 | 5 | Status naprawy | Strona bez logowania: etap naprawy, postęp prac, termin odbioru, kontakt do warsztatu; bez cen i danych klienta. Klient włącza na niej powiadomienia w telefonie (push zamiast SMS-a) albo rezygnuje z wiadomości. Biuro widzi liczbę otwarć i może unieważnić link |
 
+### Pulpit według roli
+
+Pulpit (`/app`) pokazuje to, co w danej roli najważniejsze. Liczniki liczy serwer (`GET /api/dashboard`) na pełnych danych, w strefie czasowej warsztatu – nie z list obciętych do kilku pozycji. Sekcji, do której rola nie ma uprawnień, serwer nie liczy ani nie wysyła.
+
+| Rola | Co widać |
+| --- | --- |
+| Mechanik | Bieżące zadanie z licznikiem i przyciskami Pauza / Zakończ, zgłoszeniem potrzeby i zdjęciem – a gdy licznik stoi, następne zadanie ze Startem. Czas pracy dziś, zadania zrobione dziś, kolejka i zadania czekające na część lub decyzję klienta. Co dzieje się z potrzebami, które zgłosił. Zadania do wzięcia (polityka „sami biorą”) |
+| Biuro | „Wymaga uwagi” – od najpilniejszych: zlecenia po terminie odbioru, potrzeby do wyceny (z liczbą pilnych), odpowiedzi klientów z ostatnich 48 godzin, wygasłe linki, wyceny bez decyzji, części do zamówienia i zamówione, pojazdy gotowe do odbioru, zlecenia bez zadań albo z zadaniami bez wykonawcy, prośby czekające na klienta. „Warsztat dziś”: odbiory, przyjęte i zamknięte zlecenia, zlecenia według statusu, zespół teraz (kto przy czym pracuje, czas pracy dziś, kolejka). Lista kroków konfiguracji warsztatu (dane firmy, stawka roboczogodziny, cennik, zespół, pierwsze zlecenie) – znika po uzupełnieniu albo ukryciu |
+| Właściciel | To samo co biuro oraz „Wyniki miesiąca” od 1. dnia miesiąca ze zmianą wobec tego samego okresu poprzedniego miesiąca: wartość zamkniętych zleceń (z kosztorysów, brutto), liczba zamkniętych zleceń ze średnim czasem od przyjęcia i udziałem akceptacji przez link, zatwierdzone prace dodatkowe z odsetkiem akceptacji, czas pracy zespołu |
+
+Biuro i właściciel, którzy mają przydzielone zadania, widzą nad sprawami do załatwienia pasek „Twoja praca” z licznikiem i przyciskami Start / Pauza / Zakończ. Pulpit odświeża się co minutę i po powrocie do karty przeglądarki. Mechanik ma pulpit w dolnym menu na telefonie.
+
 ## 3. Role i uprawnienia
 
 | Uprawnienie | Właściciel | Biuro | Mechanik |
@@ -65,6 +77,7 @@ Biuro: zamknięcie zlecenia ─► numer i data paragonu z kasy fiskalnej
 | Zgłaszanie potrzeb, zdjęcia | ✓ | ✓ | ✓ |
 | Ceny, wycena, decyzje, prośby o akceptację | ✓ | ✓ | – |
 | Rozliczenia: stawka roboczogodziny, cennik, kosztorys, paragon (uprawnienie `billing`) | ✓ | ✓ | – |
+| Wyniki warsztatu na pulpicie (uprawnienie `report`) | ✓ | – | – |
 | Dane firmy – odczyt / zmiana | ✓ / ✓ | ✓ / ✓ | ✓ (bez stawki) / – |
 | Wiadomości do klienta: wysyłka, dziennik, link do statusu (uprawnienie `customerNotification`) | ✓ | ✓ | – |
 | Automatyczne powiadomienia klienta w ustawieniach warsztatu (uprawnienie `settings`) – zmiana | ✓ | ✓ | – |
@@ -147,10 +160,11 @@ Poniższe punkty to założenia techniczne – wymagają potwierdzenia.
 
 | Zestaw | Zakres | Wynik |
 | --- | --- | --- |
-| `pnpm test` (13 plików) | Baza: RLS i izolacja warsztatów, dziennik, kolejka, schemat, rdzeń warsztatu, praca mechanika, akceptacje, rozliczenia (rachunek w groszach, NIP, IBAN, reguły kosztorysu i cennika), powiadomienia (rozsyłanie, wiadomości do klienta, push, strona statusu – dwa pliki) | 139 / 139 |
+| `pnpm test` (14 plików) | Baza: RLS i izolacja warsztatów, dziennik, kolejka, schemat, rdzeń warsztatu, praca mechanika, akceptacje, rozliczenia (rachunek w groszach, NIP, IBAN, reguły kosztorysu i cennika), dane demo, pulpit (liczniki, granice dnia i miesiąca w strefie warsztatu, kwoty co do grosza, uprawnienie `report`, izolacja), powiadomienia (rozsyłanie, wiadomości do klienta, push, strona statusu – dwa pliki) | 153 / 153 |
 | E2E etap 1 (API) | Klienci, pojazdy, zlecenia, zadania, polityki przydziału, uprawnienia ról, izolacja | 53 / 53 |
 | E2E etap 2 (API) | Licznik czasu, zgłoszenia, wycena, decyzje, części, zdjęcia, kolejka usuwania plików | 44 / 44 |
 | E2E etap 3 (API) | Wysyłka e-mail / SMS / link, strona klienta, podgląd warsztatu, zgoda, wygaśnięcie, wycofanie, dziennik | 44 / 44 |
 | E2E etap 4 (API) | Dane firmy, cennik, kosztorys, akceptacja kosztorysu, wyceny w kosztorysie, wycofanie, zamknięcie z paragonem, uprawnienia mechanika | 58 / 58 |
 | E2E etap 5 (API) | Push z prawdziwym szyfrowaniem do atrapy usługi push, e-mail z `List-Unsubscribe`, SMS w logu bez numeru, strona statusu (etapy, maskowanie, wyświetlenia), push zamiast SMS-a, rezygnacja jednym kliknięciem, unieważnienie linku, uprawnienia | 64 / 64 |
 | Przegląd w przeglądarce | Biuro (desktop i telefon), mechanik i klient (telefon 390 px), w tym kosztorys, cennik, akceptacja kosztorysu i zamknięcie, a w etapie 5 dzwonek, ustawienia powiadomień, okno „Powiadom klienta” i strona statusu – bez błędów w konsoli | ✓ |
+| Przegląd pulpitu (29.09.2026) | Właściciel, biuro i dwóch mechaników na danych przykładowych: telefon 390 px i desktop 1440 px, jasny i ciemny motyw, pauza i wznowienie pracy z pulpitu, start z paska „Twoja praca”, ukrycie listy konfiguracji – bez błędów w konsoli i bez przewijania w poziomie | ✓ |

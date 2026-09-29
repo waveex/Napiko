@@ -1,5 +1,12 @@
 <script setup lang="ts">
-const { t } = useI18n()
+/**
+ * Pulpit – najważniejsze sprawy dla roli:
+ *  - mechanik: bieżące zadanie z licznikiem, kolejka, czas pracy dziś i zgłoszone potrzeby,
+ *  - biuro: sprawy wymagające reakcji, odbiory na dziś, tablica zleceń, zespół przy pracy,
+ *  - właściciel: to samo co biuro oraz wyniki miesiąca.
+ * Co widać, decydują uprawnienia – sekcje liczy serwer (server/api/dashboard.get.ts).
+ */
+const { t, locale } = useI18n()
 const { data: me } = await useMe()
 
 const org = computed(() => me.value?.activeOrganization ?? null)
@@ -28,98 +35,172 @@ const onboarding = computed(() => [
     description: t('dashboard.clientDescription'),
   },
 ])
+
+const { data, status, error, refresh } = await useDashboard({ immediate: !!org.value })
+
+const serverTime = computed(() => data.value?.serverTime)
+const now = useNow(serverTime)
+/** Sekundy od pobrania danych – liczniki czasu idą na żywo bez ciągłego odpytywania serwera. */
+const sinceFetch = computed(() => (serverTime.value ? Math.max(0, (now.value - new Date(serverTime.value).getTime()) / 1000) : 0))
+const reload = () => refresh()
+
+const office = computed(() => data.value?.office ?? null)
+/** Widok mechanika: praca przy zadaniach bez części biurowej. */
+const mechanicView = computed(() => !!data.value?.mine && !office.value)
+
+const hint = computed(() => {
+  if (mechanicView.value) return t('dashboard.hint.mechanic')
+  if (data.value?.report) return t('dashboard.hint.owner')
+  return t('dashboard.hint.office')
+})
+
+/** Dzisiejsza data w strefie czasowej warsztatu (tak samo na serwerze i w przeglądarce). */
+const today = computed(() => new Intl.DateTimeFormat(locale.value, {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+  timeZone: data.value?.timezone ?? 'Europe/Warsaw',
+}).format(now.value))
+const roles = computed(() => (org.value?.role ?? '').split(',').filter(Boolean).map(role => t(`roles.${role.trim()}`)).join(', '))
+
+// Konfiguracja warsztatu: lista kroków znika po uzupełnieniu albo po ukryciu (zapamiętane dla organizacji)
+const setupHidden = useCookie<boolean>(`oxy_setup_hidden_${org.value?.id ?? 'none'}`, {
+  default: () => false,
+  maxAge: 60 * 60 * 24 * 365,
+  sameSite: 'lax',
+})
+const setup = computed(() => {
+  const value = data.value?.setup
+  return value && value.completed < value.total && !setupHidden.value ? value : null
+})
+
+// Odświeżanie w tle i po powrocie do karty – mechanik mógł zakończyć zadanie, klient odpowiedzieć
+function refreshIfVisible() {
+  if (org.value && document.visibilityState === 'visible' && status.value !== 'pending') refresh()
+}
+let poll: ReturnType<typeof setInterval> | undefined
+onMounted(() => {
+  poll = setInterval(refreshIfVisible, 60_000)
+  document.addEventListener('visibilitychange', refreshIfVisible)
+})
+onBeforeUnmount(() => {
+  clearInterval(poll)
+  document.removeEventListener('visibilitychange', refreshIfVisible)
+})
 </script>
 
 <template>
   <UDashboardPanel id="dashboard">
     <template #header>
-      <UDashboardNavbar :title="$t('nav.dashboard')" />
+      <UDashboardNavbar :title="$t('nav.dashboard')">
+        <template #right>
+          <UButton
+            v-if="org"
+            icon="i-lucide-refresh-cw"
+            color="neutral"
+            variant="ghost"
+            :loading="status === 'pending'"
+            :aria-label="$t('ui.refresh')"
+            @click="refresh()"
+          />
+          <UButton
+            v-if="org?.can.createOrders"
+            to="/app/orders/new"
+            icon="i-lucide-plus"
+            :label="$t('orders.new')"
+          />
+        </template>
+      </UDashboardNavbar>
     </template>
 
     <template #body>
-      <div class="w-full space-y-6">
+      <div class="w-full space-y-8">
         <div class="oxy-intro">
           <h2>
             {{ $t('dashboard.welcome', { name: me?.user.name ?? '' }) }}
           </h2>
-          <p>{{ $t('ui.homeHint') }}</p>
+          <p v-if="org && data">
+            {{ hint }}
+          </p>
+          <p v-else-if="!org">
+            {{ $t('ui.homeHint') }}
+          </p>
+          <p
+            v-if="org"
+            class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm"
+          >
+            <span
+              v-if="data"
+              class="first-letter:uppercase"
+            >{{ today }}</span>
+            <span
+              v-if="data"
+              aria-hidden="true"
+            >·</span>
+            <span class="font-medium text-default">{{ org.name }}</span>
+            <span aria-hidden="true">·</span>
+            <span>{{ roles }}</span>
+          </p>
         </div>
 
         <template v-if="org">
-          <UPageGrid class="lg:grid-cols-2">
-            <UPageCard
-              :icon="org.kind === 'solo' ? 'i-lucide-user-cog' : 'i-lucide-warehouse'"
-              :title="org.name"
-              :description="$t('dashboard.activeOrganization')"
-            >
-              <div class="flex flex-wrap gap-2">
-                <UBadge
-                  color="neutral"
-                  variant="subtle"
-                  :label="$t(`org.kind.${org.kind ?? 'workshop'}`)"
-                />
-                <UBadge
-                  v-for="role in org.role.split(',')"
-                  :key="role"
-                  variant="subtle"
-                  :label="`${$t('dashboard.yourRole')}: ${$t(`roles.${role}`)}`"
-                />
-              </div>
-            </UPageCard>
-            <UPageCard
-              v-if="org.can.workOnTasks && !org.can.createOrders"
-              icon="i-lucide-wrench"
-              :title="$t('dashboard.mechanicTitle')"
-              :description="$t('dashboard.mechanicDescription')"
-              to="/app/my-tasks"
-              spotlight
+          <LoadState
+            :error="error"
+            :pending="status === 'pending' && !data"
+            @retry="refresh()"
+          />
+
+          <template v-if="data">
+            <DashboardSetup
+              v-if="setup"
+              :setup="setup"
+              @hide="setupHidden = true"
             />
-            <UPageCard
-              v-else
-              icon="i-lucide-route"
-              :title="$t('dashboard.nextStepsTitle')"
-              :description="$t('dashboard.nextStepsDescription')"
-            >
-              <div class="flex flex-wrap gap-2">
-                <UButton
-                  v-if="org.can.createOrders"
-                  to="/app/orders/new"
-                  icon="i-lucide-clipboard-plus"
-                  :label="$t('orders.new')"
-                />
-                <UButton
-                  v-if="org.can.readOrders"
-                  to="/app/orders"
-                  icon="i-lucide-kanban"
-                  color="neutral"
-                  variant="outline"
-                  :label="$t('nav.orders')"
-                />
-                <UButton
-                  v-if="org.can.readCustomers"
-                  to="/app/customers"
-                  icon="i-lucide-contact"
-                  color="neutral"
-                  variant="outline"
-                  :label="$t('nav.customers')"
-                />
-                <UButton
-                  to="/app/team"
-                  icon="i-lucide-users"
-                  color="neutral"
-                  variant="outline"
-                  :label="$t('nav.team')"
-                />
-                <UButton
-                  to="/app/settings"
-                  icon="i-lucide-settings"
-                  color="neutral"
-                  variant="outline"
-                  :label="$t('nav.settings')"
-                />
-              </div>
-            </UPageCard>
-          </UPageGrid>
+
+            <DashboardMyWork
+              v-if="mechanicView && data.mine"
+              :mine="data.mine"
+              :now="now"
+              :since-fetch="sinceFetch"
+              :refresh="reload"
+            />
+
+            <template v-if="office">
+              <DashboardWorkBanner
+                v-if="data.mine"
+                :mine="data.mine"
+                :now="now"
+                :since-fetch="sinceFetch"
+                :refresh="reload"
+              />
+
+              <DashboardAttention
+                :office="office"
+                :now="now"
+              />
+
+              <DashboardSection
+                :title="$t('dashboard.workshop.title')"
+                :description="$t('dashboard.workshop.description')"
+              >
+                <div class="grid items-start gap-4 lg:grid-cols-2 xl:grid-cols-3">
+                  <DashboardToday :today="office.today" />
+                  <DashboardBoard :board="office.board" />
+                  <DashboardTeam
+                    v-if="data.team"
+                    :team="data.team"
+                    :now="now"
+                    :since-fetch="sinceFetch"
+                  />
+                </div>
+              </DashboardSection>
+
+              <DashboardReport
+                v-if="data.report"
+                :report="data.report"
+              />
+            </template>
+          </template>
         </template>
 
         <template v-else>

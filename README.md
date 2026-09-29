@@ -12,7 +12,8 @@ Aplikacja do komunikacji i organizacji pracy warsztatów z klientem: biuro warsz
   - zgłoszenia potrzeb z wyceną;
   - zdjęcia;
   - akceptacja prac dodatkowych przez klienta (link, SMS, e-mail);
-  - rozliczenie zlecenia: dane firmy, cennik usług, kosztorys z akceptacją klienta, numer paragonu przy zamknięciu (faktury przez Fakturownię/KSeF dojdą z integracjami).
+  - rozliczenie zlecenia: dane firmy, cennik usług, kosztorys z akceptacją klienta, numer paragonu przy zamknięciu (faktury przez Fakturownię/KSeF dojdą z integracjami);
+  - pulpit dopasowany do roli: mechanik – bieżąca praca i kolejka, biuro – sprawy wymagające reakcji i warsztat dziś, właściciel – dodatkowo wyniki miesiąca.
 - **Powiadomienia:**
   - dzwonek w aplikacji, e-mail i push (także w aplikacji zainstalowanej na telefonie) dla mechaników i biura;
   - SMS albo push i e-mail do klienta przy przyjęciu pojazdu i gotowości do odbioru, z linkiem do strony statusu naprawy bez logowania.
@@ -84,7 +85,7 @@ Po ustawieniu kluczy uruchom serwer ponownie. Bez kluczy push jest wyłączony �
 | `pnpm build` | Build produkcyjny (na Netlify preset wykrywa się sam) |
 | `pnpm lint` / `pnpm lint:fix` | ESLint (również formatowanie) |
 | `pnpm typecheck` | Sprawdzenie typów (vue-tsc) |
-| `pnpm test` | Testy integracyjne na bazie `oxy_test` (RLS, dziennik, kolejka, schemat, warsztat, praca mechanika, akceptacje, powiadomienia) |
+| `pnpm test` | Testy integracyjne na bazie `oxy_test` (RLS, dziennik, kolejka, schemat, warsztat, praca mechanika, akceptacje, rozliczenia, pulpit, powiadomienia) |
 | `pnpm infra:up` / `pnpm infra:down` | Start / stop usług w Dockerze |
 | `pnpm db:migrate` | Zastosuj nowe migracje |
 | `pnpm db:reset` | Wyczyść lokalną bazę i zastosuj migracje od nowa |

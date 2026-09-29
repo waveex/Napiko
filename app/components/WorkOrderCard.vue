@@ -27,7 +27,7 @@ const overdue = computed(() =>
 <template>
   <NuxtLink
     :to="`/app/orders/${order.id}`"
-    class="oxy-surface block p-4 transition hover:border-primary focus-visible:outline-2 focus-visible:outline-primary"
+    class="oxy-surface oxy-surface-link block p-4"
   >
     <VehicleLabel
       :vehicle="order.vehicle"

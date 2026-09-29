@@ -112,7 +112,9 @@ Technicznie: palety definiujemy centralnie i mapujemy na role Nuxt UI. Motyw obs
 
 ## 8. Granice i stan prac
 
-Zakres obecnego zadania: utworzenie brancha i przygotowanie planu. Nie wdrożono jeszcze zmian UI. Nowy portal klienta, offline, powiadomienia i nowe agregaty danych pozostają osobnymi funkcjami roadmapy, chyba że okażą się uzgodnioną zależnością konkretnego ekranu.
+Zakres obecnego zadania: utworzenie brancha i przygotowanie planu. Nie wdrożono jeszcze zmian UI.
+
+**29.09.2026 – pulpit (P1) wdrożony.** Pulpit dopasowany do roli (opis w `docs/04-moduly-warsztatu.md`, „Pulpit według roli”). Liczniki „Dziś” i „Wymaga uwagi” liczy osobny endpoint `GET /api/dashboard` na pełnych danych i z uprawnieniami ról – zgodnie z warunkiem z sekcji 5. Przy okazji: `.oxy-surface` jest regułą spoza warstw Tailwinda, więc klasy `border-primary`, `ring-*` i `hover:border-primary` na kartach nie działały. Wyróżnienie trwającej pracy i obramowanie po najechaniu dają teraz modyfikatory `.oxy-surface-active` i `.oxy-surface-link` (użyte w `MyTaskCard`, `WorkOrderCard` i na pulpicie). Nowy portal klienta, offline, powiadomienia i nowe agregaty danych pozostają osobnymi funkcjami roadmapy, chyba że okażą się uzgodnioną zależnością konkretnego ekranu.
 
 Repozytorium w chwili rozpoczęcia planowania nie miało pierwszego commita. Na późniejsze polecenie użytkownika zapisano istniejącą aplikację jako commit `438fa50` na `master` i wysłano do `origin/master` w `https://github.com/waveex/mechanical-board.git`. Następnie utworzono z tej bazy branch `codex/design-blue-violet`. Niniejszy plan jest osobną zmianą na branchu designu; plik `.env` pozostał poza repozytorium.
 

@@ -45,7 +45,7 @@ const finished = computed(() => props.task.status === 'done')
 <template>
   <article
     class="oxy-surface p-5"
-    :class="running ? 'border-primary ring-2 ring-primary/30' : 'border-default'"
+    :class="{ 'oxy-surface-active': running }"
   >
     <div class="flex items-start gap-3">
       <UIcon

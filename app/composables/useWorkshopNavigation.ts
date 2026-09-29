@@ -24,7 +24,7 @@ export function useWorkshopNavigation() {
     : [])
   const mobile = computed(() => {
     const mechanic = org.value?.can.workOnTasks && !org.value.can.createOrders
-    const paths = mechanic ? ['/app/my-tasks', '/app/orders'] : ['/app', '/app/orders', '/app/requests', '/app/customers']
+    const paths = mechanic ? ['/app', '/app/my-tasks', '/app/orders'] : ['/app', '/app/orders', '/app/requests', '/app/customers']
     return work.value.filter(item => paths.includes(String(item.to))).map(item => ({
       ...item, label: item.to === '/app/my-tasks' ? t('ui.tasks') : item.label,
     }))
