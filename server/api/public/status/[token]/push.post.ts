@@ -4,7 +4,7 @@
  * (gotowy do odbioru, prośby o akceptację) przychodzą pushem zamiast SMS-em.
  */
 import { z } from 'zod'
-import { withSystem } from '../../../../db/tenant'
+import { withCustomerLink } from '../../../../db/tenant'
 import { recordAudit } from '../../../../db/audit'
 import { registerCustomerPush, revokeCustomerPush } from '../../../../db/customer-notifications'
 import { pushSubscriptionSchema, statusTokenSchema } from '../../../../../shared/notifications'
@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 403, message: 'To podgląd warsztatu – powiadomienia włącza klient na swoim telefonie.' })
   }
 
-  await withSystem(useDb(), async (tx) => {
+  await withCustomerLink(useDb(), target.orgId, async (tx) => {
     if (input.action === 'subscribe') {
       await registerCustomerPush(tx, {
         orgId: target.orgId,

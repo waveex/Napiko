@@ -1,0 +1,84 @@
+# CI: lint, typy, migracje i testy na PostgreSQL 17, build dla Netlify.
+# Testy izolacji (RLS) i zgodności schematu są główną siatką bezpieczeństwa – każdy push i PR musi je przejść.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: oxy
+          POSTGRES_PASSWORD: oxy
+          POSTGRES_DB: oxy_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U oxy"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      CI: 'true'
+      NODE_ENV: test
+      # Użytkownik "oxy" w kontenerze jest superużytkownikiem, a superużytkownik omija RLS.
+      # Testy łączą się więc jako zwykła rola "oxy_app" (tworzona niżej) – tak jak aplikacja na produkcji.
+      DATABASE_URL: postgres://oxy_app:oxy_app@localhost:5432/oxy_test
+      TEST_DATABASE_URL: postgres://oxy_app:oxy_app@localhost:5432/oxy_test
+      BETTER_AUTH_SECRET: ci-secret-ci-secret-ci-secret-ci-secret
+      BETTER_AUTH_URL: http://localhost:3000
+      AUTH_REQUIRE_EMAIL_VERIFICATION: 'false'
+      INTERNAL_API_KEY: ci-internal-key-ci-internal-key
+      SMS_PROVIDER: log
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Instalacja zależności
+        run: pnpm install --frozen-lockfile
+
+      - name: Rola bazy bez uprawnień superużytkownika
+        env:
+          PGPASSWORD: oxy
+        run: |
+          psql -h localhost -U oxy -d oxy_test -v ON_ERROR_STOP=1 \
+            -c "CREATE ROLE oxy_app LOGIN PASSWORD 'oxy_app' NOSUPERUSER NOBYPASSRLS CREATEROLE" \
+            -c "ALTER DATABASE oxy_test OWNER TO oxy_app" \
+            -c "ALTER SCHEMA public OWNER TO oxy_app"
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typy
+        run: pnpm typecheck
+
+      - name: Migracje (czysta baza)
+        run: pnpm db:migrate
+
+      - name: Testy
+        run: pnpm test
+
+      - name: Build (Netlify)
+        run: pnpm build

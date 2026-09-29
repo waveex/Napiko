@@ -33,12 +33,15 @@ import { normalizePhone, type VehicleType } from '../../shared/workshop'
 // Link do strony statusu naprawy
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** Sekret linków: STATUS_LINK_SECRET, a bez niego (zgodność wstecz) BETTER_AUTH_SECRET. */
+export type StatusLinkEnv = Pick<Env, 'BETTER_AUTH_SECRET' | 'STATUS_LINK_SECRET'>
+
 /**
  * Token linku wyliczany z sekretu serwera (HMAC): ten sam link można odtworzyć przy kolejnej wiadomości
  * albo skopiować w karcie zlecenia, a w bazie jest tylko jego skrót. 144 bity – nie do odgadnięcia.
  */
-export function statusLinkToken(env: Pick<Env, 'BETTER_AUTH_SECRET'>, orgId: string, workOrderId: string, version: number) {
-  const key = createHmac('sha256', env.BETTER_AUTH_SECRET).update('oxy:work-order-status-link:v1').digest()
+export function statusLinkToken(env: StatusLinkEnv, orgId: string, workOrderId: string, version: number) {
+  const key = createHmac('sha256', env.STATUS_LINK_SECRET ?? env.BETTER_AUTH_SECRET).update('oxy:work-order-status-link:v1').digest()
   return createHmac('sha256', key).update(`${orgId}:${workOrderId}:${version}`).digest('base64url').slice(0, 24)
 }
 
@@ -71,7 +74,7 @@ export function customerVehicleText(order: Pick<OrderSummary, 'vehicleLabel' | '
  */
 export async function ensureStatusLink(
   tx: Tx,
-  env: Pick<Env, 'BETTER_AUTH_SECRET' | 'appUrl'>,
+  env: StatusLinkEnv & Pick<Env, 'appUrl'>,
   order: { id: string, orgId: string },
   options: { rotate?: boolean } = {},
 ) {

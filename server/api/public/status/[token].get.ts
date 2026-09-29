@@ -4,12 +4,11 @@
  * powiadomień klienta (zamaskowany numer i adres). Bez cen, danych klienta, notatek i nazwisk zespołu.
  */
 import { and, asc, eq, gt, sql } from 'drizzle-orm'
-import { withSystem } from '../../../db/tenant'
+import { withCustomerLink } from '../../../db/tenant'
 import {
   approvalRequest, auditEvent, companyProfile, customer, customerPushSubscription, fileObject, organization, organizationSettings,
   task, vehicle, workOrder, workOrderStatusLink,
 } from '../../../db/schema'
-import { hashStatusToken } from '../../../db/customer-notifications'
 import { maskEmail, maskPhone, statusStep, statusTokenSchema } from '../../../../shared/notifications'
 
 /** Po zamknięciu zlecenia link działa jeszcze 30 dni. */
@@ -20,15 +19,11 @@ export default defineEventHandler(async (event) => {
   setResponseHeader(event, 'X-Robots-Tag', 'noindex, nofollow')
   setResponseHeader(event, 'Cache-Control', 'no-store')
 
-  const found = await withSystem(useDb(), async (tx) => {
-    const [link] = await tx.select().from(workOrderStatusLink)
-      .where(eq(workOrderStatusLink.tokenHash, hashStatusToken(token))).limit(1)
-    if (!link) return null
-    const [order] = await tx.select().from(workOrder).where(eq(workOrder.id, link.workOrderId)).limit(1)
-    return order ? { link, order } : null
-  })
-  if (!found) throw createError({ statusCode: 404, message: 'Link jest nieprawidłowy albo został unieważniony.' })
-  const { link, order } = found
+  const link = await resolveStatusLink(token)
+  if (!link) throw invalidLink()
+  const [order] = await withCustomerLink(useDb(), link.orgId, tx => tx.select().from(workOrder)
+    .where(eq(workOrder.id, link.workOrderId)).limit(1))
+  if (!order) throw invalidLink()
   const closedLongAgo = (order.status === 'closed' || order.status === 'cancelled') && order.closedAt
     && order.closedAt.getTime() < Date.now() - DAYS_AFTER_CLOSE * 24 * 3600 * 1000
   if (closedLongAgo) throw createError({ statusCode: 410, message: 'Link wygasł – naprawa została zakończona.' })
@@ -36,7 +31,7 @@ export default defineEventHandler(async (event) => {
   // Zespół warsztatu może podejrzeć stronę – bez liczenia wyświetleń i bez zmian ustawień za klienta
   const preview = await isOrganizationMember(event, order.orgId)
 
-  return withSystem(useDb(), async (tx) => {
+  return withCustomerLink(useDb(), order.orgId, async (tx) => {
     if (!preview) {
       await tx.update(workOrderStatusLink).set({
         firstViewedAt: sql`coalesce(${workOrderStatusLink.firstViewedAt}, now())`,

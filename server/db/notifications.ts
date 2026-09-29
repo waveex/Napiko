@@ -11,7 +11,7 @@ import { randomUUID } from 'node:crypto'
 import { and, count, eq, inArray, sql } from 'drizzle-orm'
 import type { Db, Tx } from './client'
 import { enqueueJob } from './jobs'
-import { withSystem } from './tenant'
+import { withSystem, withUser } from './tenant'
 import {
   customer, member, notification, notificationPreference, organization, organizationSettings, task, taskAssignment, user,
   vehicle, workOrder,
@@ -398,12 +398,11 @@ export async function allTasksDone(tx: Tx, workOrderId: string) {
 
 /**
  * Nieprzeczytane powiadomienia osoby w innych warsztatach (podpowiedź w dzwonku, np. mechanik w dwóch warsztatach).
- * Kontekst systemowy, ale zawsze zawężony do zalogowanej osoby.
+ * Kontekst osoby (withUser): baza przepuszcza tylko jej powiadomienia z warsztatów, do których wciąż należy.
  */
 export async function unreadElsewhere(db: Db, userId: string, activeOrgId: string) {
-  const result = await withSystem(db, tx => tx.execute<{ n: number }>(sql`
+  const result = await withUser(db, userId, tx => tx.execute<{ n: number }>(sql`
     select count(*)::int as n from notification n
-    join member m on m.organization_id = n.org_id and m.user_id = n.user_id
     where n.user_id = ${userId} and n.org_id <> ${activeOrgId} and n.read_at is null
   `))
   return result.rows[0]?.n ?? 0

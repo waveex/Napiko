@@ -17,6 +17,7 @@ export default async () => {
   const response = await fetch(`${siteUrl}/api/internal/jobs/run`, {
     method: 'POST',
     headers: { 'x-internal-key': key },
+    signal: AbortSignal.timeout(25_000),
   })
   console.log(`[jobs-cron] ${response.status} ${await response.text()}`)
 }

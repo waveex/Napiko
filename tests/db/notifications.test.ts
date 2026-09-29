@@ -423,7 +423,8 @@ describe('zadania w kolejce', () => {
     const gone = fakePush({ 'https://push.example/ok': 'gone' })
     const run2 = handlersWith(gone.sender)
     await runJobs(office.orgId, run2.handlers)
-    expect(run2.sms).toEqual([{ to: '+48600111222', message: 'Gotowe do odbioru', from: null }])
+    // Klucz idempotencji = id zadania + kanał: ponowienie zadania nie wyśle klientowi drugiego SMS-a
+    expect(run2.sms).toEqual([{ to: '+48600111222', message: 'Gotowe do odbioru', from: null, idempotencyKey: expect.stringMatching(/^[0-9a-f-]{36}-sms$/) }])
     const [fallback] = await withTenant(db, office, tx => tx.select().from(customerNotification).where(eq(customerNotification.id, second.id)))
     expect(fallback).toMatchObject({ status: 'sent', deliveredVia: 'sms' })
     expect(fallback!.error).toMatch(/Wysłano SMS/)

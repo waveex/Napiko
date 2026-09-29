@@ -44,6 +44,10 @@ export function useNotificationText() {
 }
 
 const POLL_MS = 30_000
+/** Bez ruchu myszy, dotyku i klawiatury przez 10 min odpytujemy co 5 min (push i powrót do panelu odświeżają od razu). */
+const IDLE_AFTER_MS = 10 * 60_000
+const IDLE_POLL_MS = 5 * 60_000
+const ACTIVITY_EVENTS = ['pointerdown', 'keydown', 'scroll', 'focus'] as const
 
 export function useNotificationCenter() {
   const { t } = useI18n()
@@ -115,12 +119,28 @@ export function useNotificationCenter() {
  */
 export function startNotificationPolling(center: ReturnType<typeof useNotificationCenter>) {
   let timer: ReturnType<typeof setInterval> | undefined
+  // Gdy nikt nie korzysta z panelu (np. otwarty na komputerze w biurze po godzinach), odpytujemy rzadziej:
+  // każde zapytanie budzi bazę (Neon nie usypia przy ciągłym ruchu) i zużywa wywołania funkcji.
+  let lastActivity = Date.now()
+  let lastRefresh = Date.now()
+  const refresh = () => {
+    lastRefresh = Date.now()
+    center.refresh()
+  }
+  const onActivity = () => {
+    const wasIdle = Date.now() - lastActivity > IDLE_AFTER_MS
+    lastActivity = Date.now()
+    if (wasIdle) refresh()
+  }
 
   const tick = () => {
-    if (document.visibilityState === 'visible') center.refresh()
+    if (document.visibilityState !== 'visible') return
+    const idle = Date.now() - lastActivity > IDLE_AFTER_MS
+    if (idle && Date.now() - lastRefresh < IDLE_POLL_MS) return
+    refresh()
   }
   const onVisibility = () => {
-    if (document.visibilityState === 'visible') center.refresh()
+    if (document.visibilityState === 'visible') refresh()
   }
   const onMessage = (event: MessageEvent) => {
     if ((event.data as { type?: string } | null)?.type === 'oxy:push') center.refresh({ toast: false })
@@ -129,12 +149,14 @@ export function startNotificationPolling(center: ReturnType<typeof useNotificati
   center.refresh({ toast: false })
   timer = setInterval(tick, POLL_MS)
   document.addEventListener('visibilitychange', onVisibility)
+  for (const type of ACTIVITY_EVENTS) window.addEventListener(type, onActivity, { passive: true })
   navigator.serviceWorker?.addEventListener('message', onMessage)
 
   return () => {
     clearInterval(timer)
     timer = undefined
     document.removeEventListener('visibilitychange', onVisibility)
+    for (const type of ACTIVITY_EVENTS) window.removeEventListener(type, onActivity)
     navigator.serviceWorker?.removeEventListener('message', onMessage)
   }
 }

@@ -4,7 +4,7 @@
  * Prośby o akceptację wysyła biuro świadomie na wskazany numer / adres – rezygnacja ich nie blokuje.
  */
 import { eq } from 'drizzle-orm'
-import { withSystem } from '../../../../db/tenant'
+import { withCustomerLink } from '../../../../db/tenant'
 import { recordAudit } from '../../../../db/audit'
 import { customer } from '../../../../db/schema'
 import { statusPreferencesSchema, statusTokenSchema } from '../../../../../shared/notifications'
@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 403, message: 'To podgląd warsztatu – zgody klienta zmień w karcie klienta.' })
   }
 
-  return withSystem(useDb(), async (tx) => {
+  return withCustomerLink(useDb(), target.orgId, async (tx) => {
     const values: Partial<typeof customer.$inferInsert> = {}
     if (input.sms !== undefined) values.notifySms = input.sms
     if (input.email !== undefined) values.notifyEmail = input.email

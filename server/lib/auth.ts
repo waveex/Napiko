@@ -65,6 +65,13 @@ export function createAuth(deps: AuthDeps) {
       max: 100,
     },
 
+    // Sesja z podpisanego ciasteczka przez 2 min: większość żądań panelu nie pyta bazy o sesję (mniej zapytań
+    // i opóźnień na funkcjach serverless). Członkostwo i rolę requireTenant() i tak sprawdza w bazie przy każdym
+    // żądaniu, więc usunięcie z warsztatu działa od razu; wylogowanie innych urządzeń – najpóźniej po 2 min.
+    session: {
+      cookieCache: { enabled: true, maxAge: 2 * 60 },
+    },
+
     advanced: {
       database: { generateId: 'uuid' },
     },

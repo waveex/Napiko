@@ -86,6 +86,7 @@ Po ustawieniu kluczy uruchom serwer ponownie. Bez kluczy push jest wyłączony �
 | `pnpm run local` | Całe środowisko naraz: Docker, zależności, usługi, migracje i serwer deweloperski |
 | `pnpm dev` | Serwer deweloperski (kolejka zadań przetwarzana co 5 s) |
 | `pnpm build` | Build produkcyjny (na Netlify preset wykrywa się sam) |
+| `pnpm build:netlify` | Build na Netlify: przy bazie Neon (ADR-010) najpierw migracje i uprawnienia roli aplikacji, potem build |
 | `pnpm lint` / `pnpm lint:fix` | ESLint (również formatowanie) |
 | `pnpm typecheck` | Sprawdzenie typów (vue-tsc) |
 | `pnpm test` | Testy integracyjne na bazie `oxy_test` (RLS, dziennik, kolejka, schemat, warsztat, praca mechanika, akceptacje, rozliczenia, pulpit, powiadomienia) |
@@ -93,6 +94,8 @@ Po ustawieniu kluczy uruchom serwer ponownie. Bez kluczy push jest wyłączony �
 | `pnpm db:migrate` | Zastosuj nowe migracje |
 | `pnpm db:reset` | Wyczyść lokalną bazę i zastosuj migracje od nowa |
 | `pnpm db:new <nazwa>` | Nowa migracja w `netlify/database/migrations` |
+| `pnpm db:seed:demo` | Dane demo (9 zleceń, mechanik1..3@demo.oxy.invalid) – tylko lokalnie; wymaga `DEMO_OWNER_EMAIL`, hasło z `DEMO_PASSWORD` |
+| `pnpm db:grant-app-role` | Uprawnienia roli aplikacji w bazie Neon (ADR-010) |
 | `pnpm storage:init` | Utwórz bucket i reguły CORS |
 | `pnpm push:keys` | Nowa para kluczy VAPID do powiadomień push |
 

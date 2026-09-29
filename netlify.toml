@@ -5,7 +5,7 @@
 # netlify/database/migrations stosowane są automatycznie przed publikacją wdrożenia.
 
 [build]
-  command = "pnpm build"
+  command = "pnpm build:netlify"
   publish = "dist"
 
 [build.environment]

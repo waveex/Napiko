@@ -16,6 +16,7 @@ export default async () => {
   const response = await fetch(`${siteUrl}/api/internal/housekeeping`, {
     method: 'POST',
     headers: { 'x-internal-key': key },
+    signal: AbortSignal.timeout(25_000),
   })
   console.log(`[housekeeping-cron] ${response.status} ${await response.text()}`)
 }

@@ -3,20 +3,16 @@
  * (na iPhonie to warunek powiadomień push), a ikona otwiera od razu status jego naprawy.
  */
 import { eq } from 'drizzle-orm'
-import { withSystem } from '../../../../db/tenant'
-import { organization, workOrder, workOrderStatusLink } from '../../../../db/schema'
-import { hashStatusToken } from '../../../../db/customer-notifications'
+import { organization } from '../../../../db/schema'
 import { statusTokenSchema } from '../../../../../shared/notifications'
 
 export default defineEventHandler(async (event) => {
   const { token } = await getValidatedRouterParams(event, params => statusTokenSchema.parse(params))
-  const [row] = await withSystem(useDb(), tx => tx
-    .select({ name: organization.name })
-    .from(workOrderStatusLink)
-    .innerJoin(workOrder, eq(workOrder.id, workOrderStatusLink.workOrderId))
-    .innerJoin(organization, eq(organization.id, workOrder.orgId))
-    .where(eq(workOrderStatusLink.tokenHash, hashStatusToken(token)))
-    .limit(1))
+  const link = await resolveStatusLink(token)
+  if (!link) throw createError({ statusCode: 404 })
+  // Tabela organization nie ma RLS (Better Auth) – odczytujemy tylko nazwę warsztatu z linku
+  const [row] = await useDb().select({ name: organization.name }).from(organization)
+    .where(eq(organization.id, link.orgId)).limit(1)
   if (!row) throw createError({ statusCode: 404 })
   setResponseHeader(event, 'Content-Type', 'application/manifest+json; charset=utf-8')
   setResponseHeader(event, 'Cache-Control', 'no-store')

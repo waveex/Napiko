@@ -25,6 +25,13 @@ const EnvSchema = z.object({
   URL: z.url().optional(),
 
   BETTER_AUTH_SECRET: z.string().min(32, 'BETTER_AUTH_SECRET musi mieć co najmniej 32 znaki'),
+  /**
+   * Sekret linków do strony statusu naprawy (token HMAC). Osobny od BETTER_AUTH_SECRET: rotacja sekretu logowania
+   * (np. po incydencie) nie unieważnia linków wysłanych klientom SMS-em, a wyciek jednego nie otwiera drugiego.
+   * Bez ustawienia – BETTER_AUTH_SECRET (zgodność wstecz). Ustaw przed wysłaniem pierwszych prawdziwych linków:
+   * zmiana sekretu unieważnia linki przy następnej wiadomości do klienta.
+   */
+  STATUS_LINK_SECRET: optional(z.string().min(32, 'STATUS_LINK_SECRET musi mieć co najmniej 32 znaki')),
   AUTH_REQUIRE_EMAIL_VERIFICATION: bool.default(true),
   /** Dodatkowe zaufane originy (np. aplikacja mobilna), rozdzielone przecinkami. */
   AUTH_TRUSTED_ORIGINS: z.string().optional(),
@@ -41,6 +48,15 @@ const EnvSchema = z.object({
   S3_ACCESS_KEY_ID: z.string().default('oxy'),
   S3_SECRET_ACCESS_KEY: z.string().default('oxy-secret'),
   S3_FORCE_PATH_STYLE: bool.default(true),
+
+  /**
+   * Kotwice dziennika zdarzeń (ADR-010): codziennie ostatni hash łańcucha każdego warsztatu trafia do osobnego
+   * bucketu S3 z włączoną blokadą obiektów (Object Lock). Przeliczenie łańcucha w bazie staje się wtedy wykrywalne.
+   * Bez ustawienia kotwic nie zapisujemy (lokalnie, testy).
+   */
+  AUDIT_ANCHOR_BUCKET: optional(z.string().min(3)),
+  /** Jak długo kotwica jest nieusuwalna (dni). Powinno pokrywać okres przechowywania dowodów (np. przedawnienie roszczeń). */
+  AUDIT_ANCHOR_RETENTION_DAYS: z.coerce.number().int().min(1).max(3650).default(2190),
 
   /** Klucz do wywołań wewnętrznych (funkcja cykliczna → kolejka zadań). */
   INTERNAL_API_KEY: z.string().min(24, 'INTERNAL_API_KEY musi mieć co najmniej 24 znaki').optional(),

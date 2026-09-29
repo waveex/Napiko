@@ -5,7 +5,7 @@
  * „zapisano zmianę, ale e-mail zginął”. Przetwarzanie: zaraz po żądaniu (krótki budżet czasu)
  * oraz cyklicznie przez funkcję Netlify (ponowienia, zaległości).
  */
-import { sql } from 'drizzle-orm'
+import { inArray, sql } from 'drizzle-orm'
 import type { Db, DbOrTx } from './client'
 import { job } from './schema'
 import { withSystem } from './tenant'
@@ -37,8 +37,18 @@ export interface ClaimedJob {
   maxAttempts: number
 }
 
-/** Zadania „running” dłużej niż ten czas uznajemy za porzucone (np. funkcja przekroczyła limit). */
+/**
+ * Zadania „running” dłużej niż ten czas uznajemy za porzucone (np. funkcja przekroczyła limit czasu).
+ * Musi być wyraźnie dłuższy niż najdłuższe przetwarzanie (budżet + limity czasu SMTP/SMS ≈ 1 min),
+ * inaczej zadanie wciąż wykonywane trafiłoby drugi raz do kolejki.
+ */
 const STALE_AFTER = '5 minutes'
+
+/**
+ * Semantyka kolejki: „co najmniej raz”. Zadanie może wykonać się ponownie (np. wysyłka się udała, a zapis
+ * „done” już nie). Obsługa zadań, które wychodzą na zewnątrz, przekazuje dostawcy klucz idempotencji
+ * (id zadania) – zob. OutgoingSms.idempotencyKey i OutgoingEmail.idempotencyKey.
+ */
 
 export async function claimJobs(db: Db, limit: number): Promise<ClaimedJob[]> {
   return withSystem(db, async (tx) => {
@@ -81,9 +91,12 @@ export async function completeJob(db: Db, id: string) {
   `))
 }
 
+/** Błąd, którego ponowienie nic nie da (np. nieznany typ zadania) – zadanie od razu kończy się jako nieudane. */
+export class PermanentJobError extends Error {}
+
 export async function failJob(db: Db, claimed: ClaimedJob, error: unknown) {
   const message = (error instanceof Error ? error.message : String(error)).slice(0, 2000)
-  const final = claimed.attempts >= claimed.maxAttempts
+  const final = claimed.attempts >= claimed.maxAttempts || error instanceof PermanentJobError
   // Wykładnicze opóźnienie: 30 s, 1 min, 2 min, ... maks. 1 h.
   const delaySeconds = Math.min(30 * 2 ** (claimed.attempts - 1), 3600)
   await withSystem(db, tx => tx.execute(sql`
@@ -94,6 +107,17 @@ export async function failJob(db: Db, claimed: ClaimedJob, error: unknown) {
         last_error = ${message}
     where id = ${claimed.id}
   `))
+}
+
+/**
+ * Oddaje do kolejki zadania pobrane, ale nierozpoczęte (skończył się budżet czasu) – bez liczenia próby,
+ * żeby nie czekały 5 minut jako „porzucone”.
+ */
+export async function releaseJobs(db: Db, ids: string[]) {
+  if (!ids.length) return
+  await withSystem(db, tx => tx.update(job)
+    .set({ status: 'pending', lockedAt: null, attempts: sql`greatest(${job.attempts} - 1, 0)` })
+    .where(inArray(job.id, ids)))
 }
 
 export type JobHandler = (job: ClaimedJob) => Promise<void>
@@ -116,10 +140,15 @@ export async function processJobs(
   while (Date.now() - started < budgetMs) {
     const batch = await claimJobs(db, batchSize)
     if (batch.length === 0) break
-    for (const claimed of batch) {
+    for (const [index, claimed] of batch.entries()) {
+      // Budżet sprawdzamy przed każdym zadaniem, nie przed partią: wolny SMTP nie wydłuży przebiegu ponad limit funkcji
+      if (index > 0 && Date.now() - started >= budgetMs) {
+        await releaseJobs(db, batch.slice(index).map(j => j.id))
+        return result
+      }
       try {
         const handler = handlers[claimed.type]
-        if (!handler) throw new Error(`Brak obsługi zadania typu "${claimed.type}"`)
+        if (!handler) throw new PermanentJobError(`Brak obsługi zadania typu "${claimed.type}"`)
         await handler(claimed)
         await completeJob(db, claimed.id)
         result.processed++
@@ -131,4 +160,15 @@ export async function processJobs(
     }
   }
   return result
+}
+
+/** Zadania zakończone jako nieudane w ostatnich godzinach (alarm w codziennym sprzątaniu). */
+export async function recentFailedJobs(db: Db, hours: number) {
+  const result = await withSystem(db, tx => tx.execute<{ type: string, n: number }>(sql`
+    select type, count(*)::int as n from job
+    where status = 'failed' and updated_at > now() - make_interval(hours => ${hours})
+    group by type order by type
+  `))
+  const byType = Object.fromEntries(result.rows.map(r => [r.type, r.n]))
+  return { total: result.rows.reduce((sum, r) => sum + r.n, 0), byType }
 }

@@ -3,7 +3,7 @@
  * program pocztowy wysyła POST bez logowania i bez dodatkowego potwierdzenia.
  */
 import { eq } from 'drizzle-orm'
-import { withSystem } from '../../../../db/tenant'
+import { withCustomerLink } from '../../../../db/tenant'
 import { recordAudit } from '../../../../db/audit'
 import { customer } from '../../../../db/schema'
 import { statusTokenSchema } from '../../../../../shared/notifications'
@@ -11,7 +11,7 @@ import { statusTokenSchema } from '../../../../../shared/notifications'
 export default defineEventHandler(async (event) => {
   const { token } = await getValidatedRouterParams(event, params => statusTokenSchema.parse(params))
   const target = await findStatusTarget(token)
-  await withSystem(useDb(), async (tx) => {
+  await withCustomerLink(useDb(), target.orgId, async (tx) => {
     await tx.update(customer).set({ notifyEmail: false }).where(eq(customer.id, target.customerId))
     await recordAudit(tx, {
       orgId: target.orgId,

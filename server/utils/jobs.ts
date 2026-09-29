@@ -10,10 +10,10 @@ import type { OutgoingSms } from '../lib/sms'
 function handlers(): Record<string, JobHandler> {
   return {
     'email.send': async (job) => {
-      await useMailer().send(job.payload as unknown as OutgoingEmail)
+      await useMailer().send({ ...job.payload as unknown as OutgoingEmail, idempotencyKey: job.id })
     },
     'sms.send': async (job) => {
-      await useSms().send(job.payload as unknown as OutgoingSms)
+      await useSms().send({ ...job.payload as unknown as OutgoingSms, idempotencyKey: job.id })
     },
     'file.delete': async (job) => {
       const key = String(job.payload.storageKey ?? '')

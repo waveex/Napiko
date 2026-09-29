@@ -7,7 +7,7 @@
  */
 import { and, eq, inArray } from 'drizzle-orm'
 import type { Tx } from '../../../db/client'
-import { withSystem } from '../../../db/tenant'
+import { withCustomerLink } from '../../../db/tenant'
 import { recordAudit } from '../../../db/audit'
 import { loadOrderSummary, notifyApprovalOutcome } from '../../../db/notifications'
 import {
@@ -29,7 +29,10 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const meta = requestMeta(event)
 
-  await withSystem(useDb(), async (tx) => {
+  const orgId = await resolveApprovalOrg(token)
+  if (!orgId) throw createError({ statusCode: 404, message: 'Link jest nieprawidłowy albo został usunięty.' })
+
+  await withCustomerLink(useDb(), orgId, async (tx) => {
     // Blokada wiersza – dwa równoległe wysłania formularza nie zapiszą dwóch odpowiedzi
     const [approval] = await tx.select().from(approvalRequest)
       .where(eq(approvalRequest.tokenHash, hashApprovalToken(token)))

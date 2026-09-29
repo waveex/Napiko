@@ -59,6 +59,33 @@ export function createStorage(env: Env) {
       )
     },
 
+    /**
+     * Zapis małego pliku JSON (np. kotwice dziennika zdarzeń). Z retainUntil – blokada obiektu (Object Lock,
+     * tryb COMPLIANCE): do tej daty nikt, także właściciel konta, nie usunie ani nie nadpisze tej wersji.
+     */
+    async putJson(key: string, body: unknown, options: { bucket?: string, retainUntil?: Date } = {}) {
+      await client.send(new PutObjectCommand({
+        Bucket: options.bucket ?? bucket,
+        Key: key,
+        Body: JSON.stringify(body),
+        ContentType: 'application/json',
+        ...(options.retainUntil
+          ? { ObjectLockMode: 'COMPLIANCE' as const, ObjectLockRetainUntilDate: options.retainUntil, ChecksumAlgorithm: 'SHA256' as const }
+          : {}),
+      }))
+    },
+
+    async getJson<T>(key: string, options: { bucket?: string } = {}): Promise<T | null> {
+      try {
+        const out = await client.send(new GetObjectCommand({ Bucket: options.bucket ?? bucket, Key: key }))
+        return JSON.parse(await out.Body!.transformToString()) as T
+      }
+      catch (error) {
+        if ((error as { name?: string }).name === 'NoSuchKey') return null
+        throw error
+      }
+    },
+
     async head(key: string): Promise<{ sizeBytes: number, contentType?: string } | null> {
       try {
         const out = await client.send(new HeadObjectCommand({ Bucket: bucket, Key: key }))

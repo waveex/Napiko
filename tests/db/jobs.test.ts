@@ -4,7 +4,7 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { eq, sql } from 'drizzle-orm'
 import { job } from '../../server/db/schema'
-import { enqueueJob, processJobs } from '../../server/db/jobs'
+import { enqueueJob, processJobs, recentFailedJobs } from '../../server/db/jobs'
 import { withSystem, withTenant } from '../../server/db/tenant'
 import { createMemberWithOrg, createTestDb } from '../helpers'
 
@@ -71,5 +71,35 @@ describe('kolejka zadań', () => {
     })
     const result = await processJobs(db, { 'test.ok': async () => {} })
     expect(result).toEqual({ processed: 1, failed: 1 })
+  })
+})
+
+describe('kolejka zadań: limity czasu i nieudane zadania', () => {
+  it('nieznany typ kończy się od razu jako nieudany, bez kolejnych prób', async () => {
+    await withSystem(db, tx => enqueueJob(tx, { type: 'nieznany', payload: {}, maxAttempts: 8 }))
+    await processJobs(db, {})
+    const [row] = await withSystem(db, tx => tx.select().from(job))
+    expect(row).toMatchObject({ status: 'failed', attempts: 1 })
+    expect(row!.lastError).toMatch(/Brak obsługi/)
+    expect((await recentFailedJobs(db, 24)).byType).toEqual({ nieznany: 1 })
+  })
+
+  it('budżet czasu sprawdzany przed każdym zadaniem; niezaczęte wracają do kolejki bez liczenia próby', async () => {
+    await withSystem(db, async (tx) => {
+      for (let i = 0; i < 4; i++) await enqueueJob(tx, { type: 'test.slow', payload: { i } })
+    })
+    const done: number[] = []
+    const result = await processJobs(db, {
+      'test.slow': async (j) => {
+        done.push(j.payload.i as number)
+        await new Promise(resolve => setTimeout(resolve, 60))
+      },
+    }, { batchSize: 10, budgetMs: 100 })
+    expect(result.processed).toBe(done.length)
+    expect(done.length).toBeLessThan(4)
+    const rows = await withSystem(db, tx => tx.select().from(job))
+    const waiting = rows.filter(r => r.status === 'pending')
+    expect(waiting).toHaveLength(4 - done.length)
+    expect(waiting.every(r => r.attempts === 0 && r.lockedAt === null)).toBe(true)
   })
 })

@@ -103,7 +103,7 @@ export function notificationJobHandlers(deps: NotificationJobDeps): Record<strin
     const lastAttempt = job.attempts >= job.maxAttempts
     try {
       if (p.email) {
-        await deps.sendEmail(p.email)
+        await deps.sendEmail({ ...p.email, idempotencyKey: `${job.id}-email` })
         await markCustomerNotification(p.notificationId, { status: 'sent', deliveredVia: 'email' })
         return
       }
@@ -132,7 +132,7 @@ export function notificationJobHandlers(deps: NotificationJobDeps): Record<strin
         }
       }
       if (p.sms) {
-        await deps.sendSms(p.sms)
+        await deps.sendSms({ ...p.sms, idempotencyKey: `${job.id}-sms` })
         await markCustomerNotification(p.notificationId, { status: 'sent', deliveredVia: 'sms', error: pushNote ? `${pushNote} Wysłano SMS.` : null })
         return
       }

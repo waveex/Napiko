@@ -3,7 +3,7 @@
  * Zwracamy tylko treść tej jednej prośby: to, co zapisano w chwili wysyłki, i zdjęcia do niej przypięte.
  */
 import { and, eq, inArray, isNull } from 'drizzle-orm'
-import { withSystem } from '../../../db/tenant'
+import { withCustomerLink } from '../../../db/tenant'
 import { recordAudit } from '../../../db/audit'
 import {
   approvalItem, approvalRequest, fileObject, isEstimateSnapshot, organizationSettings, workOrderAttachment,
@@ -14,7 +14,10 @@ export default defineEventHandler(async (event) => {
   const { token } = await getValidatedRouterParams(event, params => approvalTokenSchema.parse(params))
   setResponseHeader(event, 'X-Robots-Tag', 'noindex, nofollow')
 
-  return withSystem(useDb(), async (tx) => {
+  const orgId = await resolveApprovalOrg(token)
+  if (!orgId) throw createError({ statusCode: 404, message: 'Link jest nieprawidłowy albo został usunięty.' })
+
+  return withCustomerLink(useDb(), orgId, async (tx) => {
     const [approval] = await tx.select().from(approvalRequest)
       .where(eq(approvalRequest.tokenHash, hashApprovalToken(token))).limit(1)
     if (!approval) throw createError({ statusCode: 404, message: 'Link jest nieprawidłowy albo został usunięty.' })
