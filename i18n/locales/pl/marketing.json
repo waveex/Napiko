@@ -1,0 +1,766 @@
+{
+  "marketing": {
+    "nav": {
+      "label": "Główna nawigacja",
+      "skip": "Przejdź do treści",
+      "workshops": "Dla warsztatów",
+      "customers": "Dla klientów",
+      "security": "Bezpieczeństwo",
+      "register": "Załóż konto",
+      "forWorkshop": "Jesteś warsztatem?",
+      "open": "Otwórz menu",
+      "close": "Zamknij menu"
+    },
+    "footer": {
+      "tagline": "Komunikacja i organizacja pracy warsztatów z klientem: biuro, mechanicy i klient w jednym przepływie.",
+      "product": "Produkt",
+      "account": "Konto",
+      "demo": "Dane na ekranach przykładowych są fikcyjne."
+    },
+    "story": {
+      "stepOf": "Krok {n} z {total}"
+    },
+    "hero": {
+      "loop": {
+        "replied": "Klient zaakceptował: nowe zadanie i pozycja w kosztorysie",
+        "proof": "Zgoda zapisana: treść, cena, czas, adres IP"
+      }
+    },
+    "shared": {
+      "alongside": {
+        "eyebrow": "Działa obok Twojego programu",
+        "title": "To nie kolejny program do faktur",
+        "text": "Napiko nie zastępuje księgowości ani kasy fiskalnej. Zajmuje się tym, co dzieje się między warsztatem a klientem: komunikacją, zgodami i statusem naprawy. Fakturę wystawiasz tam, gdzie dziś, a w Napiko zapisujesz numer i datę paragonu.",
+        "roadmapTitle": "W planie, jeszcze nie w aplikacji"
+      },
+      "roadmap": {
+        "protocol": "Protokół przyjęcia z podpisem klienta",
+        "inspection": "Inspekcja ze zdjęciami i listą kontrolną",
+        "invoices": "Faktury i KSeF przez integrację",
+        "hub": "Konto klienta z historią napraw pojazdu"
+      },
+      "proof": {
+        "eyebrow": "Dowód zgody",
+        "title": "Co dokładnie zapisujemy, gdy klient się zgadza",
+        "description": "Napiko nie udziela porad prawnych. Zapisuje fakty, które pokażą, na co klient wyraził zgodę.",
+        "legal": "Ocenę, czy taka zgoda spełnia wymogi formy w Twojej umowie z klientem, powinien zrobić prawnik.",
+        "rows": {
+          "content": {
+            "title": "Treść pokazana klientowi",
+            "text": "Pozycje, opisy, ceny brutto i zdjęcia, razem ze skrótem SHA-256. Wycena może się potem zmienić, a zapis zostaje."
+          },
+          "decision": {
+            "title": "Decyzja i zgoda na kwotę",
+            "text": "Odpowiedź przy każdej pozycji, zgoda na łączną kwotę brutto i uwagi klienta."
+          },
+          "context": {
+            "title": "Okoliczności",
+            "text": "Data, godzina, adres IP i przeglądarka."
+          },
+          "audit": {
+            "title": "Wpis w dzienniku zdarzeń",
+            "text": "Zdarzenie, którego nie da się zmienić ani usunąć. Każdy wpis zawiera skrót poprzedniego."
+          }
+        }
+      }
+    },
+    "home": {
+      "seo": {
+        "title": "Napiko – warsztat, mechanik i klient w jednym przepływie",
+        "description": "Mechanik robi zdjęcie, biuro wycenia, klient decyduje w telefonie, a zgoda zostaje zapisana. Napiko łączy biuro, mechaników i klientów warsztatu, bez instalacji po stronie klienta."
+      },
+      "hero": {
+        "eyebrow": "Dla warsztatów samochodowych i nie tylko",
+        "title": "Usterka w środku naprawy. Zgoda klienta jednym kliknięciem.",
+        "lead": "Napiko łączy biuro, mechaników i klienta warsztatu w jednym przepływie, od przyjęcia pojazdu po odbiór. Mechanik robi zdjęcie, biuro wycenia, klient decyduje w telefonie, a jego zgoda zostaje zapisana.",
+        "primary": "Załóż konto warsztatu",
+        "secondary": "Zobacz, jak to działa",
+        "points": {
+          "install": "Klient nie instaluje aplikacji i nie zakłada konta",
+          "devices": "Mechanik pracuje na telefonie, biuro na komputerze",
+          "locale": "Polski i angielski, jasny i ciemny motyw"
+        }
+      },
+      "problem": {
+        "eyebrow": "Problem",
+        "title": "Zanim klient odbierze telefon, auto stoi na podnośniku",
+        "description": "Prace dodatkowe to najbardziej nerwowy moment każdej naprawy. Bez wspólnego systemu kończy się to tak:",
+        "cards": {
+          "phone": {
+            "title": "Telefony w środku naprawy",
+            "text": "Mechanik znajduje usterkę, biuro dzwoni do klienta, klient nie odbiera. Informacja krąży ustnie albo na kartce."
+          },
+          "wait": {
+            "title": "Czekanie bez końca",
+            "text": "Praca przy aucie stoi, dopóki ktoś nie odpowie. Mechanik traci czas, a klient nie wie, na co właściwie czeka."
+          },
+          "dispute": {
+            "title": "Spór o cenę po fakcie",
+            "text": "Na odbiorze pada pytanie „za co tyle?”. Nikt nie ma śladu, co klient usłyszał i na co się zgodził."
+          }
+        },
+        "with": "Z Napiko",
+        "chain": {
+          "photo": "Zdjęcie usterki",
+          "quote": "Wycena w biurze",
+          "link": "Link do klienta",
+          "decision": "Decyzja w telefonie",
+          "record": "Zapis zgody"
+        }
+      },
+      "promises": {
+        "eyebrow": "Trzy obietnice",
+        "title": "Mniej telefonów, mniej pytań, jedna wspólna wiedza",
+        "items": {
+          "approvals": {
+            "title": "Koniec telefonów w sprawie prac dodatkowych",
+            "text": "Mechanik zgłasza usterkę ze zdjęciem, biuro wycenia, klient dostaje link i decyduje przy każdej pozycji. Decyzja zostaje zapisana razem z treścią, czasem i adresem IP."
+          },
+          "status": {
+            "title": "Koniec pytań „czy już gotowe?”",
+            "text": "Klient ma stronę statusu naprawy otwieraną z linku, bez logowania i bez instalacji. Wiadomość dostaje przy przyjęciu pojazdu i wtedy, gdy auto czeka na odbiór."
+          },
+          "team": {
+            "title": "Cały zespół widzi to samo",
+            "text": "Mechanik pracuje na telefonie, biuro dostaje gotową informację do wyceny, a właściciel widzi na pulpicie, co wymaga reakcji i jak idzie miesiąc."
+          }
+        }
+      },
+      "paths": {
+        "eyebrow": "Wybierz swoją drogę",
+        "title": "Ta sama naprawa, dwa punkty widzenia",
+        "description": "Przewiń animowaną historię jednej naprawy: raz oczami warsztatu, raz oczami klienta.",
+        "workshop": {
+          "label": "Dla warsztatów i mechaników",
+          "title": "Zobacz dzień pracy w Napiko",
+          "text": "Przyjęcie, praca mechanika, wycena, zgoda klienta, odbiór i wyniki miesiąca. {count} kroków, jeden przepływ.",
+          "cta": "Poznaj Napiko dla warsztatu"
+        },
+        "customer": {
+          "label": "Dla klientów warsztatu",
+          "title": "Zobacz, co dostajesz w telefonie",
+          "text": "Link w wiadomości, status naprawy, prośba o decyzję ze zdjęciem i ceną. Bez konta i bez aplikacji.",
+          "cta": "Zobacz widok klienta"
+        }
+      },
+      "journey": {
+        "eyebrow": "Jedna naprawa",
+        "title": "Od przyjęcia do odbioru w jednym przepływie",
+        "link": "Zobacz pełny przebieg",
+        "steps": {
+          "intake": { "title": "Przyjęcie", "text": "Klient i pojazd w kilka minut, link do statusu od razu." },
+          "work": { "title": "Praca", "text": "Mechanik widzi swoje zadania i mierzy czas." },
+          "finding": { "title": "Usterka", "text": "Zdjęcie, pilność i opis jednym kliknięciem." },
+          "quote": { "title": "Wycena", "text": "Biuro liczy części, robociznę i VAT." },
+          "consent": { "title": "Zgoda", "text": "Klient decyduje w telefonie, zgoda zostaje zapisana." },
+          "pickup": { "title": "Odbiór", "text": "Wiadomość, że auto czeka, i zamknięcie z paragonem." }
+        }
+      },
+      "numbers": {
+        "eyebrow": "Konkrety",
+        "title": "Nie obietnice, tylko to, co jest w aplikacji",
+        "items": {
+          "vehicles": "rodzajów pojazdów: od samochodu po rower, ciągnik i łódź",
+          "roles": "role, a każda widzi tylko to, czego potrzebuje",
+          "notifications": "typów powiadomień dla zespołu, z wyborem kanału",
+          "install": "aplikacji do zainstalowania przez klienta"
+        }
+      },
+      "trust": {
+        "eyebrow": "Zaufanie",
+        "title": "Zaprojektowane tak, żeby dało się je obronić",
+        "description": "Dane warsztatu, zgody klientów i historia zmian są chronione w samej bazie danych, a nie tylko w interfejsie.",
+        "cta": "Zobacz, jak chronimy dane",
+        "items": {
+          "isolation": {
+            "title": "Izolacja warsztatów",
+            "text": "Każda tabela ma identyfikator warsztatu, a baza wymusza izolację. Zapomniany filtr w kodzie daje pusty wynik, a nie wyciek."
+          },
+          "audit": {
+            "title": "Niezmienny dziennik zdarzeń",
+            "text": "Wpisów nie da się zmienić ani usunąć. Każdy zawiera skrót poprzedniego, więc przepisanie historii jest wykrywalne."
+          },
+          "minimal": {
+            "title": "Mechanik bez cen i danych kontaktowych",
+            "text": "Każda rola widzi tyle, ile potrzebuje. To reguła w kodzie, a nie hasło."
+          },
+          "links": {
+            "title": "Linki nie do odgadnięcia",
+            "text": "Token ma 192 bity losowości, a w bazie zostaje tylko jego skrót. Strony klienta nie trafiają do wyszukiwarek."
+          }
+        }
+      },
+      "cta": {
+        "title": "Zobacz Napiko na własnym warsztacie",
+        "description": "Załóż konto, dodaj pierwsze zlecenie i wyślij klientowi link do statusu naprawy.",
+        "primary": "Załóż konto warsztatu",
+        "secondary": "Zaloguj się"
+      }
+    },
+    "workshops": {
+      "seo": {
+        "title": "Napiko dla warsztatów – od przyjęcia po odbiór w jednym przepływie",
+        "description": "Zobacz jedną naprawę oczami biura, mechanika i klienta: przyjęcie, praca, wycena, zgoda klienta zapisana jako dowód, odbiór i wyniki miesiąca."
+      },
+      "hero": {
+        "eyebrow": "Dla warsztatów i mechaników",
+        "title": "Mechanik znajduje usterkę. Klient decyduje jednym kliknięciem.",
+        "lead": "Przewiń w dół i zobacz jedną naprawę krok po kroku: co robi biuro, co mechanik, co widzi klient i co zapisuje system.",
+        "primary": "Załóż konto warsztatu",
+        "secondary": "Przewiń przebieg naprawy",
+        "chips": {
+          "mechanic": "Telefon dla mechanika",
+          "office": "Komputer dla biura",
+          "customer": "Link dla klienta"
+        }
+      },
+      "story": {
+        "eyebrow": "Przebieg naprawy",
+        "title": "Jedna naprawa od A do Z",
+        "label": "Animowany przebieg jednej naprawy w dziewięciu krokach",
+        "note": "Dane na ekranach są przykładowe.",
+        "actors": {
+          "mechanic": "Mechanik",
+          "office": "Biuro",
+          "customer": "Klient"
+        },
+        "steps": {
+          "intake": {
+            "tag": "Biuro · komputer lub telefon",
+            "title": "Przyjęcie w kilka minut",
+            "text": "Wybierasz klienta i pojazd, opisujesz zakres, rozpisujesz zadania i zaznaczasz „Powiadom klienta”. Zlecenie dostaje numer ZL/rok/nr, osobny dla każdego warsztatu."
+          },
+          "status": {
+            "tag": "Klient · telefon",
+            "title": "Klient ma link, zanim wyjdzie z warsztatu",
+            "text": "SMS albo push i e-mail z linkiem do strony statusu. Bez logowania, bez aplikacji, bez cen. Klient widzi etap naprawy i termin odbioru."
+          },
+          "work": {
+            "tag": "Mechanik · telefon",
+            "title": "Mechanik widzi swoje zadania",
+            "text": "Ekran „Moje zadania”, duże przyciski i licznik czasu: Start, Pauza, Zakończ. Jeden licznik naraz, a czas liczy zegar bazy danych."
+          },
+          "finding": {
+            "tag": "Mechanik · telefon",
+            "title": "Usterka? Zdjęcie, pilność, wyślij",
+            "text": "Mechanik zgłasza potrzebę: część albo pracę dodatkową, pilność (pilne, zalecane, może poczekać) i zdjęcie. Może wstrzymać zadanie do decyzji klienta. Zamiast dzwonić do biura, wysyła zgłoszenie."
+          },
+          "quote": {
+            "tag": "Biuro · komputer",
+            "title": "Biuro wycenia raz",
+            "text": "Dzwonek, ekran „Potrzeby”, części i robocizna netto, stawka VAT, wynik brutto. Pracy dodatkowej bez wyceny nie da się wysłać klientowi. Link idzie SMS-em, e-mailem albo przekazujesz go osobiście."
+          },
+          "consent": {
+            "tag": "Klient · telefon",
+            "title": "Klient decyduje przy każdej pozycji",
+            "text": "Widzi zdjęcie i cenę brutto, wybiera „Akceptuję” albo „Nie teraz” i zaznacza zgodę na łączną kwotę. Bez logowania, na własnym telefonie.",
+            "proof": "Zapisujemy treść i jej skrót SHA-256, decyzję, czas i adres IP."
+          },
+          "effect": {
+            "tag": "System · biuro",
+            "title": "Skutki dzieją się same",
+            "text": "Pozycja wchodzi do kosztorysu, praca staje się nowym zadaniem, wstrzymane zadanie wraca do mechanika, a zlecenie do „W realizacji”. Nikt niczego nie przepisuje.",
+            "proof": "Wpis w dzienniku zdarzeń, którego nie da się zmienić."
+          },
+          "pickup": {
+            "tag": "Klient · telefon",
+            "title": "Auto gotowe, klient wie od razu",
+            "text": "Zmiana statusu na „Gotowe do odbioru” otwiera okno „Zmień status i powiadom”. Klient dostaje wiadomość, a strona statusu pokazuje „Pojazd czeka na odbiór” z adresem. Przy odbiorze zamykasz zlecenie z numerem paragonu."
+          },
+          "results": {
+            "tag": "Właściciel · komputer",
+            "title": "Właściciel widzi wyniki",
+            "text": "Pulpit pokazuje, co wymaga reakcji i kto przy czym pracuje. W „Wynikach miesiąca” widać odsetek zatwierdzonych prac dodatkowych i udział akceptacji przez link: jedną liczbę, po której poznasz, czy akceptacje działają."
+          }
+        }
+      },
+      "roles": {
+        "eyebrow": "Role",
+        "title": "Każdy widzi ekran dla siebie",
+        "description": "Pulpit i uprawnienia są dopasowane do roli. To reguła w kodzie: serwer nie liczy ani nie wysyła tego, do czego rola nie ma dostępu.",
+        "solo": "Mechanik solo? Jedno konto, wiele miejsc pracy: własna mikroorganizacja i członkostwo w innych warsztatach, z przełącznikiem warsztatu.",
+        "items": {
+          "mechanic": {
+            "title": "Mechanik",
+            "points": {
+              "tasks": "Moje zadania z licznikiem czasu",
+              "photos": "Zdjęcia i zgłoszenia potrzeb jednym kliknięciem",
+              "hidden": "Bez cen, kosztorysu i danych kontaktowych klienta"
+            }
+          },
+          "office": {
+            "title": "Biuro",
+            "points": {
+              "intake": "Przyjęcie, przydział zadań, wyceny",
+              "approvals": "Wysyłka próśb o zgodę i kosztorysu do akceptacji",
+              "attention": "„Wymaga uwagi”: sprawy, na które trzeba zareagować"
+            }
+          },
+          "owner": {
+            "title": "Właściciel",
+            "points": {
+              "all": "Wszystko, co biuro",
+              "results": "„Wyniki miesiąca” z odsetkiem zatwierdzonych prac dodatkowych",
+              "team": "Zespół, ustawienia i dziennik zdarzeń"
+            }
+          }
+        }
+      },
+      "vehicles": {
+        "eyebrow": "Nie tylko samochody",
+        "title": "19 rodzajów pojazdów i maszyn",
+        "description": "Formularz dopasowuje się do rodzaju: VIN, numer ramy albo numer fabryczny, kilometry, motogodziny albo bez licznika. Serwis rowerowy, motocyklowy i maszyn rolniczych też jest u siebie."
+      },
+      "setup": {
+        "eyebrow": "Start",
+        "title": "Gotowy do pracy w jeden dzień",
+        "description": "Bez instalacji i bez serwera w warsztacie. Lista „Przygotuj warsztat do pracy” na pulpicie prowadzi za rękę.",
+        "steps": {
+          "account": { "title": "Załóż konto i warsztat", "text": "Nazwa, rodzaj, a Ty zostajesz właścicielem." },
+          "company": { "title": "Uzupełnij dane firmy", "text": "NIP, rachunek, stawka roboczogodziny, stopka kosztorysu." },
+          "prices": { "title": "Dodaj cennik", "text": "Cena stała albo norma czasu razy stawka." },
+          "team": { "title": "Zaproś zespół", "text": "Zaproszenia e-mailem z rolą Biuro lub Mechanik." },
+          "first": { "title": "Przyjmij pierwsze zlecenie", "text": "I wyślij klientowi link do statusu naprawy." }
+        }
+      },
+      "faq": {
+        "eyebrow": "Pytania",
+        "title": "Najczęstsze wątpliwości właścicieli warsztatów",
+        "items": {
+          "install": {
+            "q": "Czy klienci muszą instalować aplikację?",
+            "a": "Nie. Wszystko działa z linku w SMS-ie lub e-mailu: akceptacja prac i status naprawy. Aplikacja jest tylko dla zespołu i też działa z przeglądarki."
+          },
+          "writing": {
+            "q": "Mechanicy nie lubią pisać. Czy to zadziała?",
+            "a": "Zgłoszenie to zdjęcie, wybór pilności i jedno kliknięcie. Przyciski są duże, a ekran jest zrobiony pod telefon."
+          },
+          "invoices": {
+            "q": "Co z fakturami i KSeF?",
+            "a": "Dziś zapisujemy numer i datę paragonu z Twojej kasy. Faktury wystawiasz w swoim programie. Integracja z Fakturownią (KSeF) jest w planie. Napiko nie zastępuje kasy fiskalnej."
+          },
+          "program": {
+            "q": "Mam już program warsztatowy.",
+            "a": "Napiko działa obok niego i zajmuje się komunikacją oraz akceptacjami. Import klientów z pliku jest w planie, integracje z programami później."
+          },
+          "sms": {
+            "q": "Czy SMS-y będą mnie dużo kosztować?",
+            "a": "SMS wysyłamy tylko przy kluczowych zdarzeniach. Klient może włączyć powiadomienia w telefonie i wtedy dostaje wiadomość bez kosztu SMS-a. Jeśli powiadomienia przestaną działać, system sam wyśle SMS."
+          },
+          "noreply": {
+            "q": "Co, jeśli klient nie odpowie?",
+            "a": "Link ma termin ważności (od 1 do 14 dni). Po jego upływie dostajesz powiadomienie i widzisz sprawę w „Wymaga uwagi”. Możesz wysłać nowy link albo zapisać decyzję telefoniczną."
+          },
+          "legal": {
+            "q": "Czy zgoda klienta jest ważna w sądzie?",
+            "a": "Zapisujemy treść pokazaną klientowi, jej skrót, decyzje, zgodę na kwotę, czas i adres IP. Napiko nie udziela porad prawnych, więc ocenę skuteczności takiej zgody w Twojej umowie z klientem powinien zrobić prawnik."
+          },
+          "offline": {
+            "q": "Czy działa bez internetu?",
+            "a": "Nie, wymaga połączenia. Praca bez zasięgu (kolejka zdjęć) jest w planie."
+          },
+          "price": {
+            "q": "Ile to kosztuje?",
+            "a": "Zasady cennika są w trakcie ustalania, dlatego nie podajemy jeszcze kwot. Konto możesz założyć już teraz i sprawdzić Napiko na własnym warsztacie."
+          }
+        }
+      },
+      "cta": {
+        "title": "Zobacz ten przepływ na własnym warsztacie",
+        "description": "Załóż konto, przyjmij pierwsze zlecenie i wyślij klientowi link.",
+        "primary": "Załóż konto warsztatu",
+        "secondary": "Zobacz widok klienta"
+      }
+    },
+    "customers": {
+      "seo": {
+        "title": "Napiko dla klientów warsztatu – status naprawy i decyzja w telefonie",
+        "description": "Warsztat wysyła Ci link. Bez konta i bez aplikacji sprawdzasz, co dzieje się z Twoim pojazdem, i sam decydujesz o dodatkowych pracach, widząc zdjęcie i cenę."
+      },
+      "hero": {
+        "eyebrow": "Dla klientów warsztatu",
+        "title": "Wiesz, co dzieje się z Twoim autem i za co płacisz.",
+        "lead": "Warsztat, który korzysta z Napiko, wysyła Ci link. Otwierasz go w telefonie, bez konta i bez aplikacji. Widzisz status naprawy, a o dodatkowych pracach decydujesz sam, mając przed oczami zdjęcie i cenę.",
+        "primary": "Zobacz, jak to wygląda",
+        "secondary": "Jestem warsztatem",
+        "chips": {
+          "account": "Bez konta",
+          "app": "Bez aplikacji",
+          "link": "Link w SMS-ie lub e-mailu"
+        }
+      },
+      "story": {
+        "eyebrow": "Twoja naprawa",
+        "title": "Od oddania auta do odbioru",
+        "label": "Animowany przebieg naprawy oczami klienta w ośmiu krokach",
+        "note": "Dane na ekranach są przykładowe.",
+        "actors": {
+          "workshop": "Warsztat",
+          "customer": "Ty"
+        },
+        "steps": {
+          "arrive": {
+            "tag": "Warsztat → Ty",
+            "title": "Zostawiasz auto, a w telefonie masz link",
+            "text": "Przy przyjęciu pojazdu warsztat wysyła Ci wiadomość z linkiem do statusu naprawy. Dotykasz linku i gotowe: bez logowania i bez instalowania czegokolwiek."
+          },
+          "status": {
+            "tag": "Ty · telefon",
+            "title": "Widzisz, na jakim etapie jest naprawa",
+            "text": "Przyjęty, w naprawie, gotowy do odbioru, odebrany, z datami i postępem prac („2 z 3”). Jest też planowany termin odbioru i kontakt do warsztatu. Bez cen i wewnętrznych notatek."
+          },
+          "alert": {
+            "tag": "Warsztat → Ty",
+            "title": "Mechanik znalazł usterkę? Dostajesz powiadomienie",
+            "text": "Gdy warsztat potrzebuje Twojej decyzji, wysyła wiadomość, a na stronie statusu widzisz: „Warsztat czeka na Twoją decyzję”."
+          },
+          "decision": {
+            "tag": "Ty · telefon",
+            "title": "Decydujesz, widząc zdjęcie i cenę",
+            "text": "Przy każdej pozycji jest zdjęcie, opis, pilność i cena brutto z podziałem na części i robociznę. Wybierasz „Akceptuję” albo „Nie teraz”, zaznaczasz zgodę na łączną kwotę i wysyłasz decyzję."
+          },
+          "sent": {
+            "tag": "Ty → Warsztat",
+            "title": "Warsztat dostaje Twoją decyzję",
+            "text": "Widzisz potwierdzenie i podsumowanie. Warsztat zapisuje Twoją decyzję: treść, cenę, czas i adres IP. Jeśli wybierzesz „Nie teraz”, warsztat wykona tylko pierwotny zakres."
+          },
+          "push": {
+            "tag": "Ty · telefon",
+            "title": "Powiadomienia bez SMS-ów",
+            "text": "Na stronie statusu możesz włączyć powiadomienia w tym telefonie, bez instalowania aplikacji. Możesz też wyłączyć SMS-y i e-maile jednym kliknięciem. Na iPhonie wymaga to dodania strony do ekranu początkowego."
+          },
+          "ready": {
+            "tag": "Warsztat → Ty",
+            "title": "Auto gotowe? Wiesz od razu",
+            "text": "Dostajesz wiadomość, a strona statusu pokazuje „Pojazd czeka na odbiór” z adresem warsztatu i przyciskiem „Zadzwoń”. Przychodzisz wtedy, kiedy auto jest gotowe."
+          },
+          "done": {
+            "tag": "Ty · telefon",
+            "title": "Odbiór i dalej",
+            "text": "Po odbiorze status zmienia się na „Odebrany”, a link działa jeszcze 30 dni. Konta klienta z historią napraw Twojego pojazdu jeszcze nie ma, jest w planie."
+          }
+        }
+      },
+      "guarantees": {
+        "eyebrow": "Twoje dane, Twoja decyzja",
+        "title": "Co warto wiedzieć o linku od warsztatu",
+        "items": {
+          "noAccount": {
+            "title": "Bez konta i bez aplikacji",
+            "text": "Link działa w przeglądarce telefonu. Nie zakładasz konta i nie instalujesz niczego."
+          },
+          "privacy": {
+            "title": "Cena tylko tam, gdzie decydujesz",
+            "text": "Strona statusu nie pokazuje cen ani notatek warsztatu. Ceny widzisz przy prośbie o decyzję."
+          },
+          "masked": {
+            "title": "Zamaskowany kontakt",
+            "text": "Twój telefon i e-mail na stronie statusu są częściowo ukryte."
+          },
+          "expiry": {
+            "title": "Link ma termin",
+            "text": "Prośba o decyzję jest ważna od 1 do 14 dni. Po upływie terminu warsztat skontaktuje się z Tobą inaczej albo wyśle nowy link."
+          },
+          "optout": {
+            "title": "Powiadomienia wyłączysz sam",
+            "text": "Rezygnację z SMS-ów i e-maili wybierasz jednym kliknięciem na stronie statusu."
+          },
+          "token": {
+            "title": "Link tylko dla Ciebie",
+            "text": "Adres zawiera długi, losowy token i nie trafia do wyszukiwarek."
+          }
+        }
+      },
+      "faq": {
+        "eyebrow": "Pytania",
+        "title": "Najczęstsze pytania klientów",
+        "items": {
+          "install": {
+            "q": "Czy muszę instalować aplikację?",
+            "a": "Nie. Wszystko działa z linku w przeglądarce telefonu."
+          },
+          "account": {
+            "q": "Czy muszę mieć konto?",
+            "a": "Nie. Link od warsztatu wystarcza, aby zobaczyć status naprawy i podjąć decyzję."
+          },
+          "refuse": {
+            "q": "Co, jeśli nie zgodzę się na dodatkową pracę?",
+            "a": "Wybierasz „Nie teraz”. Warsztat dowiaduje się o decyzji i wykonuje tylko pierwotny zakres."
+          },
+          "silence": {
+            "q": "Co, jeśli nie odpowiem?",
+            "a": "Prośba ma termin ważności. Po jego upływie warsztat dostaje informację i może się z Tobą skontaktować albo wysłać nowy link."
+          },
+          "data": {
+            "q": "Kto widzi moje dane?",
+            "a": "Warsztat, w którym naprawiasz pojazd. To on jest administratorem Twoich danych. Mechanik nie widzi Twoich danych kontaktowych ani cen."
+          },
+          "sms": {
+            "q": "Czy mogę wyłączyć SMS-y?",
+            "a": "Tak. Na stronie statusu wyłączasz SMS-y i e-maile albo włączasz powiadomienia w telefonie."
+          }
+        }
+      },
+      "refer": {
+        "eyebrow": "Twój warsztat jeszcze nie używa Napiko?",
+        "title": "Pokaż mu, jak to działa",
+        "text": "Wyślij swojemu mechanikowi tę stronę. Warsztat może zacząć od założenia konta i pierwszego zlecenia.",
+        "copy": "Skopiuj link do tej strony",
+        "copied": "Skopiowano link do schowka",
+        "failed": "Nie udało się skopiować. Skopiuj adres z paska przeglądarki."
+      },
+      "cta": {
+        "title": "Chcesz taki status naprawy u swojego mechanika?",
+        "description": "Napiko jest tworzone dla warsztatów. Pokaż mu tę stronę albo wyślij link.",
+        "primary": "Zobacz stronę dla warsztatów"
+      }
+    },
+    "security": {
+      "seo": {
+        "title": "Bezpieczeństwo w Napiko – izolacja danych, dziennik zdarzeń, linki klientów",
+        "description": "Izolacja danych warsztatów wymuszona w bazie, niezmienny dziennik zdarzeń, minimalizacja danych i bezpieczne linki dla klientów. Co działa dziś i co jest w przygotowaniu."
+      },
+      "hero": {
+        "eyebrow": "Bezpieczeństwo i zaufanie",
+        "title": "Dane warsztatu i zgody klientów pod kontrolą",
+        "lead": "Izolacja danych jest wymuszona w bazie, historia zmian jest niezmienna, a mechanik widzi tylko to, czego potrzebuje do pracy. Poniżej opisujemy, co działa dziś, a co jest jeszcze w przygotowaniu."
+      },
+      "cards": {
+        "eyebrow": "Co działa dziś",
+        "title": "Zabezpieczenia wbudowane w aplikację",
+        "items": {
+          "isolation": {
+            "title": "Izolacja warsztatów w bazie",
+            "text": "Każda tabela ma identyfikator warsztatu, a baza wymusza izolację (Row Level Security z opcją FORCE). Zapomniany filtr w kodzie daje pusty wynik, a nie wyciek. Test pilnuje tego automatycznie dla każdej tabeli."
+          },
+          "integrity": {
+            "title": "Spójność danych",
+            "text": "Złożone klucze obce nie pozwalają podpiąć pojazdu, zlecenia, zadania ani pliku z innego warsztatu."
+          },
+          "audit": {
+            "title": "Dziennik zdarzeń jak łańcuch",
+            "text": "Wpisy są niezmienne, a każdy zawiera skrót poprzedniego. Mechanizm zapisu głowy łańcucha poza bazą jest w aplikacji i działa po skonfigurowaniu magazynu produkcyjnego."
+          },
+          "minimal": {
+            "title": "Minimalizacja danych",
+            "text": "Mechanik nie widzi danych kontaktowych ani cen. Strona statusu nie pokazuje cen i maskuje kontakt. Zdjęcia tracą dane o lokalizacji przed wysyłką, a powiadomienia nie zawierają danych kontaktowych."
+          },
+          "links": {
+            "title": "Bezpieczne linki dla klienta",
+            "text": "Tokeny mają 192 bity losowości, a w bazie zostaje tylko ich skrót. Strony są wyłączone z indeksowania, bez nagłówka Referer i bez pamięci podręcznej. Publiczne endpointy mają limit zapytań."
+          },
+          "queue": {
+            "title": "Powiadomienia, które nie giną",
+            "text": "SMS-y i e-maile idą przez kolejkę z ponowieniami, a awaria bramki nie blokuje pracy. Powiadomienie powstaje w tej samej transakcji co zmiana danych."
+          }
+        }
+      },
+      "plan": {
+        "eyebrow": "Co jeszcze przed nami",
+        "title": "Uczciwie: czego jeszcze nie ma",
+        "description": "Napiko jest we wczesnej fazie. Zanim ruszymy z pilotażem w pierwszych warsztatach, domykamy sprawy formalne i wdrożeniowe.",
+        "label": "W przygotowaniu",
+        "items": {
+          "gdpr": {
+            "title": "RODO",
+            "text": "Napiko jest projektowane pod RODO: warsztat jest administratorem danych, a Napiko podmiotem przetwarzającym. Umowa powierzenia przetwarzania, regulamin i polityka prywatności są w przygotowaniu."
+          },
+          "hosting": {
+            "title": "Hosting w UE, kopie zapasowe, monitoring",
+            "text": "Zaplanowane na wdrożenie produkcyjne. Do tego czasu nie deklarujemy lokalizacji danych."
+          },
+          "access": {
+            "title": "Logowanie dwuetapowe i testy penetracyjne",
+            "text": "W planie."
+          },
+          "data": {
+            "title": "Eksport i usuwanie danych klienta, zasady retencji",
+            "text": "W planie."
+          }
+        }
+      },
+      "faq": {
+        "eyebrow": "Pytania",
+        "title": "Pytania o dane i bezpieczeństwo",
+        "items": {
+          "other": {
+            "q": "Czy inny warsztat zobaczy moje dane?",
+            "a": "Nie. Izolacja jest wymuszona w bazie danych, a nie tylko w interfejsie."
+          },
+          "where": {
+            "q": "Gdzie są dane?",
+            "a": "Hosting w UE jest zaplanowany na etap wdrożenia produkcyjnego. Do tego czasu nie deklarujemy lokalizacji danych."
+          },
+          "legal": {
+            "q": "Czy zgoda klienta jest ważna prawnie?",
+            "a": "Zapisujemy fakty: treść, decyzję, zgodę na kwotę, czas i adres IP. Napiko nie udziela porad prawnych, a ocenę formy zgody powinien zrobić prawnik."
+          },
+          "gdpr": {
+            "q": "Czy Napiko jest zgodne z RODO?",
+            "a": "Jest projektowane pod RODO (minimalizacja danych, izolacja, dziennik zdarzeń). Formalne dokumenty, w tym umowa powierzenia, są w przygotowaniu, dlatego nie ogłaszamy jeszcze pełnej zgodności."
+          },
+          "mechanic": {
+            "q": "Co widzi mechanik?",
+            "a": "Nazwisko klienta, pojazd, numer rejestracyjny i VIN. Nie widzi danych kontaktowych, cen, kosztorysu ani notatek biura."
+          }
+        }
+      },
+      "cta": {
+        "title": "Zobacz, jak to działa w praktyce",
+        "description": "Przewiń jedną naprawę od przyjęcia po odbiór i sprawdź, co widzi każda ze stron.",
+        "primary": "Zobacz przebieg naprawy",
+        "secondary": "Załóż konto warsztatu"
+      }
+    },
+    "scene": {
+      "from": "Wiadomość od warsztatu",
+      "shop": "Auto-Serwis Kowalski",
+      "customer": "Joanna Kamińska",
+      "vehicle": "Kia Ceed",
+      "plate": "WX 4821K",
+      "order": "ZL/2026/0007",
+      "urgent": "Pilne",
+      "currency": "zł",
+      "intake": {
+        "url": "panel / zlecenia / nowe",
+        "title": "Nowe zlecenie",
+        "customer": "Klient",
+        "vehicle": "Pojazd",
+        "scope": "Zakres prac",
+        "scopeValue": "Przegląd przed wyjazdem",
+        "tasks": "Zadania",
+        "task1": "Kontrola układu hamulcowego",
+        "task2": "Wymiana oleju i filtrów",
+        "notify": "Powiadom klienta",
+        "notifyVia": "SMS, e-mail",
+        "create": "Utwórz zlecenie"
+      },
+      "sms": {
+        "date": "Czwartek, 8 października",
+        "now": "teraz",
+        "text": "Przyjelismy Twoj pojazd Kia Ceed. Status naprawy:",
+        "link": "…/s/Hk3p9",
+        "hint": "Dotknij linku – bez konta i bez aplikacji"
+      },
+      "status": {
+        "title": "Status naprawy",
+        "order": "zlecenie {number}",
+        "readyTitle": "Pojazd czeka na odbiór",
+        "readyHint": "Auto-Serwis Kowalski, ul. Przykładowa 12",
+        "waiting": "Warsztat czeka na Twoją decyzję",
+        "waitingHint": "Mechanik znalazł dodatkową usterkę.",
+        "steps": {
+          "received": "Przyjęty",
+          "in_progress": "W naprawie",
+          "ready": "Gotowy do odbioru",
+          "closed": "Odebrany"
+        },
+        "now": "teraz",
+        "progress": "Postęp prac: {done} z {total}",
+        "notifications": "Powiadomienia",
+        "pushTitle": "Powiadomienia w tym telefonie",
+        "pushHint": "Zamiast SMS-ów, bez instalacji",
+        "pushEnabled": "Powiadomienia włączone",
+        "contact": "Kontakt do warsztatu",
+        "call": "Zadzwoń",
+        "mail": "Napisz",
+        "privacy": "Bez cen i notatek warsztatu. Twój telefon i e-mail są zamaskowane."
+      },
+      "work": {
+        "title": "Moje zadania",
+        "nowWorking": "Teraz pracujesz",
+        "todo": "Do zrobienia",
+        "start": "Start",
+        "pause": "Pauza",
+        "finish": "Zakończ",
+        "photo": "Zdjęcie",
+        "report": "Zgłoś potrzebę",
+        "next": "Następne zadanie",
+        "nextHint": "Czeka na start"
+      },
+      "finding": {
+        "title": "Zgłoś potrzebę",
+        "part": "Część do zamówienia",
+        "extra": "Praca dodatkowa",
+        "urgency": "Pilność",
+        "recommended": "Zalecane",
+        "canWait": "Może poczekać",
+        "describe": "Opis",
+        "describeValue": "Klocki hamulcowe z przodu zużyte, grubość poniżej 2 mm.",
+        "block": "Nie mogę kontynuować zadania bez tego",
+        "send": "Wyślij do biura",
+        "sent": "Wysłano do biura"
+      },
+      "quote": {
+        "url": "panel / potrzeby",
+        "list": "Do obsłużenia",
+        "by": "zgłosił Tomasz · 14:02",
+        "pricing": "Wycena",
+        "parts": "Części (netto)",
+        "labor": "Robocizna (netto)",
+        "vat": "VAT",
+        "gross": "Razem brutto",
+        "manual": "Sam przekażę link",
+        "send": "Wyślij do akceptacji klienta",
+        "sent": "Wysłano SMS do klienta"
+      },
+      "approval": {
+        "title": "Prośba o decyzję",
+        "item": "Klocki hamulcowe – przód",
+        "itemHint": "Zużycie poniżej 2 mm. Zalecana wymiana teraz.",
+        "gross": "brutto",
+        "split": "części {parts} zł · robocizna {labor} zł · w tym VAT 23%",
+        "yes": "Akceptuję",
+        "no": "Nie teraz",
+        "summary": "Zatwierdzone pozycje: {count} · razem {total} zł brutto",
+        "consent": "Zlecam wykonanie zatwierdzonych prac za łączną kwotę {total} zł brutto.",
+        "submit": "Wyślij decyzję",
+        "legal": "Decyzja zostanie zapisana z datą, godziną i adresem IP.",
+        "thanksTitle": "Dziękujemy!",
+        "thanks": "Warsztat otrzymał Twoją decyzję.",
+        "thanksHint": "Zapisano 8 października, 14:20.",
+        "approved": "Zatwierdzone",
+        "recorded": "SHA-256 · 9f2c…a41e · adres IP zapisany"
+      },
+      "effect": {
+        "url": "panel / zlecenia / ZL-2026-0007",
+        "replied": "Klient odpowiedział: zaakceptował",
+        "repliedHint": "Joanna Kamińska · Klocki hamulcowe – przód",
+        "task": "Nowe zadanie u mechanika",
+        "taskHint": "Wymiana klocków hamulcowych · Tomasz",
+        "estimate": "Pozycja w kosztorysie",
+        "estimateHint": "Części i robocizna, razem {total} zł brutto",
+        "status": "Zlecenie wraca do „W realizacji”",
+        "statusHint": "Mechanik dostał powiadomienie",
+        "audit": "Zapis zgody w dzienniku zdarzeń",
+        "hash": "sha256: 9f2c4e…a41e · 14:20 · adres IP zapisany",
+        "chain": "Łańcuch dziennika nienaruszony"
+      },
+      "alert": {
+        "push": "Warsztat czeka na Twoją decyzję. Mechanik znalazł usterkę – zobacz zdjęcie i cenę.",
+        "hint": "Dotknij, aby otworzyć"
+      },
+      "pickup": {
+        "push": "Twoje auto jest gotowe do odbioru. Szczegóły w statusie naprawy."
+      },
+      "results": {
+        "url": "panel / pulpit",
+        "title": "Wyniki miesiąca",
+        "sample": "Dane przykładowe",
+        "approved": "Zatwierdzone prace dodatkowe",
+        "approvedHint": "14 z 19 zgłoszeń",
+        "closed": "Zamknięte zlecenia",
+        "link": "Zgody przez link",
+        "hours": "Czas pracy zespołu",
+        "hint": "To jedna liczba, po której właściciel widzi, czy akceptacje przez link działają."
+      },
+      "done": {
+        "linkTitle": "Link działa jeszcze 30 dni",
+        "linkHint": "Status tej naprawy zostaje pod ręką.",
+        "hubTitle": "Historia napraw pojazdu",
+        "soon": "Wkrótce",
+        "hubHint": "Konto klienta z historią napraw jest w planie. Dziś masz linki od warsztatu."
+      }
+    }
+  }
+}

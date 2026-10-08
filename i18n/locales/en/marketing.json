@@ -1,0 +1,766 @@
+{
+  "marketing": {
+    "nav": {
+      "label": "Main navigation",
+      "skip": "Skip to content",
+      "workshops": "For workshops",
+      "customers": "For customers",
+      "security": "Security",
+      "register": "Create account",
+      "forWorkshop": "Run a workshop?",
+      "open": "Open menu",
+      "close": "Close menu"
+    },
+    "footer": {
+      "tagline": "Communication and work organisation for workshops and their customers: office, mechanics and customer in one flow.",
+      "product": "Product",
+      "account": "Account",
+      "demo": "Data on the sample screens is fictional."
+    },
+    "story": {
+      "stepOf": "Step {n} of {total}"
+    },
+    "hero": {
+      "loop": {
+        "replied": "Customer approved: new task and estimate line",
+        "proof": "Consent recorded: content, price, time, IP address"
+      }
+    },
+    "shared": {
+      "alongside": {
+        "eyebrow": "Works alongside your software",
+        "title": "Not yet another invoicing program",
+        "text": "Napiko does not replace your accounting or cash register. It handles what happens between the workshop and the customer: communication, approvals and repair status. You issue the invoice where you do today, and in Napiko you record the receipt number and date.",
+        "roadmapTitle": "Planned, not in the app yet"
+      },
+      "roadmap": {
+        "protocol": "Intake report signed by the customer",
+        "inspection": "Inspection with photos and a checklist",
+        "invoices": "Invoices and KSeF through an integration",
+        "hub": "Customer account with the vehicle's repair history"
+      },
+      "proof": {
+        "eyebrow": "Proof of consent",
+        "title": "Exactly what we record when a customer agrees",
+        "description": "Napiko does not give legal advice. It records the facts that show what the customer agreed to.",
+        "legal": "Whether such consent meets the form requirements of your contract with the customer should be assessed by a lawyer.",
+        "rows": {
+          "content": {
+            "title": "Content shown to the customer",
+            "text": "Items, descriptions, gross prices and photos, together with a SHA-256 hash. The estimate may change later; the record stays."
+          },
+          "decision": {
+            "title": "Decision and consent to the amount",
+            "text": "The answer for each item, consent to the total gross amount and the customer's notes."
+          },
+          "context": {
+            "title": "Circumstances",
+            "text": "Date, time, IP address and browser."
+          },
+          "audit": {
+            "title": "Audit log entry",
+            "text": "An event that cannot be changed or deleted. Every entry contains the hash of the previous one."
+          }
+        }
+      }
+    },
+    "home": {
+      "seo": {
+        "title": "Napiko – workshop, mechanic and customer in one flow",
+        "description": "The mechanic takes a photo, the office prices it, the customer decides on their phone and the consent is recorded. Napiko connects the office, mechanics and customers of a workshop, with nothing to install on the customer's side."
+      },
+      "hero": {
+        "eyebrow": "For car workshops and beyond",
+        "title": "A fault found mid-repair. Customer consent in one click.",
+        "lead": "Napiko connects the office, mechanics and the workshop's customer in one flow, from vehicle intake to pickup. The mechanic takes a photo, the office prices it, the customer decides on their phone, and their consent is recorded.",
+        "primary": "Create a workshop account",
+        "secondary": "See how it works",
+        "points": {
+          "install": "Customers install no app and create no account",
+          "devices": "Mechanics work on a phone, the office on a computer",
+          "locale": "Polish and English, light and dark theme"
+        }
+      },
+      "problem": {
+        "eyebrow": "The problem",
+        "title": "By the time the customer picks up the phone, the car is still on the lift",
+        "description": "Extra work is the most nerve-wracking moment of any repair. Without a shared system it goes like this:",
+        "cards": {
+          "phone": {
+            "title": "Phone calls mid-repair",
+            "text": "The mechanic finds a fault, the office calls the customer, the customer does not answer. The information travels by word of mouth or on a slip of paper."
+          },
+          "wait": {
+            "title": "Endless waiting",
+            "text": "Work on the car stops until someone replies. The mechanic loses time and the customer does not know what they are waiting for."
+          },
+          "dispute": {
+            "title": "A price dispute after the fact",
+            "text": "At pickup comes the question “why so much?”. Nobody has a record of what the customer heard and agreed to."
+          }
+        },
+        "with": "With Napiko",
+        "chain": {
+          "photo": "Photo of the fault",
+          "quote": "Estimate in the office",
+          "link": "Link to the customer",
+          "decision": "Decision on the phone",
+          "record": "Consent recorded"
+        }
+      },
+      "promises": {
+        "eyebrow": "Three promises",
+        "title": "Fewer calls, fewer questions, one shared picture",
+        "items": {
+          "approvals": {
+            "title": "No more calls about extra work",
+            "text": "The mechanic reports a fault with a photo, the office prices it, the customer gets a link and decides on each item. The decision is recorded together with the content, time and IP address."
+          },
+          "status": {
+            "title": "No more “is it ready yet?”",
+            "text": "The customer has a repair status page that opens from a link, with no login and nothing to install. They get a message at intake and when the car is ready for pickup."
+          },
+          "team": {
+            "title": "The whole team sees the same thing",
+            "text": "The mechanic works on a phone, the office gets ready information to price, and the owner sees on the dashboard what needs attention and how the month is going."
+          }
+        }
+      },
+      "paths": {
+        "eyebrow": "Choose your path",
+        "title": "One repair, two points of view",
+        "description": "Scroll through the animated story of a single repair: once through the workshop's eyes, once through the customer's.",
+        "workshop": {
+          "label": "For workshops and mechanics",
+          "title": "See a working day in Napiko",
+          "text": "Intake, the mechanic's work, estimate, customer consent, pickup and monthly results. {count} steps, one flow.",
+          "cta": "Explore Napiko for workshops"
+        },
+        "customer": {
+          "label": "For workshop customers",
+          "title": "See what you get on your phone",
+          "text": "A link in a message, the repair status, a request for your decision with a photo and a price. No account, no app.",
+          "cta": "See the customer view"
+        }
+      },
+      "journey": {
+        "eyebrow": "One repair",
+        "title": "From intake to pickup in one flow",
+        "link": "See the full walkthrough",
+        "steps": {
+          "intake": { "title": "Intake", "text": "Customer and vehicle in minutes, status link right away." },
+          "work": { "title": "Work", "text": "The mechanic sees their tasks and tracks time." },
+          "finding": { "title": "Fault", "text": "Photo, urgency and description in one click." },
+          "quote": { "title": "Estimate", "text": "The office calculates parts, labour and VAT." },
+          "consent": { "title": "Consent", "text": "The customer decides on their phone, the consent is recorded." },
+          "pickup": { "title": "Pickup", "text": "A message that the car is ready, and closing with the receipt." }
+        }
+      },
+      "numbers": {
+        "eyebrow": "Specifics",
+        "title": "Not promises, just what is in the app",
+        "items": {
+          "vehicles": "vehicle types: from a car to a bicycle, tractor and boat",
+          "roles": "roles, each seeing only what they need",
+          "notifications": "team notification types, with a choice of channel",
+          "install": "apps for the customer to install"
+        }
+      },
+      "trust": {
+        "eyebrow": "Trust",
+        "title": "Designed to stand up to scrutiny",
+        "description": "Workshop data, customer consents and change history are protected in the database itself, not just in the interface.",
+        "cta": "See how we protect data",
+        "items": {
+          "isolation": {
+            "title": "Workshop isolation",
+            "text": "Every table carries a workshop identifier and the database enforces isolation. A forgotten filter in the code returns an empty result, not a leak."
+          },
+          "audit": {
+            "title": "Immutable audit log",
+            "text": "Entries cannot be changed or deleted. Each contains the hash of the previous one, so rewriting history is detectable."
+          },
+          "minimal": {
+            "title": "Mechanics without prices or contact data",
+            "text": "Every role sees only what it needs. This is a rule in the code, not a slogan."
+          },
+          "links": {
+            "title": "Links that cannot be guessed",
+            "text": "A token has 192 bits of randomness and only its hash is stored. Customer pages stay out of search engines."
+          }
+        }
+      },
+      "cta": {
+        "title": "See Napiko in your own workshop",
+        "description": "Create an account, add your first order and send the customer a link to the repair status.",
+        "primary": "Create a workshop account",
+        "secondary": "Sign in"
+      }
+    },
+    "workshops": {
+      "seo": {
+        "title": "Napiko for workshops – from intake to pickup in one flow",
+        "description": "See one repair through the eyes of the office, the mechanic and the customer: intake, work, estimate, customer consent recorded as evidence, pickup and monthly results."
+      },
+      "hero": {
+        "eyebrow": "For workshops and mechanics",
+        "title": "The mechanic finds a fault. The customer decides in one click.",
+        "lead": "Scroll down and follow one repair step by step: what the office does, what the mechanic does, what the customer sees and what the system records.",
+        "primary": "Create a workshop account",
+        "secondary": "Scroll through the repair",
+        "chips": {
+          "mechanic": "A phone for the mechanic",
+          "office": "A computer for the office",
+          "customer": "A link for the customer"
+        }
+      },
+      "story": {
+        "eyebrow": "The repair",
+        "title": "One repair from A to Z",
+        "label": "Animated walkthrough of one repair in nine steps",
+        "note": "Data on the screens is sample data.",
+        "actors": {
+          "mechanic": "Mechanic",
+          "office": "Office",
+          "customer": "Customer"
+        },
+        "steps": {
+          "intake": {
+            "tag": "Office · computer or phone",
+            "title": "Intake in minutes",
+            "text": "You pick the customer and vehicle, describe the scope, list the tasks and tick “Notify customer”. The order gets a number like ZL/year/no., numbered separately for each workshop."
+          },
+          "status": {
+            "tag": "Customer · phone",
+            "title": "The customer has a link before leaving the workshop",
+            "text": "An SMS or push plus an e-mail with a link to the status page. No login, no app, no prices. The customer sees the repair stage and the pickup date."
+          },
+          "work": {
+            "tag": "Mechanic · phone",
+            "title": "The mechanic sees their tasks",
+            "text": "A “My tasks” screen, big buttons and a time tracker: Start, Pause, Finish. One timer at a time, and the time is counted by the database clock."
+          },
+          "finding": {
+            "tag": "Mechanic · phone",
+            "title": "A fault? Photo, urgency, send",
+            "text": "The mechanic reports a need: a part or extra work, urgency (urgent, recommended, can wait) and a photo. They can hold the task until the customer decides. Instead of phoning the office, they send a report."
+          },
+          "quote": {
+            "tag": "Office · computer",
+            "title": "The office prices it once",
+            "text": "The bell, the “Needs” screen, net parts and labour, the VAT rate, a gross result. Extra work without a price cannot be sent to the customer. The link goes by SMS, by e-mail, or you hand it over in person."
+          },
+          "consent": {
+            "tag": "Customer · phone",
+            "title": "The customer decides on every item",
+            "text": "They see the photo and gross price, choose “Approve” or “Not now” and tick consent to the total amount. No login, on their own phone.",
+            "proof": "We record the content and its SHA-256 hash, the decision, the time and the IP address."
+          },
+          "effect": {
+            "tag": "System · office",
+            "title": "The consequences happen on their own",
+            "text": "The item goes into the estimate, the work becomes a new task, the paused task returns to the mechanic and the order goes back to “In progress”. Nobody retypes anything.",
+            "proof": "An audit log entry that cannot be changed."
+          },
+          "pickup": {
+            "tag": "Customer · phone",
+            "title": "Car ready, the customer knows at once",
+            "text": "Changing the status to “Ready for pickup” opens the “Change status and notify” dialog. The customer gets a message and the status page shows “Your vehicle is waiting for pickup” with the address. At pickup you close the order with the receipt number."
+          },
+          "results": {
+            "tag": "Owner · computer",
+            "title": "The owner sees the results",
+            "text": "The dashboard shows what needs attention and who is working on what. “Monthly results” shows the share of approved extra work and the share of approvals made through the link: one number that tells you whether approvals work."
+          }
+        }
+      },
+      "roles": {
+        "eyebrow": "Roles",
+        "title": "Everyone sees their own screen",
+        "description": "The dashboard and permissions match the role. This is a rule in the code: the server does not calculate or send what a role has no access to.",
+        "solo": "A solo mechanic? One account, many workplaces: your own micro-organisation and membership of other workshops, with a workshop switcher.",
+        "items": {
+          "mechanic": {
+            "title": "Mechanic",
+            "points": {
+              "tasks": "My tasks with a time tracker",
+              "photos": "Photos and need reports in one click",
+              "hidden": "No prices, estimate or customer contact data"
+            }
+          },
+          "office": {
+            "title": "Office",
+            "points": {
+              "intake": "Intake, task assignment, estimates",
+              "approvals": "Sending consent requests and estimates for approval",
+              "attention": "“Needs attention”: matters that call for a reaction"
+            }
+          },
+          "owner": {
+            "title": "Owner",
+            "points": {
+              "all": "Everything the office has",
+              "results": "“Monthly results” with the share of approved extra work",
+              "team": "Team, settings and the audit log"
+            }
+          }
+        }
+      },
+      "vehicles": {
+        "eyebrow": "Not just cars",
+        "title": "19 types of vehicles and machines",
+        "description": "The form adapts to the type: VIN, frame number or serial number; kilometres, engine hours or no meter. A bicycle, motorcycle or agricultural machinery shop is at home too."
+      },
+      "setup": {
+        "eyebrow": "Getting started",
+        "title": "Ready to work in a day",
+        "description": "Nothing to install and no server in the workshop. The “Get your workshop ready” checklist on the dashboard walks you through it.",
+        "steps": {
+          "account": { "title": "Create an account and a workshop", "text": "A name and a type, and you become the owner." },
+          "company": { "title": "Fill in company details", "text": "Tax ID, bank account, hourly rate, estimate footer." },
+          "prices": { "title": "Add a price list", "text": "A fixed price, or a time norm times the rate." },
+          "team": { "title": "Invite the team", "text": "E-mail invitations with an Office or Mechanic role." },
+          "first": { "title": "Take your first order", "text": "And send the customer a link to the repair status." }
+        }
+      },
+      "faq": {
+        "eyebrow": "Questions",
+        "title": "Common concerns of workshop owners",
+        "items": {
+          "install": {
+            "q": "Do customers have to install an app?",
+            "a": "No. Everything works from a link in an SMS or e-mail: approval of work and repair status. The app is only for the team and also runs in a browser."
+          },
+          "writing": {
+            "q": "Mechanics do not like typing. Will this work?",
+            "a": "A report is a photo, a choice of urgency and one click. The buttons are big and the screen is built for a phone."
+          },
+          "invoices": {
+            "q": "What about invoices and KSeF?",
+            "a": "Today we record the receipt number and date from your cash register. You issue invoices in your own software. An integration with Fakturownia (KSeF) is planned. Napiko does not replace a fiscal cash register."
+          },
+          "program": {
+            "q": "I already have workshop software.",
+            "a": "Napiko works alongside it and handles communication and approvals. Importing customers from a file is planned, integrations with other software come later."
+          },
+          "sms": {
+            "q": "Will SMS messages cost me a lot?",
+            "a": "We send SMS only for key events. The customer can turn on notifications on their phone and then gets the message at no SMS cost. If notifications stop working, the system sends an SMS itself."
+          },
+          "noreply": {
+            "q": "What if the customer does not reply?",
+            "a": "The link has an expiry (1 to 14 days). When it passes, you get a notification and see the case under “Needs attention”. You can send a new link or record a decision given by phone."
+          },
+          "legal": {
+            "q": "Is the customer's consent valid in court?",
+            "a": "We record the content shown to the customer, its hash, the decisions, the consent to the amount, the time and the IP address. Napiko does not give legal advice, so a lawyer should assess whether such consent works under your contract with the customer."
+          },
+          "offline": {
+            "q": "Does it work without internet?",
+            "a": "No, it needs a connection. Working without signal (a photo queue) is planned."
+          },
+          "price": {
+            "q": "How much does it cost?",
+            "a": "Pricing is still being worked out, so we do not quote amounts yet. You can create an account now and try Napiko in your own workshop."
+          }
+        }
+      },
+      "cta": {
+        "title": "See this flow in your own workshop",
+        "description": "Create an account, take your first order and send the customer a link.",
+        "primary": "Create a workshop account",
+        "secondary": "See the customer view"
+      }
+    },
+    "customers": {
+      "seo": {
+        "title": "Napiko for workshop customers – repair status and decisions on your phone",
+        "description": "Your workshop sends you a link. With no account and no app you check what is happening with your vehicle and decide on extra work yourself, seeing a photo and a price."
+      },
+      "hero": {
+        "eyebrow": "For workshop customers",
+        "title": "You know what is happening with your car and what you are paying for.",
+        "lead": "A workshop that uses Napiko sends you a link. You open it on your phone, with no account and no app. You see the repair status and decide on extra work yourself, with a photo and a price in front of you.",
+        "primary": "See how it looks",
+        "secondary": "I run a workshop",
+        "chips": {
+          "account": "No account",
+          "app": "No app",
+          "link": "A link by SMS or e-mail"
+        }
+      },
+      "story": {
+        "eyebrow": "Your repair",
+        "title": "From dropping off the car to pickup",
+        "label": "Animated walkthrough of a repair through the customer's eyes in eight steps",
+        "note": "Data on the screens is sample data.",
+        "actors": {
+          "workshop": "Workshop",
+          "customer": "You"
+        },
+        "steps": {
+          "arrive": {
+            "tag": "Workshop → You",
+            "title": "You leave the car and get a link on your phone",
+            "text": "At intake the workshop sends you a message with a link to the repair status. You tap the link and that is it: no login and nothing to install."
+          },
+          "status": {
+            "tag": "You · phone",
+            "title": "You see which stage the repair is at",
+            "text": "Received, in repair, ready for pickup, collected, with dates and work progress (“2 of 3”). There is also the planned pickup date and the workshop's contact details. No prices and no internal notes."
+          },
+          "alert": {
+            "tag": "Workshop → You",
+            "title": "The mechanic found a fault? You get a notification",
+            "text": "When the workshop needs your decision it sends a message, and on the status page you see: “The workshop is waiting for your decision”."
+          },
+          "decision": {
+            "tag": "You · phone",
+            "title": "You decide, seeing the photo and the price",
+            "text": "Each item has a photo, a description, urgency and a gross price split into parts and labour. You choose “Approve” or “Not now”, tick consent to the total amount and send your decision."
+          },
+          "sent": {
+            "tag": "You → Workshop",
+            "title": "The workshop gets your decision",
+            "text": "You see a confirmation and a summary. The workshop records your decision: the content, the price, the time and the IP address. If you choose “Not now”, the workshop does only the original scope."
+          },
+          "push": {
+            "tag": "You · phone",
+            "title": "Notifications without SMS",
+            "text": "On the status page you can turn on notifications on this phone, with no app to install. You can also switch off SMS and e-mail in one click. On an iPhone this needs the page added to the home screen."
+          },
+          "ready": {
+            "tag": "Workshop → You",
+            "title": "Car ready? You know at once",
+            "text": "You get a message and the status page shows “Your vehicle is waiting for pickup” with the workshop's address and a “Call” button. You come when the car is ready."
+          },
+          "done": {
+            "tag": "You · phone",
+            "title": "Pickup and beyond",
+            "text": "After pickup the status changes to “Collected” and the link keeps working for another 30 days. A customer account with your vehicle's repair history does not exist yet; it is planned."
+          }
+        }
+      },
+      "guarantees": {
+        "eyebrow": "Your data, your decision",
+        "title": "What to know about the link from your workshop",
+        "items": {
+          "noAccount": {
+            "title": "No account, no app",
+            "text": "The link works in your phone's browser. You create no account and install nothing."
+          },
+          "privacy": {
+            "title": "Prices only where you decide",
+            "text": "The status page shows no prices or workshop notes. You see prices when you are asked for a decision."
+          },
+          "masked": {
+            "title": "Masked contact details",
+            "text": "Your phone number and e-mail on the status page are partly hidden."
+          },
+          "expiry": {
+            "title": "The link expires",
+            "text": "A request for a decision is valid for 1 to 14 days. After that the workshop will reach you another way or send a new link."
+          },
+          "optout": {
+            "title": "You switch notifications off yourself",
+            "text": "You opt out of SMS and e-mail in one click on the status page."
+          },
+          "token": {
+            "title": "A link only for you",
+            "text": "The address contains a long random token and stays out of search engines."
+          }
+        }
+      },
+      "faq": {
+        "eyebrow": "Questions",
+        "title": "Common questions from customers",
+        "items": {
+          "install": {
+            "q": "Do I have to install an app?",
+            "a": "No. Everything works from a link in your phone's browser."
+          },
+          "account": {
+            "q": "Do I need an account?",
+            "a": "No. The link from the workshop is enough to see the repair status and make a decision."
+          },
+          "refuse": {
+            "q": "What if I do not agree to extra work?",
+            "a": "You choose “Not now”. The workshop learns of the decision and does only the original scope."
+          },
+          "silence": {
+            "q": "What if I do not reply?",
+            "a": "The request has an expiry. When it passes, the workshop is told and can contact you or send a new link."
+          },
+          "data": {
+            "q": "Who sees my data?",
+            "a": "The workshop repairing your vehicle. It is the controller of your data. The mechanic does not see your contact details or prices."
+          },
+          "sms": {
+            "q": "Can I switch off SMS messages?",
+            "a": "Yes. On the status page you switch off SMS and e-mail or turn on notifications on your phone."
+          }
+        }
+      },
+      "refer": {
+        "eyebrow": "Your workshop does not use Napiko yet?",
+        "title": "Show them how it works",
+        "text": "Send your mechanic this page. A workshop can start by creating an account and a first order.",
+        "copy": "Copy the link to this page",
+        "copied": "Link copied to the clipboard",
+        "failed": "Could not copy. Copy the address from the browser bar."
+      },
+      "cta": {
+        "title": "Want this repair status at your mechanic's?",
+        "description": "Napiko is built for workshops. Show them this page or send the link.",
+        "primary": "See the page for workshops"
+      }
+    },
+    "security": {
+      "seo": {
+        "title": "Security at Napiko – data isolation, audit log, customer links",
+        "description": "Workshop data isolation enforced in the database, an immutable audit log, data minimisation and secure customer links. What works today and what is being prepared."
+      },
+      "hero": {
+        "eyebrow": "Security and trust",
+        "title": "Workshop data and customer consents under control",
+        "lead": "Data isolation is enforced in the database, the change history is immutable and a mechanic sees only what they need for the job. Below we describe what works today and what is still being prepared."
+      },
+      "cards": {
+        "eyebrow": "What works today",
+        "title": "Safeguards built into the app",
+        "items": {
+          "isolation": {
+            "title": "Workshop isolation in the database",
+            "text": "Every table carries a workshop identifier and the database enforces isolation (Row Level Security with FORCE). A forgotten filter in the code returns an empty result, not a leak. A test checks this automatically for every table."
+          },
+          "integrity": {
+            "title": "Data integrity",
+            "text": "Composite foreign keys do not allow linking a vehicle, order, task or file from another workshop."
+          },
+          "audit": {
+            "title": "An audit log like a chain",
+            "text": "Entries are immutable and each contains the hash of the previous one. A mechanism that stores the chain head outside the database is in the app and works once production storage is configured."
+          },
+          "minimal": {
+            "title": "Data minimisation",
+            "text": "Mechanics do not see contact details or prices. The status page shows no prices and masks contact data. Photos lose location data before upload, and notifications carry no contact details."
+          },
+          "links": {
+            "title": "Secure customer links",
+            "text": "Tokens have 192 bits of randomness and only their hash is stored. Pages are excluded from indexing, sent without a Referer header and not cached. Public endpoints are rate-limited."
+          },
+          "queue": {
+            "title": "Notifications that do not get lost",
+            "text": "SMS and e-mail go through a queue with retries, and a gateway outage does not block work. A notification is created in the same transaction as the data change."
+          }
+        }
+      },
+      "plan": {
+        "eyebrow": "What is still ahead",
+        "title": "Honestly: what is not there yet",
+        "description": "Napiko is at an early stage. Before we start a pilot in the first workshops, we are closing the formal and deployment matters.",
+        "label": "In preparation",
+        "items": {
+          "gdpr": {
+            "title": "GDPR",
+            "text": "Napiko is designed with GDPR in mind: the workshop is the data controller and Napiko the processor. The data processing agreement, terms of service and privacy policy are in preparation."
+          },
+          "hosting": {
+            "title": "EU hosting, backups, monitoring",
+            "text": "Planned for the production deployment. Until then we make no claims about where data is located."
+          },
+          "access": {
+            "title": "Two-factor sign-in and penetration tests",
+            "text": "Planned."
+          },
+          "data": {
+            "title": "Export and deletion of customer data, retention rules",
+            "text": "Planned."
+          }
+        }
+      },
+      "faq": {
+        "eyebrow": "Questions",
+        "title": "Questions about data and security",
+        "items": {
+          "other": {
+            "q": "Will another workshop see my data?",
+            "a": "No. Isolation is enforced in the database, not just in the interface."
+          },
+          "where": {
+            "q": "Where is the data?",
+            "a": "EU hosting is planned for the production deployment. Until then we make no claims about where data is located."
+          },
+          "legal": {
+            "q": "Is the customer's consent legally valid?",
+            "a": "We record facts: the content, the decision, the consent to the amount, the time and the IP address. Napiko does not give legal advice, and a lawyer should assess the form of consent."
+          },
+          "gdpr": {
+            "q": "Is Napiko GDPR compliant?",
+            "a": "It is designed with GDPR in mind (data minimisation, isolation, an audit log). The formal documents, including the processing agreement, are in preparation, so we do not claim full compliance yet."
+          },
+          "mechanic": {
+            "q": "What does a mechanic see?",
+            "a": "The customer's name, the vehicle, the registration number and the VIN. They do not see contact details, prices, the estimate or the office's notes."
+          }
+        }
+      },
+      "cta": {
+        "title": "See how it works in practice",
+        "description": "Scroll through one repair from intake to pickup and see what each party sees.",
+        "primary": "See the repair walkthrough",
+        "secondary": "Create a workshop account"
+      }
+    },
+    "scene": {
+      "from": "A message from your workshop",
+      "shop": "Kowalski Auto Service",
+      "customer": "Joanna Kamińska",
+      "vehicle": "Kia Ceed",
+      "plate": "WX 4821K",
+      "order": "ZL/2026/0007",
+      "urgent": "Urgent",
+      "currency": "PLN",
+      "intake": {
+        "url": "app / orders / new",
+        "title": "New order",
+        "customer": "Customer",
+        "vehicle": "Vehicle",
+        "scope": "Scope of work",
+        "scopeValue": "Pre-trip check",
+        "tasks": "Tasks",
+        "task1": "Brake system check",
+        "task2": "Oil and filter change",
+        "notify": "Notify customer",
+        "notifyVia": "SMS, e-mail",
+        "create": "Create order"
+      },
+      "sms": {
+        "date": "Thursday, 8 October",
+        "now": "now",
+        "text": "We have received your vehicle Kia Ceed. Repair status:",
+        "link": "…/s/Hk3p9",
+        "hint": "Tap the link – no account, no app"
+      },
+      "status": {
+        "title": "Repair status",
+        "order": "order {number}",
+        "readyTitle": "Your vehicle is waiting for pickup",
+        "readyHint": "Kowalski Auto Service, 12 Sample St.",
+        "waiting": "The workshop is waiting for your decision",
+        "waitingHint": "The mechanic found an extra fault.",
+        "steps": {
+          "received": "Received",
+          "in_progress": "In repair",
+          "ready": "Ready for pickup",
+          "closed": "Collected"
+        },
+        "now": "now",
+        "progress": "Work progress: {done} of {total}",
+        "notifications": "Notifications",
+        "pushTitle": "Notifications on this phone",
+        "pushHint": "Instead of SMS, nothing to install",
+        "pushEnabled": "Notifications turned on",
+        "contact": "Workshop contact",
+        "call": "Call",
+        "mail": "Write",
+        "privacy": "No prices or workshop notes. Your phone and e-mail are masked."
+      },
+      "work": {
+        "title": "My tasks",
+        "nowWorking": "Working on now",
+        "todo": "To do",
+        "start": "Start",
+        "pause": "Pause",
+        "finish": "Finish",
+        "photo": "Photo",
+        "report": "Report a need",
+        "next": "Next task",
+        "nextHint": "Waiting to start"
+      },
+      "finding": {
+        "title": "Report a need",
+        "part": "Part to order",
+        "extra": "Extra work",
+        "urgency": "Urgency",
+        "recommended": "Recommended",
+        "canWait": "Can wait",
+        "describe": "Description",
+        "describeValue": "Front brake pads worn, thickness below 2 mm.",
+        "block": "I cannot continue the task without this",
+        "send": "Send to the office",
+        "sent": "Sent to the office"
+      },
+      "quote": {
+        "url": "app / needs",
+        "list": "To handle",
+        "by": "reported by Tomasz · 14:02",
+        "pricing": "Estimate",
+        "parts": "Parts (net)",
+        "labor": "Labour (net)",
+        "vat": "VAT",
+        "gross": "Total gross",
+        "manual": "I will pass the link myself",
+        "send": "Send to the customer for approval",
+        "sent": "SMS sent to the customer"
+      },
+      "approval": {
+        "title": "Request for your decision",
+        "item": "Brake pads – front",
+        "itemHint": "Wear below 2 mm. Replacement recommended now.",
+        "gross": "gross",
+        "split": "parts {parts} PLN · labour {labor} PLN · incl. 23% VAT",
+        "yes": "Approve",
+        "no": "Not now",
+        "summary": "Approved items: {count} · total {total} PLN gross",
+        "consent": "I order the approved work for a total of {total} PLN gross.",
+        "submit": "Send decision",
+        "legal": "Your decision will be recorded with the date, time and IP address.",
+        "thanksTitle": "Thank you!",
+        "thanks": "The workshop has received your decision.",
+        "thanksHint": "Recorded on 8 October, 14:20.",
+        "approved": "Approved",
+        "recorded": "SHA-256 · 9f2c…a41e · IP address recorded"
+      },
+      "effect": {
+        "url": "app / orders / ZL-2026-0007",
+        "replied": "The customer replied: approved",
+        "repliedHint": "Joanna Kamińska · Brake pads – front",
+        "task": "New task for the mechanic",
+        "taskHint": "Brake pad replacement · Tomasz",
+        "estimate": "Line in the estimate",
+        "estimateHint": "Parts and labour, total {total} PLN gross",
+        "status": "The order returns to “In progress”",
+        "statusHint": "The mechanic was notified",
+        "audit": "Consent recorded in the audit log",
+        "hash": "sha256: 9f2c4e…a41e · 14:20 · IP address recorded",
+        "chain": "Audit log chain intact"
+      },
+      "alert": {
+        "push": "The workshop is waiting for your decision. The mechanic found a fault – see the photo and the price.",
+        "hint": "Tap to open"
+      },
+      "pickup": {
+        "push": "Your car is ready for pickup. Details in the repair status."
+      },
+      "results": {
+        "url": "app / dashboard",
+        "title": "Monthly results",
+        "sample": "Sample data",
+        "approved": "Approved extra work",
+        "approvedHint": "14 of 19 reports",
+        "closed": "Closed orders",
+        "link": "Approvals via link",
+        "hours": "Team working time",
+        "hint": "One number that shows the owner whether approvals through the link work."
+      },
+      "done": {
+        "linkTitle": "The link works for 30 more days",
+        "linkHint": "The status of this repair stays at hand.",
+        "hubTitle": "Vehicle repair history",
+        "soon": "Coming soon",
+        "hubHint": "A customer account with repair history is planned. Today you have the links from your workshop."
+      }
+    }
+  }
+}

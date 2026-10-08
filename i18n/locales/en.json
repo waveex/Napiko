@@ -28,28 +28,6 @@
     "actions": "Actions",
     "noAccess": "You don't have access to this part of the app."
   },
-  "landing": {
-    "title": "Workshop–customer communication without phone tag",
-    "description": "Vehicle intake with photos, one-click approval of extra work, tasks for mechanics and the vehicle history in one place.",
-    "features": {
-      "intake": {
-        "title": "Digital vehicle intake",
-        "description": "Mileage, damage and photos in a report signed by the customer."
-      },
-      "approvals": {
-        "title": "Approval of extra work",
-        "description": "The customer sees the photo and the price; the consent is stored as evidence."
-      },
-      "team": {
-        "title": "Team and roles",
-        "description": "Front office, mechanics and owner – everyone sees what they need."
-      },
-      "history": {
-        "title": "Vehicle history",
-        "description": "Customers get free access to the repair history of their vehicles."
-      }
-    }
-  },
   "auth": {
     "loginTitle": "Sign in",
     "loginDescription": "One account for customers, mechanics and workshop staff.",

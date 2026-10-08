@@ -28,28 +28,6 @@
     "actions": "Akcje",
     "noAccess": "Nie masz dostępu do tej części aplikacji."
   },
-  "landing": {
-    "title": "Komunikacja warsztatu z klientem bez telefonów i nieporozumień",
-    "description": "Przyjęcie pojazdu ze zdjęciami, akceptacja prac dodatkowych jednym kliknięciem, zadania dla mechaników i historia pojazdu w jednym miejscu.",
-    "features": {
-      "intake": {
-        "title": "Cyfrowe przyjęcie pojazdu",
-        "description": "Przebieg, uszkodzenia i zdjęcia w protokole podpisanym przez klienta."
-      },
-      "approvals": {
-        "title": "Akceptacje prac dodatkowych",
-        "description": "Klient widzi zdjęcie i cenę, a zgoda zostaje zapisana jako dowód."
-      },
-      "team": {
-        "title": "Zespół i role",
-        "description": "Biuro, mechanicy i właściciel – każdy widzi to, czego potrzebuje."
-      },
-      "history": {
-        "title": "Historia pojazdu",
-        "description": "Klient ma bezpłatny dostęp do historii napraw swoich pojazdów."
-      }
-    }
-  },
   "auth": {
     "loginTitle": "Zaloguj się",
     "loginDescription": "Jedno konto dla klientów, mechaników i biura warsztatu.",

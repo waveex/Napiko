@@ -2,12 +2,15 @@
 import { TASK_STATUS_ICON, VEHICLE_TYPE_INFO } from './shared/workshop'
 import { TEAM_NOTIFICATIONS } from './shared/notifications'
 import { brandIcon } from './shared/brand'
+import { CUSTOMER_STORY, CUSTOMER_STORY_ACTORS, WORKSHOP_STORY, WORKSHOP_STORY_ACTORS } from './app/utils/marketing-story'
 
-/** Ikony wybierane w kodzie dynamicznie (rodzaje pojazdów, statusy zadań, typy powiadomień) – skaner ich nie widzi. */
+/** Ikony wybierane w kodzie dynamicznie (rodzaje pojazdów, statusy zadań, typy powiadomień, tory historii na stronach marketingowych) – skaner ich nie widzi. */
 const dynamicIcons = [
   ...Object.values(VEHICLE_TYPE_INFO).map(info => info.icon),
   ...Object.values(TASK_STATUS_ICON),
   ...Object.values(TEAM_NOTIFICATIONS).map(info => info.icon),
+  ...[...WORKSHOP_STORY, ...CUSTOMER_STORY].map(step => step.carry),
+  ...[...WORKSHOP_STORY_ACTORS, ...CUSTOMER_STORY_ACTORS].map(actor => actor.icon),
 ].map(name => name.replace(/^i-lucide-/, 'lucide:'))
 
 export default defineNuxtConfig({
@@ -97,8 +100,8 @@ export default defineNuxtConfig({
     defaultLocale: 'pl',
     strategy: 'no_prefix',
     locales: [
-      { code: 'pl', language: 'pl-PL', name: 'Polski', file: 'pl.json' },
-      { code: 'en', language: 'en-US', name: 'English', file: 'en.json' },
+      { code: 'pl', language: 'pl-PL', name: 'Polski', files: ['pl.json', 'pl/marketing.json'] },
+      { code: 'en', language: 'en-US', name: 'English', files: ['en.json', 'en/marketing.json'] },
     ],
     detectBrowserLanguage: {
       useCookie: true,

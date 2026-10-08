@@ -28,6 +28,8 @@ Szczegóły w [`docs/04-moduly-warsztatu.md`](docs/04-moduly-warsztatu.md) i [`d
 | [`docs/04-moduly-warsztatu.md`](docs/04-moduly-warsztatu.md) | Moduły warsztatu (etapy 1–5), reguły, dowód zgody klienta, punkty do weryfikacji prawnej |
 | [`docs/05-plan-prac.md`](docs/05-plan-prac.md) | Plan prac: etapy E4–E11 i sprawy formalne, właściciele i zależności (statusy na żywo w artefakcie „Plan prac Napiko”) |
 | [`docs/07-powiadomienia.md`](docs/07-powiadomienia.md) | Powiadomienia: kto co dostaje, dzwonek, wiadomości do klienta, strona statusu naprawy, push (VAPID), sprzątanie, testy |
+| [`docs/10-flow-i-funkcje-dla-sprzedazy.md`](docs/10-flow-i-funkcje-dla-sprzedazy.md) | Flow i funkcje pod prezentacje sprzedażowe, demo, obiekcje |
+| [`docs/13-strona-marketingowa.md`](docs/13-strona-marketingowa.md) | Publiczne strony o produkcie (`/`, `/dla-warsztatow`, `/dla-klientow`, `/bezpieczenstwo`), animacja sterowana przewijaniem, zasady treści |
 
 ## Technologia
 
@@ -102,7 +104,7 @@ Po ustawieniu kluczy uruchom serwer ponownie. Bez kluczy push jest wyłączony �
 ## Struktura
 
 ```
-app/                      interfejs (strony, układy, komponenty)
+app/                      interfejs (strony, układy, komponenty; strony marketingowe: layouts/marketing.vue, components/marketing/)
 server/
   api/                    endpointy HTTP (Nitro)
   db/                     schemat Drizzle, migrator, kontekst najemcy (RLS), audyt, kolejka zadań
@@ -114,7 +116,7 @@ netlify/
   functions/              funkcje Netlify (cykliczne przetwarzanie kolejki i codzienne sprzątanie powiadomień)
 public/                   service worker powiadomień push, manifest aplikacji (PWA), ikony
 scripts/                  polecenia pomocnicze (migracje, klucze VAPID)
-i18n/locales/             tłumaczenia (pl, en)
+i18n/locales/             tłumaczenia (pl, en; teksty stron marketingowych w pl/marketing.json i en/marketing.json)
 tests/                    testy integracyjne
 docker/, docker-compose.yml  lokalne usługi
 ```
