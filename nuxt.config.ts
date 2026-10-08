@@ -77,6 +77,11 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2026-09-26',
 
+  // Serwer działa na Node ≥ 22; domyślny cel Nitro (es2019) nie zna literałów BigInt (shared/workshop.ts)
+  nitro: {
+    esbuild: { options: { target: 'es2022' } },
+  },
+
   typescript: {
     strict: true,
   },
