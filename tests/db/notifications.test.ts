@@ -41,7 +41,7 @@ function testEnv(): Env {
     ...getEnv(),
     VAPID_PUBLIC_KEY: 'B'.repeat(87),
     VAPID_PRIVATE_KEY: 'p'.repeat(43),
-    appUrl: 'https://oxy.test',
+    appUrl: 'https://napiko.test',
   }
 }
 
@@ -297,7 +297,7 @@ describe('powiadomienia klienta', () => {
     const first = await withTenant(db, office, tx => ensureStatusLink(tx, env, { id: order.id, orgId: office.orgId }))
     const again = await withTenant(db, office, tx => ensureStatusLink(tx, env, { id: order.id, orgId: office.orgId }))
     expect(again.url).toBe(first.url)
-    expect(first.url).toMatch(/^https:\/\/oxy\.test\/s\/[\w-]{24}$/)
+    expect(first.url).toMatch(/^https:\/\/napiko\.test\/s\/[\w-]{24}$/)
     expect(first.token).toBe(statusLinkToken(env, office.orgId, order.id, 1))
     const [row] = await withTenant(db, office, tx => tx.select().from(workOrderStatusLink).where(eq(workOrderStatusLink.workOrderId, order.id)))
     expect(row!.tokenHash).toBe(hashStatusToken(first.token))
@@ -323,7 +323,7 @@ describe('powiadomienia klienta', () => {
       .filter(j => results.some(r => r.id === j.payload.notificationId))
     const smsJob = jobs.find(j => j.payload.sms)!
     expect(smsJob.payload.sms).toMatchObject({ to: '+48600100200' })
-    expect((smsJob.payload.sms as { message: string }).message).toMatch(/przyjelismy do naprawy Toyota Corolla BI12345 \(ZL\/N\/3\)\. Status naprawy: https:\/\/oxy\.test\/s\//)
+    expect((smsJob.payload.sms as { message: string }).message).toMatch(/przyjelismy do naprawy Toyota Corolla BI12345 \(ZL\/N\/3\)\. Status naprawy: https:\/\/napiko\.test\/s\//)
     expect(jobs.find(j => j.payload.email)!.payload.email).toMatchObject({ to: 'jan@example.com', template: 'order-received' })
   })
 
@@ -357,7 +357,7 @@ describe('powiadomienia klienta', () => {
     const viaPush = await withTenant(db, office, tx => queueCustomerDelivery(tx, env, {
       orgId: office.orgId, workOrderId: o.id, customerId: o.customerId, event: 'order_ready', trigger: 'manual',
       sentBy: office.userId, channel: 'phone', recipient: '600 700 800', optedOut: false,
-      content: { sms: 'SMS', push: { title: 'Warsztat', body: 'Gotowe', url: 'https://oxy.test/s/x' } },
+      content: { sms: 'SMS', push: { title: 'Warsztat', body: 'Gotowe', url: 'https://napiko.test/s/x' } },
     }))
     expect(viaPush.via).toBe('sms') // numer w subskrypcji niezgodny z postacią znormalizowaną
     await withSystem(db, tx => tx.update(customerPushSubscription).set({ phone: '+48600700800' })
@@ -365,7 +365,7 @@ describe('powiadomienia klienta', () => {
     const push = await withTenant(db, office, tx => queueCustomerDelivery(tx, env, {
       orgId: office.orgId, workOrderId: o.id, customerId: o.customerId, event: 'order_ready', trigger: 'manual',
       sentBy: office.userId, channel: 'phone', recipient: '600 700 800', optedOut: true,
-      content: { sms: 'SMS', push: { title: 'Warsztat', body: 'Gotowe', url: 'https://oxy.test/s/x' } },
+      content: { sms: 'SMS', push: { title: 'Warsztat', body: 'Gotowe', url: 'https://napiko.test/s/x' } },
     }))
     // rezygnacja z SMS-ów nie blokuje push, który klient włączył sam (SMS-a jako zapasu wtedy nie ma)
     expect(push).toMatchObject({ status: 'queued', via: 'push' })
@@ -376,7 +376,7 @@ describe('powiadomienia klienta', () => {
     const sms = await withTenant(db, office, tx => queueCustomerDelivery(tx, noPushEnv, {
       orgId: office.orgId, workOrderId: o.id, customerId: o.customerId, event: 'order_ready', trigger: 'manual',
       sentBy: office.userId, channel: 'phone', recipient: '600 700 800', optedOut: false,
-      content: { sms: 'SMS', push: { title: 'Warsztat', body: 'Gotowe', url: 'https://oxy.test/s/x' } },
+      content: { sms: 'SMS', push: { title: 'Warsztat', body: 'Gotowe', url: 'https://napiko.test/s/x' } },
     }))
     expect(sms.via).toBe('sms')
   })
@@ -404,7 +404,7 @@ describe('zadania w kolejce', () => {
         p256dh: 'k'.repeat(87), auth: 'a'.repeat(22), userAgent: null,
       })
     })
-    const content = { sms: 'Gotowe do odbioru', push: { title: 'Warsztat', body: 'Gotowe', url: 'https://oxy.test/s/x' } }
+    const content = { sms: 'Gotowe do odbioru', push: { title: 'Warsztat', body: 'Gotowe', url: 'https://napiko.test/s/x' } }
     const input = {
       orgId: office.orgId, workOrderId: o.id, customerId: o.customerId, event: 'order_ready' as const, trigger: 'manual' as const,
       sentBy: office.userId, channel: 'phone' as const, recipient: '+48600111222', optedOut: false, content,
@@ -441,7 +441,7 @@ describe('zadania w kolejce', () => {
     const row = await withTenant(db, office, tx => queueCustomerDelivery(tx, env, {
       orgId: office.orgId, workOrderId: o.id, customerId: o.customerId, event: 'order_ready', trigger: 'manual',
       sentBy: office.userId, channel: 'phone', recipient: '+48600333444', optedOut: false,
-      content: { sms: 'SMS zapasowy', push: { title: 'W', body: 'B', url: 'https://oxy.test/s/x' } },
+      content: { sms: 'SMS zapasowy', push: { title: 'W', body: 'B', url: 'https://napiko.test/s/x' } },
     }))
     const down = fakePush({ 'https://push.example/down': 'error' })
     const run = handlersWith(down.sender)

@@ -53,6 +53,10 @@ export default defineEventHandler(async (event) => {
         data: { number: before.number, from: before.status, to: values.status },
         ...requestMeta(event),
       })
+      // Zamknięcie zlecenia to odbiór pojazdu – kończymy też otwarte zadanie „Wydanie auta”
+      if (values.status === 'closed') {
+        await completeHandoverOnClose(tx, ctx, { id, number: before.number, status: 'closed' }, requestMeta(event))
+      }
       // Pojazd gotowy do odbioru – wiadomość do klienta (SMS / push i e-mail według ustawień warsztatu)
       if (values.status === 'ready' && input.notifyCustomer !== false && can(ctx, { customerNotification: ['send'] })) {
         const queued = await queueOrderStatusNotification(tx, getEnv(), {

@@ -30,8 +30,8 @@ const { busy, work } = useTaskWork(() => props.refresh())
 <template>
   <section
     v-if="visible"
-    class="oxy-surface flex flex-wrap items-center gap-x-4 gap-y-3 p-4"
-    :class="{ 'oxy-surface-active': running }"
+    class="napiko-surface flex flex-wrap items-center gap-x-4 gap-y-3 p-4"
+    :class="{ 'napiko-surface-active': running }"
     :aria-label="$t('dashboard.work.title')"
   >
     <span

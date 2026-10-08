@@ -14,7 +14,7 @@ const width = (count: number) => (count ? `max(0.5rem, ${(count / max.value) * 1
 </script>
 
 <template>
-  <article class="oxy-surface flex min-w-0 flex-col p-4">
+  <article class="napiko-surface flex min-w-0 flex-col p-4">
     <header class="flex flex-wrap items-baseline justify-between gap-2">
       <h3 class="font-semibold">
         {{ $t('dashboard.board.title') }}

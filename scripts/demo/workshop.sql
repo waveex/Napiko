@@ -79,7 +79,7 @@ BEGIN
 
     INSERT INTO public.customer (id, org_id, kind, name, email, notes, created_by, created_at, updated_at)
     VALUES (c_id, target_org, r.kind, r.customer_name, 'klient.demo.' || r.n || '@example.invalid',
-      'Fikcyjny klient demonstracyjny OXY.', owner_id, received, received)
+      'Fikcyjny klient demonstracyjny Napiko.', owner_id, received, received)
     ON CONFLICT (id) DO NOTHING;
 
     INSERT INTO public.vehicle (id, org_id, customer_id, make, model, year, registration_number,

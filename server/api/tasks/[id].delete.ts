@@ -1,6 +1,8 @@
 /**
  * Usunięcie zadania dodanego przez pomyłkę – tylko zanim ktokolwiek zaczął nad nim pracę.
  * Rozpoczęte zadania się anuluje (status „anulowane”), żeby historia pracy została zachowana.
+ * Zadania „Wydanie auta” nie usuwa się wcale (dokłada je system) – można je anulować.
+ * Usunięcie ostatniego niezrobionego zadania może dołożyć wydanie (zob. syncHandoverTask).
  */
 import { and, eq, ne } from 'drizzle-orm'
 import { withTenant } from '../../db/tenant'
@@ -14,6 +16,13 @@ export default defineEventHandler(async (event) => {
   return withTenant(useDb(), ctx, async (tx) => {
     const { task: current, order } = await loadTaskWithOrder(tx, id)
     assertOrderOpen(order.status)
+    if (current.kind === 'handover') {
+      throw createError({
+        statusCode: 409,
+        statusMessage: 'Conflict',
+        message: 'Zadanie „Wydanie auta” dokłada system – jeśli nie jest potrzebne, zmień jego status na „anulowane”.',
+      })
+    }
 
     const [startedSubtask] = await tx.select({ id: task.id }).from(task)
       .where(and(eq(task.parentId, id), ne(task.status, 'todo'))).limit(1)
@@ -35,6 +44,7 @@ export default defineEventHandler(async (event) => {
       data: { number: order.number, title: current.title, subtask: !!current.parentId },
       ...requestMeta(event),
     })
+    await syncHandoverTask(tx, ctx, order, requestMeta(event))
     return loadWorkOrderDetail(tx, ctx, current.workOrderId)
   })
 })

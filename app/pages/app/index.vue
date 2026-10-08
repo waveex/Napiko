@@ -64,7 +64,7 @@ const today = computed(() => new Intl.DateTimeFormat(locale.value, {
 const roles = computed(() => (org.value?.role ?? '').split(',').filter(Boolean).map(role => t(`roles.${role.trim()}`)).join(', '))
 
 // Konfiguracja warsztatu: lista kroków znika po uzupełnieniu albo po ukryciu (zapamiętane dla organizacji)
-const setupHidden = useCookie<boolean>(`oxy_setup_hidden_${org.value?.id ?? 'none'}`, {
+const setupHidden = useCookie<boolean>(`napiko_setup_hidden_${org.value?.id ?? 'none'}`, {
   default: () => false,
   maxAge: 60 * 60 * 24 * 365,
   sameSite: 'lax',
@@ -115,7 +115,7 @@ onBeforeUnmount(() => {
 
     <template #body>
       <div class="w-full space-y-8">
-        <div class="oxy-intro">
+        <div class="napiko-intro">
           <h2>
             {{ $t('dashboard.welcome', { name: me?.user.name ?? '' }) }}
           </h2>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from '@nuxt/ui'
-import { formatDuration, TASK_STATUSES, TASK_STATUS_ICON, type TaskStatus } from '#shared/workshop'
+import { formatDuration, TASK_STATUSES, TASK_STATUS_ICON, type TaskKind, type TaskStatus } from '#shared/workshop'
 
 interface Person {
   id: string
@@ -10,6 +10,7 @@ interface Person {
 interface TaskNode {
   id: string
   title: string
+  kind?: TaskKind
   status: TaskStatus
   estimatedMinutes: number | null
   startedAt: string | null
@@ -52,6 +53,8 @@ const emit = defineEmits<{
 const { t } = useI18n()
 
 const isSubtask = computed(() => props.inheritedAssigneeIds !== undefined)
+// „Wydanie auta” dokłada system po zakończeniu prac: ma stały tytuł (tłumaczony), bez podzadań, zgłoszeń potrzeb i usuwania
+const isHandover = computed(() => props.task.kind === 'handover')
 const assignedDirectly = computed(() => props.task.assignees.some(a => a.id === props.meId))
 const assignedToMe = computed(() => assignedDirectly.value || !!props.inheritedAssigneeIds?.includes(props.meId))
 
@@ -106,7 +109,7 @@ const memberItems = computed<DropdownMenuItem[]>(() => props.members.map((m) => 
 }))
 
 const deletable = computed(() =>
-  props.task.status === 'todo' && !props.task.startedAt && (props.task.subtasks ?? []).every(s => s.status === 'todo'),
+  !isHandover.value && props.task.status === 'todo' && !props.task.startedAt && (props.task.subtasks ?? []).every(s => s.status === 'todo'),
 )
 
 const adding = ref(false)
@@ -115,7 +118,7 @@ const newTitle = ref('')
 const actionItems = computed<DropdownMenuItem[]>(() => {
   if (props.readonly) return []
   const items: DropdownMenuItem[] = []
-  if (!isSubtask.value && props.permissions.createTask) {
+  if (!isSubtask.value && !isHandover.value && props.permissions.createTask) {
     items.push({
       label: t('tasks.addSubtask'),
       icon: 'i-lucide-list-plus',
@@ -124,7 +127,7 @@ const actionItems = computed<DropdownMenuItem[]>(() => {
       },
     })
   }
-  if (props.permissions.reportNeeds) {
+  if (props.permissions.reportNeeds && !isHandover.value) {
     items.push({ label: t('requests.new'), icon: 'i-lucide-message-square-warning', onSelect: () => emit('report', props.task.id) })
   }
   if (props.permissions.updateTask && deletable.value) {
@@ -156,11 +159,18 @@ function submitSubtask() {
           class="font-medium"
           :class="{ 'text-muted line-through': task.status === 'cancelled', 'text-muted': task.status === 'done' }"
         >
-          {{ task.title }}
+          {{ isHandover ? $t('tasks.handover') : task.title }}
           <span
             v-if="task.estimatedMinutes"
             class="ms-1 text-xs font-normal text-muted"
           >{{ $t('tasks.estimatedMinutes', { n: task.estimatedMinutes }) }}</span>
+        </p>
+
+        <p
+          v-if="isHandover"
+          class="text-xs text-muted"
+        >
+          {{ $t('tasks.handoverHint') }}
         </p>
 
         <p

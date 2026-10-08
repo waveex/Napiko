@@ -8,7 +8,7 @@ const { d } = useI18n()
 </script>
 
 <template>
-  <article class="oxy-surface flex min-w-0 flex-col p-4">
+  <article class="napiko-surface flex min-w-0 flex-col p-4">
     <h3 class="font-semibold">
       {{ $t('dashboard.today.title') }}
     </h3>

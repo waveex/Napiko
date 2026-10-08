@@ -37,8 +37,8 @@ export default defineEventHandler(async (event) => {
           registrationNumber: vehicle.registrationNumber,
         },
         customer: { id: customer.id, name: customer.name },
-        tasksTotal: tx.$count(task, and(eq(task.workOrderId, workOrder.id), ne(task.status, 'cancelled'))),
-        tasksDone: tx.$count(task, and(eq(task.workOrderId, workOrder.id), eq(task.status, 'done'))),
+        tasksTotal: tx.$count(task, and(eq(task.workOrderId, workOrder.id), eq(task.kind, 'work'), ne(task.status, 'cancelled'))),
+        tasksDone: tx.$count(task, and(eq(task.workOrderId, workOrder.id), eq(task.kind, 'work'), eq(task.status, 'done'))),
         openRequests: tx.$count(workRequest, and(eq(workRequest.workOrderId, workOrder.id), inArray(workRequest.status, ['open', 'quoted']))),
         working: tx.$count(timeEntry, and(eq(timeEntry.workOrderId, workOrder.id), isNull(timeEntry.endedAt))),
         // (złączenia poniżej sprawiają, że Drizzle kwalifikuje ${workOrder.id} nazwą tabeli)

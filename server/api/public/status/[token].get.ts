@@ -53,7 +53,8 @@ export default defineEventHandler(async (event) => {
       notifySms: customer.notifySms,
       notifyEmail: customer.notifyEmail,
     }).from(customer).where(eq(customer.id, order.customerId)).limit(1)
-    const tasks = await tx.select({ status: task.status }).from(task).where(eq(task.workOrderId, order.id))
+    // „Wydanie auta” to krok dla warsztatu – klient widzi postęp samych prac
+    const tasks = await tx.select({ status: task.status }).from(task).where(and(eq(task.workOrderId, order.id), eq(task.kind, 'work')))
     const active = tasks.filter(t => t.status !== 'cancelled')
     const [waiting] = await tx.select({ id: approvalRequest.id }).from(approvalRequest).where(and(
       eq(approvalRequest.workOrderId, order.id),

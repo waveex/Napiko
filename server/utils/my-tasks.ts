@@ -23,6 +23,7 @@ export async function loadMyTasks(tx: Tx, ctx: TenantRequestContext, timezone?: 
     title: task.title,
     description: task.description,
     status: task.status,
+    kind: task.kind,
     parentId: task.parentId,
     parentTitle: parent.title,
     estimatedMinutes: task.estimatedMinutes,
@@ -86,6 +87,7 @@ export async function loadMyTasks(tx: Tx, ctx: TenantRequestContext, timezone?: 
         .where(and(
           notInArray(workOrder.status, [...CLOSED_ORDER, 'ready']),
           isNull(task.parentId),
+          eq(task.kind, 'work'),
           inArray(task.status, ['todo', 'paused']),
           sql`not exists (select 1 from task_assignment ta where ta.task_id = ${task.id})`,
         ))

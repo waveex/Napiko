@@ -17,7 +17,7 @@ const EnvSchema = z.object({
   NODE_ENV: z.string().default('development'),
 
   /**
-   * Adres aplikacji, np. http://localhost:3000 albo https://oxy.netlify.app.
+   * Adres aplikacji, np. http://localhost:3000 albo https://napiko.netlify.app.
    * Na podglądach Netlify ustawia go wtyczka server/plugins/00.env.ts (adres z czasu budowania).
    */
   BETTER_AUTH_URL: z.url().optional(),
@@ -38,7 +38,7 @@ const EnvSchema = z.object({
 
   /** Poczta wychodząca: lokalnie Mailpit (smtp://localhost:1025). */
   SMTP_URL: z.string().default('smtp://localhost:1025'),
-  MAIL_FROM: z.string().default('OXY <no-reply@oxy.local>'),
+  MAIL_FROM: z.string().default('Napiko <no-reply@napiko.local>'),
 
   /** Magazyn plików zgodny z S3 (lokalnie MinIO, produkcyjnie np. OVHcloud Object Storage w UE). */
   S3_ENDPOINT: z.url().optional(),
@@ -66,7 +66,7 @@ const EnvSchema = z.object({
    * Nazwa nadawcy (np. nazwa warsztatu) musi być wcześniej zarejestrowana u dostawcy.
    */
   SMS_PROVIDER: z.enum(['log', 'smsapi']).default('log'),
-  SMSAPI_TOKEN: z.string().min(10).optional(),
+  SMSAPI_TOKEN: optional(z.string().min(10)),
 
   /**
    * Powiadomienia push (Web Push): para kluczy VAPID z `pnpm push:keys`. Bez kluczy push jest wyłączony –
@@ -76,6 +76,10 @@ const EnvSchema = z.object({
   VAPID_PRIVATE_KEY: optional(z.string().regex(/^[\w-]{40,50}$/, 'VAPID_PRIVATE_KEY: klucz prywatny z `pnpm push:keys` (base64url)')),
   /** Kontakt dla operatorów usług push (mailto: albo https://); domyślnie adres z MAIL_FROM. */
   VAPID_SUBJECT: optional(z.string().regex(/^(mailto:|https:\/\/)\S+$/, 'VAPID_SUBJECT: mailto:adres@domena albo https://…')),
+}).superRefine((env, ctx) => {
+  if (env.SMS_PROVIDER === 'smsapi' && !env.SMSAPI_TOKEN) {
+    ctx.addIssue({ code: 'custom', path: ['SMSAPI_TOKEN'], message: 'SMS_PROVIDER=smsapi wymaga SMSAPI_TOKEN.' })
+  }
 })
 
 export type Env = z.infer<typeof EnvSchema> & { appUrl: string }

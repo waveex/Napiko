@@ -1,4 +1,4 @@
-# OXY – moduły warsztatu (etapy 1–5)
+# Napiko – moduły warsztatu (etapy 1–5)
 
 **Wersja:** 0.4 · **Data:** 29.09.2026
 **Powiązane:** [02-decyzje-produktowe.md](02-decyzje-produktowe.md), [03-architektura-i-infrastruktura.md](03-architektura-i-infrastruktura.md), [07-powiadomienia.md](07-powiadomienia.md), [README](../README.md)
@@ -133,12 +133,12 @@ Poniższe punkty to założenia techniczne – wymagają potwierdzenia.
 
 1. Czy zatwierdzenie przez link spełnia **formę dokumentową** (art. 77² KC) i wymóg **wyraźnej zgody na dodatkową płatność** (art. 10 ustawy o prawach konsumenta)? Do sprawdzenia także treść zgody i informacji na stronie klienta.
 2. **Ceny dla konsumentów** pokazujemy jako brutto (ustawa o informowaniu o cenach towarów i usług). Czy układ „części + robocizna, w tym VAT” wystarcza?
-3. **Role w RODO:** warsztat jest administratorem danych klientów, OXY podmiotem przetwarzającym. Potrzebne są wzór umowy powierzenia i klauzula informacyjna. Strona klienta podaje dziś nazwę warsztatu jako administratora.
+3. **Role w RODO:** warsztat jest administratorem danych klientów, Napiko podmiotem przetwarzającym. Potrzebne są wzór umowy powierzenia i klauzula informacyjna. Strona klienta podaje dziś nazwę warsztatu jako administratora.
 4. **SMS z linkiem** traktujemy jako wiadomość transakcyjną, niezbędną do realizacji umowy, a nie marketing. Zaproszenie do konta klienta (hub) będzie wymagało zgody (PKE) – to kolejny etap.
 5. **Okres przechowywania** dowodów zgody, zdjęć i dziennika – do ustalenia; proponujemy okres przedawnienia roszczeń.
 6. **Wizerunek i tablice rejestracyjne na zdjęciach:** zasady dla zdjęć pokazywanych klientowi.
 7. **Akceptacja kosztorysu przez link** jako uzgodnienie wynagrodzenia kosztorysowego (art. 630 KC): czy treść zgody i zapis wersji kosztorysu wystarczą, także gdy warsztat później rozszerza zakres (wtedy prosi o zgodę na prace dodatkowe).
-8. **Paragon:** OXY zapisuje tylko numer i datę paragonu z kasy warsztatu – obowiązki fiskalne zostają po stronie warsztatu. Do potwierdzenia z doradcą podatkowym, zanim dojdą faktury (KSeF).
+8. **Paragon:** Napiko zapisuje tylko numer i datę paragonu z kasy warsztatu – obowiązki fiskalne zostają po stronie warsztatu. Do potwierdzenia z doradcą podatkowym, zanim dojdą faktury (KSeF).
 9. **Powiadomienia i strona statusu naprawy** (etap 5): wiadomości transakcyjne z możliwością rezygnacji, push w telefonie klienta, zakres danych na stronie bez logowania i okres ważności linku – zob. [07-powiadomienia.md](07-powiadomienia.md), punkt 7.
 
 ## 7. Ograniczenia i następne kroki

@@ -21,7 +21,7 @@ const label = computed(() => (count.value ? t('notifications.bellUnread', { coun
     />
     <span
       v-if="count"
-      class="oxy-bell-count"
+      class="napiko-bell-count"
       aria-hidden="true"
     >{{ count > 99 ? '99+' : count }}</span>
   </UButton>

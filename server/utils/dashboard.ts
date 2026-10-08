@@ -315,10 +315,10 @@ async function loadApprovalAttention(tx: Tx, estimates: boolean, limit: number) 
 
 /** Zlecenia do zaplanowania: bez żadnego zadania albo z zadaniami, których nikt nie wykonuje. */
 async function loadPlanning(tx: Tx, planTasks: boolean, planAssign: boolean, limit: number) {
-  const taskCount = sql<number>`(select count(*) from task t where t.work_order_id = ${workOrder.id} and t.status <> 'cancelled')::int`
+  const taskCount = sql<number>`(select count(*) from task t where t.work_order_id = ${workOrder.id} and t.kind = 'work' and t.status <> 'cancelled')::int`
   const unassigned = sql<number>`(
     select count(*) from task t
-    where t.work_order_id = ${workOrder.id} and t.parent_id is null and t.status in ('todo', 'paused')
+    where t.work_order_id = ${workOrder.id} and t.kind = 'work' and t.parent_id is null and t.status in ('todo', 'paused')
       and not exists (select 1 from task_assignment ta where ta.task_id = t.id)
   )::int`
   const scope = and(
@@ -492,7 +492,7 @@ export async function loadOwnerReport(tx: Tx, timezone: string) {
     })
     .from(timeEntry)
     .where(sql`coalesce(${timeEntry.endedAt}, now()) > ${p.monthStart}`)
-  const tasksDone = await tx.$count(task, and(eq(task.status, 'done'), gte(task.completedAt, p.monthStart)))
+  const tasksDone = await tx.$count(task, and(eq(task.kind, 'work'), eq(task.status, 'done'), gte(task.completedAt, p.monthStart)))
 
   return {
     closedOrders: {

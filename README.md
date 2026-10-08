@@ -1,4 +1,4 @@
-# OXY
+# Napiko
 
 Aplikacja do komunikacji i organizacji pracy warsztatów z klientem: biuro warsztatu, mechanicy i klienci w jednym systemie.
 
@@ -26,7 +26,7 @@ Szczegóły w [`docs/04-moduly-warsztatu.md`](docs/04-moduly-warsztatu.md) i [`d
 | [`docs/02-decyzje-produktowe.md`](docs/02-decyzje-produktowe.md) | Wnioski i decyzje przed specyfikacją wymagań |
 | [`docs/03-architektura-i-infrastruktura.md`](docs/03-architektura-i-infrastruktura.md) | Architektura, decyzje techniczne, bezpieczeństwo, wdrożenie na Netlify |
 | [`docs/04-moduly-warsztatu.md`](docs/04-moduly-warsztatu.md) | Moduły warsztatu (etapy 1–5), reguły, dowód zgody klienta, punkty do weryfikacji prawnej |
-| [`docs/05-plan-prac.md`](docs/05-plan-prac.md) | Plan prac: etapy E4–E11 i sprawy formalne, właściciele i zależności (statusy na żywo w artefakcie „Plan prac OXY”) |
+| [`docs/05-plan-prac.md`](docs/05-plan-prac.md) | Plan prac: etapy E4–E11 i sprawy formalne, właściciele i zależności (statusy na żywo w artefakcie „Plan prac Napiko”) |
 | [`docs/07-powiadomienia.md`](docs/07-powiadomienia.md) | Powiadomienia: kto co dostaje, dzwonek, wiadomości do klienta, strona statusu naprawy, push (VAPID), sprzątanie, testy |
 
 ## Technologia

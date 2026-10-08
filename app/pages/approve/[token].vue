@@ -116,7 +116,7 @@ async function submit() {
       v-else-if="snapshot"
       class="space-y-6"
     >
-      <header class="oxy-surface space-y-4 border-t-4 border-t-primary p-5 sm:p-7">
+      <header class="napiko-surface space-y-4 border-t-4 border-t-primary p-5 sm:p-7">
         <div class="flex items-center gap-3">
           <img
             v-if="data.logoUrl"
@@ -510,7 +510,7 @@ async function submit() {
       </p>
       <div
         v-if="data.status === 'pending'"
-        class="oxy-approval-bar space-y-3"
+        class="napiko-approval-bar space-y-3"
       >
         <div class="flex flex-wrap items-center justify-between gap-2">
           <span class="text-sm text-muted">{{ $t('ui.totalGross') }}</span>

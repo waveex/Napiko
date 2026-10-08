@@ -1,73 +1,73 @@
 /* Context and brightness are independent. All overlays inherit from html. */
 :root {
-  --oxy-brand-base: var(--color-oxy-blue-500);
-  --oxy-brand-light: var(--color-oxy-blue-300);
-  --oxy-brand-deep: var(--color-oxy-blue-800);
-  --oxy-action-base: var(--color-oxy-blue-700);
-  --oxy-action-hover: var(--color-oxy-blue-800);
-  --oxy-action-active: var(--color-oxy-blue-900);
-  --oxy-action-soft: var(--color-oxy-blue-50);
-  --oxy-action-contrast: #fff;
-  --oxy-action-focus: var(--color-oxy-blue-700);
-  --oxy-page: var(--color-oxy-slate-50);
-  --oxy-surface: #fff;
-  --oxy-surface-raised: var(--color-oxy-slate-100);
-  --oxy-text: var(--color-oxy-slate-900);
-  --oxy-text-muted: var(--color-oxy-slate-600);
-  --oxy-border: var(--color-oxy-slate-200);
-  --oxy-border-control: var(--color-oxy-slate-500);
+  --napiko-brand-base: var(--color-napiko-blue-500);
+  --napiko-brand-light: var(--color-napiko-blue-300);
+  --napiko-brand-deep: var(--color-napiko-blue-800);
+  --napiko-action-base: var(--color-napiko-blue-700);
+  --napiko-action-hover: var(--color-napiko-blue-800);
+  --napiko-action-active: var(--color-napiko-blue-900);
+  --napiko-action-soft: var(--color-napiko-blue-50);
+  --napiko-action-contrast: #fff;
+  --napiko-action-focus: var(--color-napiko-blue-700);
+  --napiko-page: var(--color-napiko-slate-50);
+  --napiko-surface: #fff;
+  --napiko-surface-raised: var(--color-napiko-slate-100);
+  --napiko-text: var(--color-napiko-slate-900);
+  --napiko-text-muted: var(--color-napiko-slate-600);
+  --napiko-border: var(--color-napiko-slate-200);
+  --napiko-border-control: var(--color-napiko-slate-500);
 }
 
-:root[data-oxy-theme='customer'] {
-  --oxy-brand-base: var(--color-oxy-violet-500);
-  --oxy-brand-light: var(--color-oxy-violet-300);
-  --oxy-brand-deep: var(--color-oxy-violet-900);
-  --oxy-action-base: var(--color-oxy-violet-700);
-  --oxy-action-hover: var(--color-oxy-violet-800);
-  --oxy-action-active: var(--color-oxy-violet-900);
-  --oxy-action-soft: var(--color-oxy-violet-50);
-  --oxy-action-focus: var(--color-oxy-violet-700);
+:root[data-napiko-theme='customer'] {
+  --napiko-brand-base: var(--color-napiko-violet-500);
+  --napiko-brand-light: var(--color-napiko-violet-300);
+  --napiko-brand-deep: var(--color-napiko-violet-900);
+  --napiko-action-base: var(--color-napiko-violet-700);
+  --napiko-action-hover: var(--color-napiko-violet-800);
+  --napiko-action-active: var(--color-napiko-violet-900);
+  --napiko-action-soft: var(--color-napiko-violet-50);
+  --napiko-action-focus: var(--color-napiko-violet-700);
 }
 
 :root.dark {
-  --oxy-page: var(--color-oxy-slate-950);
-  --oxy-surface: var(--color-oxy-slate-900);
-  --oxy-surface-raised: var(--color-oxy-slate-800);
-  --oxy-text: var(--color-oxy-slate-50);
-  --oxy-text-muted: var(--color-oxy-slate-300);
-  --oxy-border: var(--color-oxy-slate-700);
-  --oxy-border-control: var(--color-oxy-slate-400);
-  --oxy-action-base: var(--color-oxy-blue-300);
-  --oxy-action-hover: var(--color-oxy-blue-200);
-  --oxy-action-active: var(--color-oxy-blue-100);
-  --oxy-action-soft: var(--color-oxy-blue-950);
-  --oxy-action-contrast: var(--color-oxy-slate-900);
-  --oxy-action-focus: var(--color-oxy-blue-300);
-  --oxy-shadow: none;
+  --napiko-page: var(--color-napiko-slate-950);
+  --napiko-surface: var(--color-napiko-slate-900);
+  --napiko-surface-raised: var(--color-napiko-slate-800);
+  --napiko-text: var(--color-napiko-slate-50);
+  --napiko-text-muted: var(--color-napiko-slate-300);
+  --napiko-border: var(--color-napiko-slate-700);
+  --napiko-border-control: var(--color-napiko-slate-400);
+  --napiko-action-base: var(--color-napiko-blue-300);
+  --napiko-action-hover: var(--color-napiko-blue-200);
+  --napiko-action-active: var(--color-napiko-blue-100);
+  --napiko-action-soft: var(--color-napiko-blue-950);
+  --napiko-action-contrast: var(--color-napiko-slate-900);
+  --napiko-action-focus: var(--color-napiko-blue-300);
+  --napiko-shadow: none;
 }
 
-:root.dark[data-oxy-theme='customer'] {
-  --oxy-action-base: var(--color-oxy-violet-300);
-  --oxy-action-hover: var(--color-oxy-violet-200);
-  --oxy-action-active: var(--color-oxy-violet-100);
-  --oxy-action-soft: var(--color-oxy-violet-950);
-  --oxy-action-focus: var(--color-oxy-violet-300);
+:root.dark[data-napiko-theme='customer'] {
+  --napiko-action-base: var(--color-napiko-violet-300);
+  --napiko-action-hover: var(--color-napiko-violet-200);
+  --napiko-action-active: var(--color-napiko-violet-100);
+  --napiko-action-soft: var(--color-napiko-violet-950);
+  --napiko-action-focus: var(--color-napiko-violet-300);
 }
 
 :root, :root.dark {
-  --ui-primary: var(--oxy-action-base);
-  --ui-bg: var(--oxy-surface);
-  --ui-bg-muted: var(--oxy-page);
-  --ui-bg-elevated: var(--oxy-surface-raised);
-  --ui-bg-accented: var(--oxy-border);
-  --ui-text: var(--oxy-text);
-  --ui-text-highlighted: var(--oxy-text);
-  --ui-text-toned: var(--oxy-text-muted);
-  --ui-text-muted: var(--oxy-text-muted);
-  --ui-text-dimmed: var(--oxy-text-muted);
-  --ui-border: var(--oxy-border);
-  --ui-border-muted: var(--oxy-border);
-  --ui-border-accented: var(--oxy-border-control);
+  --ui-primary: var(--napiko-action-base);
+  --ui-bg: var(--napiko-surface);
+  --ui-bg-muted: var(--napiko-page);
+  --ui-bg-elevated: var(--napiko-surface-raised);
+  --ui-bg-accented: var(--napiko-border);
+  --ui-text: var(--napiko-text);
+  --ui-text-highlighted: var(--napiko-text);
+  --ui-text-toned: var(--napiko-text-muted);
+  --ui-text-muted: var(--napiko-text-muted);
+  --ui-text-dimmed: var(--napiko-text-muted);
+  --ui-border: var(--napiko-border);
+  --ui-border-muted: var(--napiko-border);
+  --ui-border-accented: var(--napiko-border-control);
   --ui-radius: .3125rem;
-  --oxy-brand-metal: linear-gradient(120deg, var(--oxy-brand-deep), var(--oxy-brand-base) 60%, var(--oxy-brand-light));
+  --napiko-brand-metal: linear-gradient(120deg, var(--napiko-brand-deep), var(--napiko-brand-base) 60%, var(--napiko-brand-light));
 }

@@ -1,16 +1,16 @@
 <template>
   <NuxtLink
     to="/app"
-    class="oxy-brand"
-    aria-label="OXY"
+    class="napiko-brand"
+    aria-label="Napiko"
   >
     <span
-      class="oxy-brand-mark"
+      class="napiko-brand-mark"
       aria-hidden="true"
     ><UIcon
       name="i-lucide-wrench"
       class="size-5"
     /></span>
-    OXY
+    Napiko
   </NuxtLink>
 </template>

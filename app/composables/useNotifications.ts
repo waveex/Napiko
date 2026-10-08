@@ -143,7 +143,7 @@ export function startNotificationPolling(center: ReturnType<typeof useNotificati
     if (document.visibilityState === 'visible') refresh()
   }
   const onMessage = (event: MessageEvent) => {
-    if ((event.data as { type?: string } | null)?.type === 'oxy:push') center.refresh({ toast: false })
+    if ((event.data as { type?: string } | null)?.type === 'napiko:push') center.refresh({ toast: false })
   }
 
   center.refresh({ toast: false })

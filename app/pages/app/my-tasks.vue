@@ -111,7 +111,7 @@ onBeforeUnmount(() => clearInterval(poll))
     </template>
 
     <template #body>
-      <div class="oxy-intro">
+      <div class="napiko-intro">
         <h2>{{ $t('nav.myTasks') }}</h2>
         <p>{{ $t('ui.tasksHint') }}</p>
       </div>

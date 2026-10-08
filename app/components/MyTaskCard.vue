@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import {
   formatClock, formatDuration, TASK_STATUS_ICON, URGENCY_COLOR, WORK_REQUEST_STATUS_COLOR,
-  type TaskStatus, type VehicleType, type WorkOrderStatus, type WorkRequestKind, type WorkRequestStatus, type WorkRequestUrgency,
+  type TaskKind, type TaskStatus, type VehicleType, type WorkOrderStatus, type WorkRequestKind, type WorkRequestStatus, type WorkRequestUrgency,
 } from '#shared/workshop'
 
 interface MyTask {
   id: string
   title: string
+  kind?: TaskKind
   description: string | null
   status: TaskStatus
   parentTitle: string | null
@@ -44,8 +45,8 @@ const finished = computed(() => props.task.status === 'done')
 
 <template>
   <article
-    class="oxy-surface p-5"
-    :class="{ 'oxy-surface-active': running }"
+    class="napiko-surface p-5"
+    :class="{ 'napiko-surface-active': running }"
   >
     <div class="flex items-start gap-3">
       <UIcon
@@ -59,7 +60,7 @@ const finished = computed(() => props.task.status === 'done')
             class="text-base font-semibold"
             :class="{ 'text-muted line-through': finished }"
           >
-            {{ task.title }}
+            {{ task.kind === 'handover' ? $t('tasks.handover') : task.title }}
           </h3>
           <StatusBadge
             v-if="!running"
@@ -158,7 +159,7 @@ const finished = computed(() => props.task.status === 'done')
 
     <div
       v-if="!finished"
-      class="oxy-work-actions mt-5 grid grid-cols-1 gap-3 min-[390px]:grid-cols-2"
+      class="napiko-work-actions mt-5 grid grid-cols-1 gap-3 min-[390px]:grid-cols-2"
     >
       <template v-if="mode === 'available'">
         <UButton

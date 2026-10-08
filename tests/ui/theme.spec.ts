@@ -53,16 +53,16 @@ for (const customer of [false, true]) {
         const ratio = contrast(token(a), token(b))
         assert.ok(ratio >= minimum, `${a} on ${b}: ${ratio.toFixed(2)} < ${minimum}`)
       }
-      for (const surface of ['--oxy-page', '--oxy-surface', '--oxy-surface-raised']) {
-        check('--oxy-text', surface, 4.5)
-        check('--oxy-text-muted', surface, 4.5)
-        check('--oxy-action-focus', surface, 3)
-        check('--oxy-border-control', surface, 3)
+      for (const surface of ['--napiko-page', '--napiko-surface', '--napiko-surface-raised']) {
+        check('--napiko-text', surface, 4.5)
+        check('--napiko-text-muted', surface, 4.5)
+        check('--napiko-action-focus', surface, 3)
+        check('--napiko-border-control', surface, 3)
       }
-      for (const action of ['--oxy-action-base', '--oxy-action-hover', '--oxy-action-active']) {
-        check('--oxy-action-contrast', action, 4.5)
+      for (const action of ['--napiko-action-base', '--napiko-action-hover', '--napiko-action-active']) {
+        check('--napiko-action-contrast', action, 4.5)
       }
-      check('--oxy-action-base', '--oxy-action-soft', 4.5)
+      check('--napiko-action-base', '--napiko-action-soft', 4.5)
     })
   }
 }

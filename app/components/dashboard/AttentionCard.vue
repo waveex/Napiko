@@ -20,7 +20,7 @@ const toneClass = computed(() => ({
 </script>
 
 <template>
-  <article class="oxy-surface flex min-w-0 flex-col p-4">
+  <article class="napiko-surface flex min-w-0 flex-col p-4">
     <header class="flex items-start gap-3">
       <span
         class="grid size-10 shrink-0 place-items-center rounded-xl"

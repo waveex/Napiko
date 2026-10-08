@@ -18,7 +18,7 @@ const links: Record<string, string> = {
 </script>
 
 <template>
-  <section class="oxy-surface p-4 sm:p-5">
+  <section class="napiko-surface p-4 sm:p-5">
     <header class="flex items-start justify-between gap-3">
       <div class="min-w-0">
         <h2 class="text-lg font-semibold">

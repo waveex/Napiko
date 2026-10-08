@@ -52,6 +52,7 @@ export async function decideWorkRequest(
       createdBy: actor.userId,
     }).returning({ id: task.id })
     createdTaskId = created!.id
+    await syncHandoverTask(tx, actor, order, meta)
 
     // Pracę wykonuje zwykle ten, kto ją znalazł – o ile nadal jest w zespole
     if (request.reportedBy) {

@@ -1,4 +1,4 @@
-# OXY – podsumowanie analizy i decyzje przed specyfikacją wymagań
+# Napiko – podsumowanie analizy i decyzje przed specyfikacją wymagań
 
 **Faza:** 1 – analiza (waterfall) · **Wersja:** 0.2 · **Data:** 26.09.2026 · **Decyzje D1–D7:** podjęte 26.09.2026
 **Na podstawie:** [01-raport-analityczny.md](01-raport-analityczny.md) oraz weryfikacji kluczowych faktów prawnych (punkt 2)
@@ -10,9 +10,9 @@ Punkt 1 zawiera wnioski w skrócie, punkt 2 wyniki weryfikacji w źródłach, a 
 ## 1. Najważniejsze wnioski
 
 1. **Nisza to komunikacja, nie ERP.** Polskie programy (Integra Car 7, PAS24, Warsztat24, Asystent) dobrze obsługują zlecenia, magazyn i faktury. Według researchu żaden z nich nie robi dobrze tego, co opisałeś: cyfrowego przyjęcia pojazdu, inspekcji ze zdjęciami i wideo, zdalnej akceptacji prac dodatkowych, historii pojazdu po stronie klienta ani obsługi mechanika pracującego dla kilku organizacji.
-2. **Scenariusz z klockami hamulcowymi to rdzeń produktu, a przy okazji wymóg prawny.** Przy wynagrodzeniu kosztorysowym warsztat, który nie uprzedzi klienta o znacznym wzroście kosztów, traci roszczenie o dopłatę (art. 630 § 2 KC). Zapis akceptacji w OXY chroni pieniądze warsztatu i to jest najmocniejszy argument sprzedażowy.
+2. **Scenariusz z klockami hamulcowymi to rdzeń produktu, a przy okazji wymóg prawny.** Przy wynagrodzeniu kosztorysowym warsztat, który nie uprzedzi klienta o znacznym wzroście kosztów, traci roszczenie o dopłatę (art. 630 § 2 KC). Zapis akceptacji w Napiko chroni pieniądze warsztatu i to jest najmocniejszy argument sprzedażowy.
 3. **Klient nie może być zmuszony do instalacji aplikacji.** Raporty i akceptacje muszą działać z linku w SMS-ie, zabezpieczonego kodem jednorazowym. Aplikacja i hub klienta to dodatek, który z czasem buduje efekt sieciowy.
-4. **OXY nie zastąpi kasy fiskalnej i nie musi być programem do faktur.** Warsztat musi mieć kasę online, a kasa wirtualna jest dla warsztatów niedostępna. Faktury najrozsądniej wystawiać przez integrację z programem, który obsługuje KSeF (np. Fakturownia, inFakt).
+4. **Napiko nie zastąpi kasy fiskalnej i nie musi być programem do faktur.** Warsztat musi mieć kasę online, a kasa wirtualna jest dla warsztatów niedostępna. Faktury najrozsądniej wystawiać przez integrację z programem, który obsługuje KSeF (np. Fakturownia, inFakt).
 5. **SMS-y mogą kosztować więcej niż abonament.** Przy 300 zleceniach miesięcznie i 3 SMS-ach na zlecenie to ok. 70–135 zł netto, a przy 8 SMS-ach 190–360 zł. Domyślnymi kanałami powinny więc być push i e-mail, a SMS-y tylko przy kluczowych zdarzeniach i w pakietach.
 6. **Technologia pasuje do Twojego stacku:** Nuxt + TypeScript + Capacitor (jedna baza kodu na web, Androida i iOS), PostgreSQL z izolacją danych warsztatów (Row Level Security), tryb offline dla mechanika i hosting w UE.
 7. **Pierwsza wersja z raportu (12 modułów) to dużo pracy jak na jedną osobę.** Proponuję podzielić ją na v1.0 (pilotaż) i v1.1 (start komercyjny); zob. decyzja D2.
@@ -32,7 +32,7 @@ Punkt 1 zawiera wnioski w skrócie, punkt 2 wyniki weryfikacji w źródłach, a 
 | API CEPiK udostępnia dane pojazdów zarejestrowanych w Polsce (ponad 60 parametrów, m.in. marka, model, rok produkcji) bezpłatnie, także do celów komercyjnych, z obowiązkiem podania źródła; limit 100 zapytań na minutę (sprawdzone przy D1) | Potwierdzone | [gov.pl](https://www.gov.pl/web/cepik/api-dla-centralnej-ewidencji-pojazdow-i-kierowcow-api-do-cepik), [cepik.gov.pl](http://www.cepik.gov.pl/interfejs-dla-cepik) |
 | Kod Aztec w dowodzie rejestracyjnym zawiera dane techniczne pojazdu i numer rejestracyjny, bez danych osobowych właściciela; dane są skompresowane, nie zaszyfrowane, a specyfikacja nie jest publiczna – licencję na dekoder daje PWPW (sprawdzone przy D1) | Potwierdzone | [Zaufana Trzecia Strona](https://zaufanatrzeciastrona.pl/post/historia-o-dowodach-rejestracyjnych-dekoderze-aztec-i-pewnym-monopolu/) |
 
-**Co z tego wynika dla OXY:** od 1.01.2027 faktury dla firm, także wystawiane przy kasie (dziś często jako paragon z NIP), trzeba wystawiać w KSeF. Pierwsze warsztaty zaczną korzystać z OXY najpewniej już po tej dacie, więc faktury z KSeF muszą działać w pierwszej wersji, a nie dopiero w kolejnych.
+**Co z tego wynika dla Napiko:** od 1.01.2027 faktury dla firm, także wystawiane przy kasie (dziś często jako paragon z NIP), trzeba wystawiać w KSeF. Pierwsze warsztaty zaczną korzystać z Napiko najpewniej już po tej dacie, więc faktury z KSeF muszą działać w pierwszej wersji, a nie dopiero w kolejnych.
 
 ---
 
@@ -41,15 +41,15 @@ Punkt 1 zawiera wnioski w skrócie, punkt 2 wyniki weryfikacji w źródłach, a 
 Tych spraw nie rozstrzygnie research. Najlepiej zebrać je w jedną konsultację przed zamrożeniem SRS.
 
 **Prawnik**
-- Czy zaproszenie SMS do OXY i przypomnienia serwisowe to informacja handlowa (wymaga zgody z art. 398 PKE) i kto zbiera tę zgodę: warsztat czy OXY.
+- Czy zaproszenie SMS do Napiko i przypomnienia serwisowe to informacja handlowa (wymaga zgody z art. 398 PKE) i kto zbiera tę zgodę: warsztat czy Napiko.
 - Czy akceptacja prac dodatkowych w aplikacji to umowa zawarta na odległość (14 dni na odstąpienie) i jak ma brzmieć oświadczenie z art. 38 ustawy o prawach konsumenta.
-- Role RODO: OXY jako podmiot przetwarzający dla warsztatu i jako samodzielny administrator w hubie klienta. Do tego wzory regulaminu, umowy powierzenia i polityki prywatności.
-- Czy aplikacje mobilne OXY podlegają Cyber Resilience Act (obowiązek zgłaszania podatności od 11.09.2026) i przepisom o dostępności (EAA).
+- Role RODO: Napiko jako podmiot przetwarzający dla warsztatu i jako samodzielny administrator w hubie klienta. Do tego wzory regulaminu, umowy powierzenia i polityki prywatności.
+- Czy aplikacje mobilne Napiko podlegają Cyber Resilience Act (obowiązek zgłaszania podatności od 11.09.2026) i przepisom o dostępności (EAA).
 - Jak długo przechowywać dowody akceptacji i protokoły (przedawnienie roszczeń).
 - Model płatności online bez licencji (dopiero przed v2).
 
 **Doradca podatkowy**
-- Fakturowanie abonamentu OXY w KSeF przy rozliczeniach przez Stripe.
+- Fakturowanie abonamentu Napiko w KSeF przy rozliczeniach przez Stripe.
 - Wysyłanie e-paragonów do aplikacji klienta.
 - Kasa w serwisach rowerowych (przy rozszerzeniu o rowery).
 
@@ -89,12 +89,12 @@ Do rozpoczęcia SRS potrzebne są decyzje **D1–D7**. Pozostałe mogą poczeka�
     - pełny tryb offline;
     - integracja z drukarką fiskalną;
     - KPI;
-    - subskrypcje i płatności za OXY.
+    - subskrypcje i płatności za Napiko.
   - **v2 i v3** jak w raporcie: hurtownie, płatności online, floty, rezerwacje, maszyny rolnicze i wózki widłowe.
 - **Twoja decyzja (26.09.2026): (b).** Zmiana wynikająca z D1: maszyny rolnicze, budowlane i wózki widłowe przechodzą z v2 do v1.0.
 
 #### D3. Faktury
-- **Opcje:** (a) integracja z programem do faktur, który wysyła je do KSeF (warsztat ma tam konto, a OXY przekazuje dane); (b) własny moduł KSeF w OXY.
+- **Opcje:** (a) integracja z programem do faktur, który wysyła je do KSeF (warsztat ma tam konto, a Napiko przekazuje dane); (b) własny moduł KSeF w Napiko.
 - **Rekomendacja: (a), na start z jednym programem**, wybranym po rozmowach z warsztatami (domyślnie Fakturownia). To mniej pracy i mniejsza odpowiedzialność za poprawność faktur. Własny moduł KSeF warto rozważyć w v2, przy większej skali.
 - **Twoja decyzja (26.09.2026): (a)**, na start Fakturownia.
 
@@ -104,10 +104,10 @@ Do rozpoczęcia SRS potrzebne są decyzje **D1–D7**. Pozostałe mogą poczeka�
 - **Twoja decyzja (26.09.2026): (a).**
 
 #### D5. Powiadomienia SMS
-- **Nadawca:** (a) nazwa warsztatu, która budzi większe zaufanie klienta (każdą nazwę trzeba zgłosić i zatwierdzić w bramce SMS); (b) wspólna nazwa „OXY”.
+- **Nadawca:** (a) nazwa warsztatu, która budzi większe zaufanie klienta (każdą nazwę trzeba zgłosić i zatwierdzić w bramce SMS); (b) wspólna nazwa „Napiko”.
 - **Rozliczenie:** (a) mały pakiet SMS w abonamencie i dokupowanie kolejnych; (b) wszystkie SMS-y płatne osobno.
-- **Rekomendacja:** nazwa warsztatu (z „OXY” jako rezerwą) oraz mały pakiet w abonamencie z możliwością dokupienia kolejnych. SMS-y tylko przy trzech zdarzeniach: przyjęcie pojazdu, prośba o akceptację i pojazd gotowy do odbioru. Pozostałe powiadomienia przez push i e-mail.
-- **Twoja decyzja (26.09.2026): (a) w obu punktach.** Nadawcą jest nazwa warsztatu (rezerwowo „OXY”), w abonamencie jest mały pakiet SMS z możliwością dokupienia kolejnych. SMS-y przy trzech zdarzeniach, jak w rekomendacji.
+- **Rekomendacja:** nazwa warsztatu (z „Napiko” jako rezerwą) oraz mały pakiet w abonamencie z możliwością dokupienia kolejnych. SMS-y tylko przy trzech zdarzeniach: przyjęcie pojazdu, prośba o akceptację i pojazd gotowy do odbioru. Pozostałe powiadomienia przez push i e-mail.
+- **Twoja decyzja (26.09.2026): (a) w obu punktach.** Nadawcą jest nazwa warsztatu (rezerwowo „Napiko”), w abonamencie jest mały pakiet SMS z możliwością dokupienia kolejnych. SMS-y przy trzech zdarzeniach, jak w rekomendacji.
 - **Wdrożenie (29.09.2026):** SMS z linkiem do strony statusu naprawy wychodzi przy przyjęciu pojazdu i gotowości do odbioru (biuro może odznaczyć pole „Powiadom klienta”), a prośby o akceptację wysyła biuro ręcznie. Gdy klient włączy powiadomienia w telefonie (push), dostaje je zamiast SMS-a – bez kosztu SMS-a. Zob. [07-powiadomienia.md](07-powiadomienia.md).
 
 #### D6. Historia pojazdu i widoczność wpisów
@@ -131,7 +131,7 @@ Do rozpoczęcia SRS potrzebne są decyzje **D1–D7**. Pozostałe mogą poczeka�
 | D10 | AI | Nie w v1.0. W v1.1 zamiana notatek głosowych mechanika na tekst (oszczędza czas, niskie ryzyko prawne) | Przed v1.1 |
 | D11 | Płatności online | W v2; najprostszy technicznie jest Stripe Connect z BLIK-iem, operatora wybierzemy później | Przed v2 |
 | D12 | Pilotaż | Teraz 5–8 rozmów z warsztatami z Podlasia, jeszcze przed zamrożeniem SRS. Potem pilotaż w 3–5 warsztatach. Kryteria sukcesu, np. co najmniej połowa zleceń z cyfrową akceptacją i odsetek klientów otwierających link | Rozmowy równolegle z SRS |
-| D13 | Forma prawna i nazwa | Przed inwestycją w branding sprawdzić, czy znak „OXY” nie koliduje z zarejestrowanymi znakami (bazy EUIPO i UPRP). Formę prawną ustalić przed pierwszą umową z warsztatem (regulamin, umowa powierzenia) | Przed pilotażem |
+| D13 | Forma prawna i nazwa | Przed inwestycją w branding sprawdzić, czy znak „Napiko” nie koliduje z zarejestrowanymi znakami (bazy EUIPO i UPRP). Formę prawną ustalić przed pierwszą umową z warsztatem (regulamin, umowa powierzenia) | Przed pilotażem |
 | D14 | Dane techniczne z licencji (dopisana po D1) | Na pilotaż wystarczy katalog z CEPiK, własna lista maszyn i własne schematy do oznaczania uszkodzeń. Przed v1.1 zebrać ceny i zdecydować, co kupujemy: LECTURA API (katalog maszyn budowlanych i rolniczych oraz wózków widłowych), HaynesPro albo TecAlliance (schematy elektryczne i dane serwisowe; HaynesPro obejmuje auta, motocykle i ciężarówki), PWPW (licencja dekodera kodu Aztec) | Przed v1.1; zapytania to zadanie D.7 w planie prac |
 
 ---
@@ -140,7 +140,7 @@ Do rozpoczęcia SRS potrzebne są decyzje **D1–D7**. Pozostałe mogą poczeka�
 
 1. ~~Twoje decyzje D1–D7~~ – podjęte 26.09.2026. Plan prac z etapami i zadaniami: [05-plan-prac.md](05-plan-prac.md).
 2. **SRS 0.1** wg ISO/IEC/IEEE 29148:
-   - wymagania dla ról (biuro, mechanik, klient, właściciel, administrator OXY);
+   - wymagania dla ról (biuro, mechanik, klient, właściciel, administrator Napiko);
    - przypadki użycia;
    - reguły biznesowe (statusy, akceptacje, zgody);
    - wymagania niefunkcjonalne (offline, bezpieczeństwo, RODO, dostępność);

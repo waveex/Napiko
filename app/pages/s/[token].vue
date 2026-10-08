@@ -64,7 +64,7 @@ onMounted(() => {
 onBeforeUnmount(() => clearInterval(timer))
 
 // ── powiadomienia ──
-const pushKey = `oxy-status-push:${token}`
+const pushKey = `napiko-status-push:${token}`
 const pushState = ref<'loading' | 'on' | 'off' | 'denied' | PushSupport>('loading')
 const busy = ref<string | null>(null)
 
@@ -192,7 +192,7 @@ watch(data, (value) => {
       v-else
       class="space-y-6"
     >
-      <header class="oxy-surface space-y-4 border-t-4 border-t-primary p-5 sm:p-7">
+      <header class="napiko-surface space-y-4 border-t-4 border-t-primary p-5 sm:p-7">
         <div class="flex items-center gap-3">
           <img
             v-if="data.organization.logoUrl"
@@ -268,7 +268,7 @@ watch(data, (value) => {
         />
 
         <section
-          class="oxy-surface p-5 sm:p-7"
+          class="napiko-surface p-5 sm:p-7"
           :aria-label="$t('statusPage.stepsLabel')"
         >
           <ol class="space-y-0">
@@ -352,7 +352,7 @@ watch(data, (value) => {
 
       <section
         v-if="data.organization.phone || data.organization.email || data.organization.address"
-        class="oxy-surface space-y-3 p-5 sm:p-7"
+        class="napiko-surface space-y-3 p-5 sm:p-7"
       >
         <h2 class="text-lg font-semibold">
           {{ $t('statusPage.contact') }}
@@ -386,7 +386,7 @@ watch(data, (value) => {
 
       <section
         id="powiadomienia"
-        class="oxy-surface scroll-mt-6 space-y-4 p-5 sm:p-7"
+        class="napiko-surface scroll-mt-6 space-y-4 p-5 sm:p-7"
       >
         <div>
           <h2 class="text-lg font-semibold">

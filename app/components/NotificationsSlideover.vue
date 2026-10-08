@@ -25,7 +25,7 @@ async function readAll() {
     :description="summary.unreadCount ? $t('notifications.unreadCount', { count: summary.unreadCount }) : $t('notifications.allRead')"
     :ui="{
       overlay: 'z-40',
-      content: 'z-50 max-w-md pt-[env(safe-area-inset-top)] pb-[var(--oxy-safe-bottom)]',
+      content: 'z-50 max-w-md pt-[env(safe-area-inset-top)] pb-[var(--napiko-safe-bottom)]',
       header: 'pe-16 sm:pe-16',
       body: 'p-3 sm:p-4',
       footer: 'gap-2',

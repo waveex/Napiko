@@ -45,7 +45,7 @@ useHead({ title: () => t('notifications.title') })
 
     <template #body>
       <div class="max-w-3xl space-y-6">
-        <div class="oxy-intro">
+        <div class="napiko-intro">
           <h2>{{ $t('notifications.title') }}</h2>
           <p>{{ $t('notifications.intro') }}</p>
         </div>
@@ -88,7 +88,7 @@ useHead({ title: () => t('notifications.title') })
             :title="$t('notifications.elsewhere', { count: summary.unreadElsewhere })"
             :description="$t('notifications.elsewhereHint')"
           />
-          <div class="oxy-surface p-2 sm:p-3">
+          <div class="napiko-surface p-2 sm:p-3">
             <NotificationList
               :filter="filter"
               :limit="30"

@@ -33,7 +33,7 @@ if (!isLocalDatabase(url) && !process.argv.includes('--force')) {
 
 const password = process.env.DEMO_PASSWORD || randomBytes(9).toString('base64url')
 if (password.length < 10) {
-  console.error('DEMO_PASSWORD musi mieć co najmniej 10 znaków (jak każde hasło w OXY).')
+  console.error('DEMO_PASSWORD musi mieć co najmniej 10 znaków (jak każde hasło w Napiko).')
   process.exit(1)
 }
 

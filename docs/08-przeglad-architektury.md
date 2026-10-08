@@ -1,4 +1,4 @@
-# OXY – przegląd architektury
+# Napiko – przegląd architektury
 
 **Data:** 29.09.2026 · **Zakres:** kod w repozytorium (`c0d4dce`), dokument [03-architektura-i-infrastruktura.md](03-architektura-i-infrastruktura.md) · **Status:** poprawki w kodzie wdrożone 29.09.2026 (zob. niżej); konfiguracja infrastruktury z ADR-010 – do wykonania przed pilotażem
 

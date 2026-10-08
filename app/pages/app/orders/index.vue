@@ -190,7 +190,7 @@ const canWork = computed(() => !!me.value?.activeOrganization?.can.workOnTasks)
     </template>
 
     <template #body>
-      <div class="oxy-intro">
+      <div class="napiko-intro">
         <h2>{{ $t('orders.title') }}</h2><p>{{ $t('ui.ordersHint') }}</p>
       </div>
       <LoadState

@@ -1,6 +1,6 @@
 {
-  "name": "OXY – warsztat",
-  "short_name": "OXY",
+  "name": "Napiko – warsztat",
+  "short_name": "Napiko",
   "description": "Zlecenia, zadania mechaników i komunikacja z klientem.",
   "id": "/app",
   "start_url": "/app",

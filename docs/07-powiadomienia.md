@@ -1,4 +1,4 @@
-# OXY – powiadomienia (zespół, klient, push)
+# Napiko – powiadomienia (zespół, klient, push)
 
 **Wersja:** 0.1 · **Data:** 29.09.2026
 **Powiązane:** [02-decyzje-produktowe.md](02-decyzje-produktowe.md) (D5), [03-architektura-i-infrastruktura.md](03-architektura-i-infrastruktura.md), [04-moduly-warsztatu.md](04-moduly-warsztatu.md), [05-plan-prac.md](05-plan-prac.md) (E5.6, E6.2, E6.4, E8.5), [README](../README.md)
@@ -75,7 +75,7 @@ Karta „Wiadomości o naprawie”: przełączniki SMS i e-mail (rezygnacja klie
 - **SMS bez polskich znaków** (kodowanie GSM-7, tańsze). W logach SMS jest bez numeru i linku.
 - **Rezygnacja** z SMS-ów albo e-maili (karta klienta, strona statusu, e-mail) zatrzymuje wiadomości automatyczne. Prośby o akceptację wysyła biuro świadomie na wybrany numer lub adres, więc rezygnacja ich nie blokuje.
 - **Brak numeru lub adresu i rezygnacja** są odnotowane w dzienniku wiadomości jako „pominięte” z powodem.
-- **E-mail:** w temacie, treści i stopce nadawcą jest warsztat (nazwa, telefon, adres), a technicznie wiadomość wysyła OXY z adresu `MAIL_FROM`. Nagłówki `List-Unsubscribe` i `List-Unsubscribe-Post` (RFC 8058) dają rezygnację jednym kliknięciem; nazwa warsztatu jest w treści zabezpieczona przed wstrzyknięciem HTML.
+- **E-mail:** w temacie, treści i stopce nadawcą jest warsztat (nazwa, telefon, adres), a technicznie wiadomość wysyła Napiko z adresu `MAIL_FROM`. Nagłówki `List-Unsubscribe` i `List-Unsubscribe-Post` (RFC 8058) dają rezygnację jednym kliknięciem; nazwa warsztatu jest w treści zabezpieczona przed wstrzyknięciem HTML.
 - **Treść i link** z wiadomości są tylko w zadaniu kolejki i znikają po wysłaniu; dziennik zdarzeń (`customer.notified`) nie zawiera numeru ani adresu.
 
 ### Strona statusu naprawy

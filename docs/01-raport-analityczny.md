@@ -1,20 +1,20 @@
-# OXY – analiza rynku, prawa, funkcji i architektury aplikacji dla warsztatów (stan: wrzesień 2026)
+# Napiko – analiza rynku, prawa, funkcji i architektury aplikacji dla warsztatów (stan: wrzesień 2026)
 
 > **Dokument:** raport z researchu · faza 1 (analiza) · 26.09.2026
 > **Weryfikacja i korekty:** zob. [02-decyzje-produktowe.md](02-decyzje-produktowe.md). Najważniejsza korekta: faktury z kas i faktury uproszczone (paragon z NIP do 450 zł) można wystawiać poza KSeF do **31.12.2026**. Daty 30.09.2026 nie potwierdza żadne źródło.
 
-**OXY ma realną niszę, ale nie jako kolejny program do zleceń i faktur, bo tych w Polsce jest wiele tanich lub darmowych. Nisza leży w komunikacji i akceptacjach.** Chodzi o cyfrowe przyjęcie pojazdu, raport częściowy ze zdjęciami lub wideo i zgodą klienta z pełnym dowodem, darmowy hub pojazdów dla klienta oraz mechanika pracującego w wielu organizacjach. Całość musi stać na elastycznym modelu pojazdu, który obsłuży też rowery, motocykle, maszyny rolnicze i wózki widłowe. W 2023 r. w Polsce działały 22 119 warsztaty samochodowe (dane Instytutu GiPA w analizie PETRONAS, ISBtech.pl, 02.2024). Obowiązkowy KSeF (2026/2027) i kasy online wymuszają dziś cyfryzację, co sprzyja nowemu graczowi, pod warunkiem że OXY integruje się z hurtowniami zamiast konkurować z nimi katalogami części.
+**Napiko ma realną niszę, ale nie jako kolejny program do zleceń i faktur, bo tych w Polsce jest wiele tanich lub darmowych. Nisza leży w komunikacji i akceptacjach.** Chodzi o cyfrowe przyjęcie pojazdu, raport częściowy ze zdjęciami lub wideo i zgodą klienta z pełnym dowodem, darmowy hub pojazdów dla klienta oraz mechanika pracującego w wielu organizacjach. Całość musi stać na elastycznym modelu pojazdu, który obsłuży też rowery, motocykle, maszyny rolnicze i wózki widłowe. W 2023 r. w Polsce działały 22 119 warsztaty samochodowe (dane Instytutu GiPA w analizie PETRONAS, ISBtech.pl, 02.2024). Obowiązkowy KSeF (2026/2027) i kasy online wymuszają dziś cyfryzację, co sprzyja nowemu graczowi, pod warunkiem że Napiko integruje się z hurtowniami zamiast konkurować z nimi katalogami części.
 
 ## TL;DR
 
 - **Nisza:** polskie programy (Integra Car 7, PAS24, Warsztat24, Asystent, abcWarsztatu) dobrze pokrywają zlecenia, magazyn, faktury, CEPiK i import dokumentów z hurtowni. Brakuje im nowoczesnej komunikacji z klientem: cyfrowej inspekcji (DVI), akceptacji prac dodatkowych w aplikacji, historii pojazdu po stronie klienta i modelu „mechanik w wielu organizacjach”. Liderzy z USA kosztują od 179 USD miesięcznie (Tekmetric Start przy płatności rocznej, 199 USD przy miesięcznej, wg tekmetric.com/pricing) do 239 USD (Shopmonkey Basic przy płatności miesięcznej, wg shopmonkey.io/pricing). W Polsce jest miejsce na produkt tej klasy za ok. 99–299 zł netto miesięcznie.
 - **Prawo:** najważniejsze są cztery obszary.
-  - RODO: warsztat jest administratorem, OXY podmiotem przetwarzającym, a w hubie klienta OXY jest osobnym administratorem.
+  - RODO: warsztat jest administratorem, Napiko podmiotem przetwarzającym, a w hubie klienta Napiko jest osobnym administratorem.
   - Prawo komunikacji elektronicznej (od 10.11.2024): osobna zgoda na marketing dla każdego kanału, kara do 3% przychodu.
   - Kodeks cywilny: art. 630 KC i forma dokumentowa zgody na rozszerzenie naprawy.
   - Fiskalizacja: kasa online od pierwszej sprzedaży konsumentowi, bez możliwości kasy wirtualnej. KSeF dla B2B obowiązuje od 1.04.2026 (mikroprzedsiębiorcy od 1.01.2027, sankcje od 2027).
 
-  Aplikacje mobilne OXY podlegają też Cyber Resilience Act: według Komisji Europejskiej od 11.09.2026 producenci muszą zgłaszać aktywnie wykorzystywane podatności i poważne incydenty przez platformę ENISA (ostrzeżenie w 24 h, zgłoszenie w 72 h).
+  Aplikacje mobilne Napiko podlegają też Cyber Resilience Act: według Komisji Europejskiej od 11.09.2026 producenci muszą zgłaszać aktywnie wykorzystywane podatności i poważne incydenty przez platformę ENISA (ostrzeżenie w 24 h, zgłoszenie w 72 h).
 - **Technologia i MVP:** jedna baza kodu Nuxt + TypeScript + Capacitor, PostgreSQL z Row Level Security (wspólna baza z tenant_id), synchronizacja offline dla mechanika (np. PowerSync), hosting w UE (OVHcloud). Płatności przez marketplace licencjonowanego operatora (Stripe Connect, Przelewy24, PayU, Tpay), więc bez własnej licencji. MVP obejmuje:
   - zlecenia z zadaniami i podzadaniami;
   - przyjęcie pojazdu, DVI i akceptacje;
@@ -44,7 +44,7 @@
 
 **Co z tego wynika:**
 - Realny rynek docelowy to 20–25 tys. aktywnych warsztatów samochodowych. Z wulkanizacjami i serwisami motocyklowymi, rowerowymi, rolniczymi i ciężarowymi jest to kilkadziesiąt tysięcy punktów.
-- Typowy klient OXY ma 3–6 mechaników i jedną osobę w biurze. Potrzebuje więc prostego interfejsu i ceny rzędu jednej roboczogodziny miesięcznie.
+- Typowy klient Napiko ma 3–6 mechaników i jedną osobę w biurze. Potrzebuje więc prostego interfejsu i ceny rzędu jednej roboczogodziny miesięcznie.
 - Cyfryzacja postępuje nierówno: inwestują duże serwisy miejskie, a właściciele starszych aut wolą kontakt osobisty (MOTOFAKTOR, 2025). Aplikacja klienta musi więc działać także z linku w SMS, bez instalacji.
 
 **UE:** według raportu Q Service Castrol (za Wolk) w 2022 r. do sieci serwisowych w Europie należało 75 tys. warsztatów, o 30% więcej niż w 2012. W Norwegii w sieciach jest 88% serwisów, w Niemczech, Francji, Włoszech i Szwecji ponad połowa. Całkowitej liczby warsztatów w UE nie zweryfikowano; przed biznesplanem ekspansji trzeba ją potwierdzić (Wolk, CLEPA).
@@ -61,7 +61,7 @@
 | **abcWarsztatu** (Binsoft) | Darmowy | Zlecenia, pojazdy, KSeF | Ograniczenia wersji darmowej |
 | **mpWarsztat** | Test za darmo | macOS i Windows, chmura, aplikacja w App Store | Niszowy |
 
-**Wniosek:** rynek to głównie desktop na Windows, licencje jednorazowe i silne powiązanie z hurtowniami (Inter Cars z Integrą, Moto-Profil z PAS24). Porównanie autozeszyt.pl (2026) wskazuje, że dla ok. 90% małych warsztatów liczą się: karta auta z historią, czytelny PDF dla klienta, działanie na telefonie, kopie zapasowe i prosta cena. Magazyn i integracje z hurtowniami rzadko decydują o wyborze. MVP OXY powinno więc skupić się na procesie i komunikacji, a nie na ERP.
+**Wniosek:** rynek to głównie desktop na Windows, licencje jednorazowe i silne powiązanie z hurtowniami (Inter Cars z Integrą, Moto-Profil z PAS24). Porównanie autozeszyt.pl (2026) wskazuje, że dla ok. 90% małych warsztatów liczą się: karta auta z historią, czytelny PDF dla klienta, działanie na telefonie, kopie zapasowe i prosta cena. Magazyn i integracje z hurtowniami rzadko decydują o wyborze. MVP Napiko powinno więc skupić się na procesie i komunikacji, a nie na ERP.
 
 ### 1.3 Benchmark zagraniczny
 
@@ -85,13 +85,13 @@ Dane w ostatnim wierszu opierają się na wiedzy ogólnej i nie zostały zweryfi
 
 ### 1.5 Macierz funkcji
 
-| Funkcja | PL desktop | PAS24 | Liderzy USA | DVI (AutoVitals) | **OXY** |
+| Funkcja | PL desktop | PAS24 | Liderzy USA | DVI (AutoVitals) | **Napiko** |
 |---|---|---|---|---|---|
 | Zlecenia, kosztorys, historia | ✔ | ✔ | ✔ | częściowo | Standard |
 | Faktury, KSeF, kasa | ✔ | ✔ | n/d | – | Przez integracje |
 | Magazyn, zamówienia części | ✔ | ✔ (1 hurtownia) | ✔ (wielu dostawców) | – | v1 prosty, v2 wielu dostawców |
 | DVI ze zdjęciami i wideo | słabo | zdjęcia | ✔ | ✔✔ | **Wyróżnik** |
-| Zdalna akceptacja pozycji (częściowa, odrzucenie, „na później”) | ✗ | ✗ | ✔ | ✔ | **Rdzeń OXY** |
+| Zdalna akceptacja pozycji (częściowa, odrzucenie, „na później”) | ✗ | ✗ | ✔ | ✔ | **Rdzeń Napiko** |
 | Hub klienta z historią z wielu warsztatów | ✗ | ✗ | portal warsztatu | link | **Nisza** |
 | Mechanik w wielu organizacjach lub samodzielny | ✗ | ✗ | ✗ | ✗ | **Nisza unikalna** |
 | Wiele typów pojazdów | częściowo | ✗ | głównie auta | auta | **Nisza** |
@@ -208,7 +208,7 @@ Rekomendacja: start od **niezależnych warsztatów samochodowych (osobowe i dost
 
 ### 4.1 Checklista prawna
 
-| Obszar | Podstawa | Czego dotyczy w OXY | Status 09.2026 |
+| Obszar | Podstawa | Czego dotyczy w Napiko | Status 09.2026 |
 |---|---|---|---|
 | Dane osobowe | RODO; ustawa o ochronie danych osobowych (2018) | Role, umowa powierzenia (art. 28), DPIA, hosting w UE | Obowiązuje |
 | VIN i nr rej. jako dane osobowe | TSUE C-319/22 (9.11.2023) | VIN jest daną osobową dla podmiotu, który może go powiązać z osobą | Orzecznictwo |
@@ -222,7 +222,7 @@ Rekomendacja: start od **niezależnych warsztatów samochodowych (osobowe i dost
 | Split payment | Art. 108a ustawy o VAT, załącznik 15 | Części do pojazdów; faktury ≥15 tys. zł | Obowiązuje |
 | Usługi płatnicze | Ustawa o usługach płatniczych (PSD2) | Marketplace u licencjonowanego operatora | Obowiązuje; w toku PSD3/PSR |
 | Dostępność | Ustawa z 26.04.2024 (EAA), od 28.06.2025 | E-commerce B2C; mikroprzedsiębiorcy wyłączeni w zakresie usług | Obowiązuje |
-| Cyberbezpieczeństwo | CRA 2024/2847 | Aplikacje mobilne OXY | Art. 14 od 11.09.2026; całość od 11.12.2027 |
+| Cyberbezpieczeństwo | CRA 2024/2847 | Aplikacje mobilne Napiko | Art. 14 od 11.09.2026; całość od 11.12.2027 |
 | Dane z pojazdów | Data Act 2023/2854 | Dostęp do danych pojazdu na żądanie użytkownika | Od 12.09.2025 |
 | AI | AI Act 2024/1689 | Transkrypcja, sugestie; niskie ryzyko | Etapowo 2025–2027; trwa dyskusja o przesunięciach |
 | Platformy | DSA, P2B, Omnibus | Tylko katalog warsztatów i opinie | v3 |
@@ -231,19 +231,19 @@ Rekomendacja: start od **niezależnych warsztatów samochodowych (osobowe i dost
 
 ### 4.2 RODO – model ról
 
-- **Warsztat jest administratorem** danych swoich klientów. Podstawy: art. 6 ust. 1 lit. b (umowa), lit. c (obowiązki podatkowe), lit. f (dowody i roszczenia). **OXY jest podmiotem przetwarzającym** na podstawie umowy powierzenia (DPA) w regulaminie B2B, z listą podprzetwarzających (hosting, SMS, e-mail, push).
-- **OXY jest samodzielnym administratorem** konta w hubie. Podstawą jest umowa o świadczenie usługi drogą elektroniczną.
-- **Ryzyko współadministrowania (art. 26)** pojawia się, gdy OXY sam ustala cele przetwarzania danych warsztatów, np. przez globalny rejestr VIN czy analitykę rynkową. Rekomendacja: łączyć obiekt między warsztatami **tylko z inicjatywy klienta** (to klient przypina pojazd do warsztatu). Warsztat nie widzi historii z innych warsztatów bez decyzji klienta.
+- **Warsztat jest administratorem** danych swoich klientów. Podstawy: art. 6 ust. 1 lit. b (umowa), lit. c (obowiązki podatkowe), lit. f (dowody i roszczenia). **Napiko jest podmiotem przetwarzającym** na podstawie umowy powierzenia (DPA) w regulaminie B2B, z listą podprzetwarzających (hosting, SMS, e-mail, push).
+- **Napiko jest samodzielnym administratorem** konta w hubie. Podstawą jest umowa o świadczenie usługi drogą elektroniczną.
+- **Ryzyko współadministrowania (art. 26)** pojawia się, gdy Napiko sam ustala cele przetwarzania danych warsztatów, np. przez globalny rejestr VIN czy analitykę rynkową. Rekomendacja: łączyć obiekt między warsztatami **tylko z inicjatywy klienta** (to klient przypina pojazd do warsztatu). Warsztat nie widzi historii z innych warsztatów bez decyzji klienta.
 - **Retencja a prawo do usunięcia:** dokumentację podatkową przechowuje się do przedawnienia zobowiązania podatkowego (co do zasady 5 lat od końca roku, w którym upłynął termin płatności podatku). Usunięcie konta w hubie nie usuwa danych w części systemu należącej do warsztatu; trzeba to wyjaśnić w klauzuli informacyjnej.
 - **Zdjęcia i wideo:** tablice rejestracyjne i VIN to dane osobowe. Wizerunki osób należy minimalizować (instrukcja dla mechaników; rozmywanie twarzy w v2). Hosting w UE, szyfrowanie, logi dostępu. DPIA warto zrobić wcześnie.
 
-### 4.3 Zaproszenie SMS do OXY – zgoda krok po kroku
+### 4.3 Zaproszenie SMS do Napiko – zgoda krok po kroku
 
-1. **Czyja to komunikacja:** SMS z linkiem do statusu zlecenia to komunikacja transakcyjna warsztatu (OXY działa jako procesor). **Zaproszenie do założenia konta w OXY** można jednak uznać za informację handlową OXY, która wymaga zgody z art. 398 PKE na kanał SMS.
-2. **Przebieg:** w protokole przyjęcia na tablecie osobny, domyślnie niezaznaczony checkbox: *„Chcę otrzymywać SMS-em informacje o moim zleceniu oraz zaproszenie do bezpłatnej aplikacji OXY na numer …”*. Osobno zgoda na e-mail i osobno na marketing warsztatu. Klauzula z art. 13 RODO wskazuje warsztat i OXY.
+1. **Czyja to komunikacja:** SMS z linkiem do statusu zlecenia to komunikacja transakcyjna warsztatu (Napiko działa jako procesor). **Zaproszenie do założenia konta w Napiko** można jednak uznać za informację handlową Napiko, która wymaga zgody z art. 398 PKE na kanał SMS.
+2. **Przebieg:** w protokole przyjęcia na tablecie osobny, domyślnie niezaznaczony checkbox: *„Chcę otrzymywać SMS-em informacje o moim zleceniu oraz zaproszenie do bezpłatnej aplikacji Napiko na numer …”*. Osobno zgoda na e-mail i osobno na marketing warsztatu. Klauzula z art. 13 RODO wskazuje warsztat i Napiko.
 3. **Dowód zgody (ConsentRecord):** treść i wersja klauzuli, kanał, numer, znacznik czasu, pracownik i urządzenie, kliknięcie klienta (nie pracownika), potem SMS potwierdzający z linkiem do wycofania zgody (double opt-in).
 4. **Treść zaproszenia:** neutralna, bez promocji, z identyfikacją nadawcy i opcją STOP.
-5. **Do prawnika:** czy zaproszenie i przypomnienia serwisowe to komunikacja transakcyjna czy handlowa, oraz kto zbiera zgodę na komunikację OXY po założeniu konta.
+5. **Do prawnika:** czy zaproszenie i przypomnienia serwisowe to komunikacja transakcyjna czy handlowa, oraz kto zbiera zgodę na komunikację Napiko po założeniu konta.
 
 ### 4.4 Prawo cywilne i konsumenckie – rozszerzenie naprawy
 
@@ -262,7 +262,7 @@ Rekomendacja: start od **niezależnych warsztatów samochodowych (osobowe i dost
   - Art. 38 wyłącza to prawo dla usług w pełni wykonanych za wyraźną zgodą konsumenta, poinformowanego wcześniej o utracie prawa odstąpienia.
   - Rekomendacja: dodać takie oświadczenie na ekranie akceptacji albo zapisać w protokole przyjęcia, że prace dodatkowe są zmianą umowy zawartej w lokalu.
 - **Rękojmia:** art. 638 KC odsyła do przepisów o sprzedaży; wobec konsumentów część zasad od 1.01.2023 jest w ustawie o prawach konsumenta. Do tego dobrowolna gwarancja warsztatu (pole „gwarancja do” przy każdej pozycji).
-- **Odpowiedzialność za pojazd:** warsztat odpowiada za powierzoną rzecz; protokół przyjęcia ze zdjęciami chroni przed sporami o nowe uszkodzenia. **Art. 461 KC** daje prawo zatrzymania pojazdu do zapłaty (w OXY status „wstrzymane wydanie”).
+- **Odpowiedzialność za pojazd:** warsztat odpowiada za powierzoną rzecz; protokół przyjęcia ze zdjęciami chroni przed sporami o nowe uszkodzenia. **Art. 461 KC** daje prawo zatrzymania pojazdu do zapłaty (w Napiko status „wstrzymane wydanie”).
 
 ### 4.5 Podatki i fiskalizacja
 
@@ -273,16 +273,16 @@ Rekomendacja: start od **niezależnych warsztatów samochodowych (osobowe i dost
   - Schemat FA(3); tryby offline24, offline przy niedostępności i awaryjny. Faktury dla konsumentów (B2C) nie są objęte obowiązkiem.
   - **Konflikt źródeł:** część serwisów podaje, że wyłączenie dla faktur do 450 zł i faktur z kas trwa do 30.09.2026, inne że do końca 2026. Trzeba to potwierdzić u doradcy.
     *Aktualizacja 26.09.2026: rozstrzygnięte – do 31.12.2026 (art. 145n ust. 1 pkt 1 ustawy o VAT); zob. 02-decyzje-produktowe.md.*
-- **Konsekwencja:** OXY musi (a) łączyć się z API KSeF przez token lub certyfikat warsztatu albo (b) zlecać fakturę programowi księgowemu (Fakturownia, inFakt, wFirma, iFirma). **Dla MVP rekomendacja: wariant (b).**
-- **Kasy:** naprawa pojazdów silnikowych i motorowerów, w tym opon, jest wyłączona ze zwolnień (§ 4 pkt 2 lit. c). Kasa online jest obowiązkowa od pierwszej sprzedaży osobie prywatnej lub rolnikowi ryczałtowemu, bez limitu 20 tys. zł. **Kasa wirtualna jest dla warsztatów niedostępna:** katalog branż jest zamknięty, a rozszerzenie od 1.04.2026 objęło tylko vending, urządzenia samoobsługowe i e-parking. OXY nie może więc być kasą; musi współpracować z kasą lub drukarką fiskalną warsztatu.
+- **Konsekwencja:** Napiko musi (a) łączyć się z API KSeF przez token lub certyfikat warsztatu albo (b) zlecać fakturę programowi księgowemu (Fakturownia, inFakt, wFirma, iFirma). **Dla MVP rekomendacja: wariant (b).**
+- **Kasy:** naprawa pojazdów silnikowych i motorowerów, w tym opon, jest wyłączona ze zwolnień (§ 4 pkt 2 lit. c). Kasa online jest obowiązkowa od pierwszej sprzedaży osobie prywatnej lub rolnikowi ryczałtowemu, bez limitu 20 tys. zł. **Kasa wirtualna jest dla warsztatów niedostępna:** katalog branż jest zamknięty, a rozszerzenie od 1.04.2026 objęło tylko vending, urządzenia samoobsługowe i e-parking. Napiko nie może więc być kasą; musi współpracować z kasą lub drukarką fiskalną warsztatu.
 - **Serwis rowerowy** nie naprawia pojazdów silnikowych, więc może korzystać z ogólnego limitu zwolnienia (do weryfikacji).
-- **E-paragony:** kasa online może wydać paragon elektroniczny za zgodą nabywcy. Przesłanie go do aplikacji OXY wymaga integracji z producentem kasy (do weryfikacji). Fakturę do paragonu dla firmy można wystawić tylko wtedy, gdy paragon ma NIP, więc OXY powinno pytać o NIP przed paragonem.
+- **E-paragony:** kasa online może wydać paragon elektroniczny za zgodą nabywcy. Przesłanie go do aplikacji Napiko wymaga integracji z producentem kasy (do weryfikacji). Fakturę do paragonu dla firmy można wystawić tylko wtedy, gdy paragon ma NIP, więc Napiko powinno pytać o NIP przed paragonem.
 - **MPP:** części samochodowe są w załączniku 15. Na fakturze ≥15 000 zł brutto dla podatnika musi być adnotacja „mechanizm podzielonej płatności”.
-- **Abonament OXY:** faktury OXY dla warsztatów to faktury B2B, które muszą przejść przez KSeF. Faktura ze Stripe nie jest fakturą KSeF, dlatego potrzebny jest pipeline: Stripe → webhook → API Fakturowni lub inFaktu → KSeF.
+- **Abonament Napiko:** faktury Napiko dla warsztatów to faktury B2B, które muszą przejść przez KSeF. Faktura ze Stripe nie jest fakturą KSeF, dlatego potrzebny jest pipeline: Stripe → webhook → API Fakturowni lub inFaktu → KSeF.
 
 ### 4.6 Płatności
 
-- **Nie potrzeba własnej licencji (MIP/KIP), jeśli pieniądze klientów nigdy nie trafiają na rachunek OXY.** Każdy warsztat przechodzi KYC i ma swoje konto u licencjonowanego operatora.
+- **Nie potrzeba własnej licencji (MIP/KIP), jeśli pieniądze klientów nigdy nie trafiają na rachunek Napiko.** Każdy warsztat przechodzi KYC i ma swoje konto u licencjonowanego operatora.
 - Wyjątek agenta handlowego jest w praktyce UE interpretowany wąsko, a projekt PSR ma go jeszcze zawęzić.
 - Za świadczenie usług płatniczych bez zezwolenia (art. 150 ust. 1 UUP) grozi grzywna do 5 mln zł, do 2 lat pozbawienia wolności albo obie kary łącznie (Legal Geek, 05.2026). Numer przepisu o wyłączeniu agenta (art. 6 pkt 2 czy pkt 11 UUP) trzeba sprawdzić.
 - BLIK działa w trybie split/marketplace u wszystkich sprawdzonych operatorów.
@@ -303,11 +303,11 @@ Rekomendacja: start od **niezależnych warsztatów samochodowych (osobowe i dost
   - Według Komisji Europejskiej od 11.09.2026 producenci muszą zgłaszać aktywnie wykorzystywane podatności i poważne incydenty przez Single Reporting Platform ENISA: wczesne ostrzeżenie w 24 h, zgłoszenie w 72 h, a raport końcowy do 14 dni po udostępnieniu poprawki (podatność) lub w ciągu miesiąca (poważny incydent).
   - Od 11.12.2027 obowiązuje reszta wymagań (SBOM, okres wsparcia, oznakowanie CE).
   - KE opublikowała niewiążące wytyczne 27.07.2026.
-  - OXY potrzebuje procesu obsługi podatności od pierwszego wydania.
+  - Napiko potrzebuje procesu obsługi podatności od pierwszego wydania.
 - **EAA:** mikroprzedsiębiorcy są wyłączeni z wymogów dla usług, a panel B2B nie jest usługą konsumencką. Hub z płatnościami może podlegać przepisom, gdy firma urośnie. WCAG 2.1 AA warto stosować od początku; pomaga to też przy obsłudze w rękawicach.
 - **Data Act:** kierunek na v3+: przebieg i kody błędów przekazywane warsztatowi na żądanie użytkownika pojazdu.
 - **AI Act:** transkrypcja i sugestie kosztorysu to niskie ryzyko. Wystarczy informować klienta, że treść wygenerowała AI.
-- **Dostęp do RMI:** TSUE w C-319/22 potwierdził, że obowiązek producentów obejmuje VIN w formacie nadającym się do odczytu maszynowego, ale bez obowiązku API. OXY wystarczą linki do portali producentów.
+- **Dostęp do RMI:** TSUE w C-319/22 potwierdził, że obowiązek producentów obejmuje VIN w formacie nadającym się do odczytu maszynowego, ale bez obowiązku API. Napiko wystarczą linki do portali producentów.
 
 ### 4.8 Sklepy z aplikacjami
 
@@ -340,11 +340,11 @@ Marketing SMS: dyrektywa ePrivacy wymaga zgody, ale część krajów dopuszcza �
 | CEPiK, dekoder VIN | Publiczna „Historia pojazdu”; dostęp komercyjny ograniczony; dekodery komercyjne | Do weryfikacji | Dane techniczne | v1: kod z dowodu rejestracyjnego |
 | **Fakturownia, inFakt, wFirma, iFirma** | ✔ REST, KSeF | Klucz API warsztatu | Faktury | **v1** |
 | Subiekt nexo, Optima, Symfonia, enova365 | SDK, API, eksport | Lokalny agent lub eksport | Księgowość | v2 |
-| **Kasy** (Posnet, Novitus, Elzab) | Protokoły producentów (LAN/USB/COM) | Lokalny **OXY Bridge** (usługa Windows lub mini-PC) | Paragon z pozycjami zlecenia | v1 (1–2 producentów) |
+| **Kasy** (Posnet, Novitus, Elzab) | Protokoły producentów (LAN/USB/COM) | Lokalny **Napiko Bridge** (usługa Windows lub mini-PC) | Paragon z pozycjami zlecenia | v1 (1–2 producentów) |
 | SMS (SMSAPI, SerwerSMS, JustSend, SMSPlanet, Twilio), e-mail (SES, Postmark, Brevo), push (FCM/APNs) | ✔ REST | Konta | Powiadomienia | v1 |
 | Kalendarze, BDO | ✔ | OAuth / konto BDO | Terminy, odpady | v3 |
 
-**Ryzyko:** hurtownie używają własnych programów do budowania lojalności. Dostęp do API zwykle wymaga umowy każdego warsztatu z hurtownią (tak działa np. Warsztat24). OXY powinno mieć ekran „Połącz konto Inter Cars” i nie budować w v1 własnego katalogu części.
+**Ryzyko:** hurtownie używają własnych programów do budowania lojalności. Dostęp do API zwykle wymaga umowy każdego warsztatu z hurtownią (tak działa np. Warsztat24). Napiko powinno mieć ekran „Połącz konto Inter Cars” i nie budować w v1 własnego katalogu części.
 
 ---
 
@@ -381,7 +381,7 @@ Implementacja:
 | Ionic Vue (+ Capacitor) | Gotowe komponenty mobilne | Routing inny niż w Nuxt | Jako biblioteka UI w osobnej aplikacji mobilnej w monorepo |
 | Quasar | Bardzo produktywny | Zastępuje Nuxt | Tylko w razie rezygnacji z Nuxt |
 | **PWA** | Świetna dla biura na Windows (instalacja z Edge lub Chrome) i dla klienta z linku | iOS: push tylko po dodaniu do ekranu początkowego (od 16.4), brak podpowiedzi instalacji, brak background sync; od iOS 26 witryny z ekranu początkowego domyślnie otwierają się jako web app; w UE Apple wycofało się z blokady PWA 1.03.2024 | Uzupełnienie, **nie jedyna aplikacja mechanika na iOS** |
-| Tauri / Electron | – | Niepotrzebne w v1 | Tylko dla OXY Bridge |
+| Tauri / Electron | – | Niepotrzebne w v1 | Tylko dla Napiko Bridge |
 | Flutter / React Native | Wydajność natywna | Nowy język lub ekosystem, osobny panel web | Nieopłacalne dla 1–3 osób |
 
 **Offline:**
@@ -432,7 +432,7 @@ Implementacja:
 | abcWarsztatu | Darmowy | 0 zł |
 | Polskie programy chmurowe (autozeszyt.pl) | Abonament | „kilkadziesiąt złotych miesięcznie” |
 
-### 7.2 Proponowany cennik OXY (do walidacji w wywiadach)
+### 7.2 Proponowany cennik Napiko (do walidacji w wywiadach)
 
 - **Klient:** zawsze za darmo.
 - **Solo** (mechanik jako mikroorganizacja): 0 zł z limitem ok. 20 zleceń miesięcznie albo 49 zł. Buduje sieć mechaników w wielu organizacjach.
@@ -444,7 +444,7 @@ Implementacja:
 
 ### 7.3 Kanały dotarcia
 
-- Sieci warsztatowe: ProfiAuto Serwis (>3 500), sieci Inter Cars, Q Service Castrol, Bosch Car Service, Premio. Trudne, bo mają własne programy, ale możliwe dla OXY jako dodatku do komunikacji.
+- Sieci warsztatowe: ProfiAuto Serwis (>3 500), sieci Inter Cars, Q Service Castrol, Bosch Car Service, Premio. Trudne, bo mają własne programy, ale możliwe dla Napiko jako dodatku do komunikacji.
 - Media: MotoFocus, warsztat.pl, MOTOFAKTOR, Auto Service Manager, Forum-Mechanika.pl, grupy mechaników na Facebooku, YouTube.
 - Targi, np. Inter Cars Motor Show; stowarzyszenia i izby, np. SDCM, izby rzemieślnicze.
 - Lokalnie na Podlasiu: bezpośrednie wizyty w 10–20 warsztatach, Cech Rzemiosł w Białymstoku, technika samochodowe.
@@ -459,7 +459,7 @@ Implementacja:
 | Faza | Dokumenty | Kryterium wyjścia |
 |---|---|---|
 | 1. Analiza | Wizja, analiza rynku, wywiady z 10–15 warsztatami, opinia prawna i podatkowa | Zatwierdzony zakres MVP |
-| 2. Wymagania | **SRS wg ISO/IEC/IEEE 29148:2018**: wymagania funkcjonalne z ID, niefunkcjonalne (offline, bezpieczeństwo, WCAG, RODO, CRA), przypadki użycia dla ról (Biuro, Mechanik, Klient, Właściciel, Admin OXY), reguły biznesowe (statusy, zgody, dokumenty), słownik, macierz śledzenia wymagań (RTM) | Przegląd i podpis |
+| 2. Wymagania | **SRS wg ISO/IEC/IEEE 29148:2018**: wymagania funkcjonalne z ID, niefunkcjonalne (offline, bezpieczeństwo, WCAG, RODO, CRA), przypadki użycia dla ról (Biuro, Mechanik, Klient, Właściciel, Admin Napiko), reguły biznesowe (statusy, zgody, dokumenty), słownik, macierz śledzenia wymagań (RTM) | Przegląd i podpis |
 | 3. Projekt | Model domeny (ERD), architektura C4, ADR, OpenAPI, model uprawnień (RBAC + RLS), model zagrożeń STRIDE, DPIA, makiety i prototyp w Figmie | Prototyp przetestowany z warsztatami |
 | 4. Implementacja | Standardy kodu, CI/CD, SBOM | Gotowy przyrost |
 | 5. Testy | Plan testów (wzór ISO/IEC/IEEE 29119): testy jednostkowe, integracyjne (środowisko testowe KSeF, kasy), izolacji najemców, E2E, terenowe w warsztacie (rękawice, słabe Wi-Fi), pentest | Kryteria akceptacji z RTM |
@@ -487,9 +487,9 @@ Implementacja:
 7. Hub klienta (aplikacja i link bez konta): akceptacje, dokumenty, historia, przypomnienia.
 8. Powiadomienia push, e-mail i SMS z centrum zgód.
 9. Proste części i magazyn: zapotrzebowania, rezerwacje, stany, marże.
-10. Faktury przez API Fakturowni lub inFaktu (KSeF); paragony przez OXY Bridge (1–2 producentów drukarek) albo ręczny numer paragonu.
+10. Faktury przez API Fakturowni lub inFaktu (KSeF); paragony przez Napiko Bridge (1–2 producentów drukarek) albo ręczny numer paragonu.
 11. KPI: ARO, odsetek akceptacji, czas rzeczywisty vs normatywny.
-12. Subskrypcja (Stripe → faktura KSeF), panel administratora OXY, log audytowy, funkcje RODO (DPA, eksport, usuwanie konta w aplikacji).
+12. Subskrypcja (Stripe → faktura KSeF), panel administratora Napiko, log audytowy, funkcje RODO (DPA, eksport, usuwanie konta w aplikacji).
 
 **v2:**
 - API Inter Cars, Auto Partner i ProfiAuto;
@@ -522,13 +522,13 @@ Implementacja:
 
 ### 9.3 Otwarte decyzje właściciela produktu
 
-1. Forma prawna (sp. z o.o. czy JDG) i ochrona znaku „OXY” (sprawdzić kolizje w EUIPO i UPRP).
+1. Forma prawna (sp. z o.o. czy JDG) i ochrona znaku „Napiko” (sprawdzić kolizje w EUIPO i UPRP).
 2. Segment startowy: rekomendacja – auta i motocykle, rowery w v2.
 3. Cennik: stała opłata z pakietem mechaników czy opłata za mechanika; czy plan Solo jest darmowy.
-4. SMS-y: nadpis każdego warsztatu czy wspólny „OXY”; pakiety czy marża.
+4. SMS-y: nadpis każdego warsztatu czy wspólny „Napiko”; pakiety czy marża.
 5. Udostępnianie historii: co widzi nowy właściciel pojazdu (ceny? dane warsztatu?); czy warsztat może oznaczać wpisy jako wewnętrzne.
 6. Faktury: integracja (szybciej) czy własny moduł KSeF; wybór 1–2 partnerów.
-7. Kasa: którzy producenci w v1; OXY Bridge jako usługa Windows czy urządzenie.
+7. Kasa: którzy producenci w v1; Napiko Bridge jako usługa Windows czy urządzenie.
 8. Supabase czy własny Node + Postgres; PowerSync w chmurze czy self-host.
 9. Płatności online: czy w v2 i u którego operatora.
 10. AI (transkrypcja, sugestie kosztorysu): czy w v1.

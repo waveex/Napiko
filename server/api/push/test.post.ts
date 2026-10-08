@@ -17,10 +17,10 @@ export default defineEventHandler(async (event) => {
         orgId: ctx.orgId,
         userId: ctx.userId,
         notificationId: '',
-        title: 'OXY: powiadomienia działają',
+        title: 'Napiko: powiadomienia działają',
         body: 'Tak będą wyglądać powiadomienia o nowych zadaniach i odpowiedziach klientów.',
         url: '/app/notifications',
-        tag: 'oxy-test',
+        tag: 'napiko-test',
         lang: 'pl',
       }
       await enqueueJob(tx, { type: 'push.send', orgId: ctx.orgId, payload: { ...payload }, maxAttempts: 2 })

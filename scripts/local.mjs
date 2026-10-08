@@ -1,5 +1,5 @@
 /**
- * Lokalne uruchomienie OXY jednym poleceniem:
+ * Lokalne uruchomienie Napiko jednym poleceniem:
  *   pnpm run local
  *
  * Po kolei: .env (z .env.example i losowymi sekretami, jeśli go brak) → Docker (w razie potrzeby

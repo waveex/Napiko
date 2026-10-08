@@ -33,7 +33,7 @@ export function createAuth(deps: AuthDeps) {
   ]
 
   return betterAuth({
-    appName: 'OXY',
+    appName: 'Napiko',
     baseURL: env.appUrl,
     secret: env.BETTER_AUTH_SECRET,
     trustedOrigins,

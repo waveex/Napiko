@@ -22,7 +22,7 @@ function escapeHtml(value: string) {
 }
 
 interface LayoutOptions {
-  /** nagłówek wiadomości – domyślnie OXY; w wiadomościach do klientów nazwa warsztatu */
+  /** nagłówek wiadomości – domyślnie Napiko; w wiadomościach do klientów nazwa warsztatu */
   brand?: string
   /** stopka: np. kontakt do warsztatu, link do ustawień powiadomień */
   footer?: { text: string, link?: { label: string, url: string } }[]
@@ -36,7 +36,7 @@ function layout(title: string, paragraphs: string[], action: { label: string, ur
   return `<!doctype html>
 <html lang="pl"><body style="margin:0;padding:24px;background:#f4f4f5;font-family:Arial,Helvetica,sans-serif;color:#18181b">
   <div style="max-width:520px;margin:0 auto;background:#ffffff;border-radius:8px;padding:32px">
-    <p style="margin:0 0 24px;font-weight:bold;font-size:18px">${escapeHtml(options.brand ?? 'OXY')}</p>
+    <p style="margin:0 0 24px;font-weight:bold;font-size:18px">${escapeHtml(options.brand ?? 'Napiko')}</p>
     <h1 style="margin:0 0 16px;font-size:20px">${escapeHtml(title)}</h1>
     ${body}
     <p style="margin:24px 0"><a href="${escapeHtml(action.url)}" style="background:#18181b;color:#ffffff;padding:12px 20px;border-radius:6px;text-decoration:none;display:inline-block">${escapeHtml(action.label)}</a></p>
@@ -76,9 +76,9 @@ export function renderEmail(email: OutgoingEmail): Rendered {
   const d = email.data
   switch (email.template) {
     case 'verify-email': {
-      const paragraphs = [`Cześć ${d.name},`, 'potwierdź swój adres e-mail, aby dokończyć zakładanie konta w OXY.']
+      const paragraphs = [`Cześć ${d.name},`, 'potwierdź swój adres e-mail, aby dokończyć zakładanie konta w Napiko.']
       return {
-        subject: 'Potwierdź adres e-mail – OXY',
+        subject: 'Potwierdź adres e-mail – Napiko',
         text: `${paragraphs.join('\n')}\n\n${d.url}`,
         html: layout('Potwierdź adres e-mail', paragraphs, { label: 'Potwierdzam adres', url: d.url! }),
       }
@@ -86,7 +86,7 @@ export function renderEmail(email: OutgoingEmail): Rendered {
     case 'reset-password': {
       const paragraphs = [`Cześć ${d.name},`, 'otrzymaliśmy prośbę o zmianę hasła. Jeśli to nie Ty, zignoruj tę wiadomość.']
       return {
-        subject: 'Zmiana hasła – OXY',
+        subject: 'Zmiana hasła – Napiko',
         text: `${paragraphs.join('\n')}\n\n${d.url}`,
         html: layout('Zmiana hasła', paragraphs, { label: 'Ustaw nowe hasło', url: d.url! }),
       }
@@ -94,11 +94,11 @@ export function renderEmail(email: OutgoingEmail): Rendered {
     case 'org-invitation': {
       const role = ORG_ROLE_LABELS[d.role as OrgRole] ?? d.role ?? ''
       const paragraphs = [
-        `${d.inviterName} zaprasza Cię do organizacji „${d.organizationName}” w OXY.`,
+        `${d.inviterName} zaprasza Cię do organizacji „${d.organizationName}” w Napiko.`,
         `Rola: ${role}. Zaproszenie jest ważne 7 dni.`,
       ]
       return {
-        subject: `Zaproszenie do ${d.organizationName} – OXY`,
+        subject: `Zaproszenie do ${d.organizationName} – Napiko`,
         text: `${paragraphs.join('\n')}\n\n${d.url}`,
         html: layout('Zaproszenie do zespołu', paragraphs, { label: 'Dołączam', url: d.url! }),
       }
@@ -158,14 +158,14 @@ export function renderEmail(email: OutgoingEmail): Rendered {
       // Treść z tych samych tłumaczeń co dzwonek w aplikacji (server/lib/notification-texts.ts), w języku warsztatu
       const en = d.lang === 'en'
       const labels = en
-        ? { open: 'Open in OXY', from: 'notification from OXY', settings: 'Notification settings' }
-        : { open: 'Otwórz w OXY', from: 'powiadomienie z OXY', settings: 'Ustawienia powiadomień' }
+        ? { open: 'Open in Napiko', from: 'notification from Napiko', settings: 'Notification settings' }
+        : { open: 'Otwórz w Napiko', from: 'powiadomienie z Napiko', settings: 'Ustawienia powiadomień' }
       const paragraphs = [d.body ?? '', ...(d.note ? [d.note] : [])].filter(Boolean)
       const footer = `${d.organizationName} · ${labels.from}.`
       return {
         subject: `${d.title} – ${d.organizationName}`,
         text: plain(paragraphs, d.url!, [footer, d.settingsUrl ? `${labels.settings}: ${d.settingsUrl}` : '']),
-        html: layout(d.title ?? 'OXY', paragraphs, { label: labels.open, url: d.url! }, {
+        html: layout(d.title ?? 'Napiko', paragraphs, { label: labels.open, url: d.url! }, {
           footer: [{ text: footer, ...(d.settingsUrl ? { link: { label: labels.settings, url: d.settingsUrl } } : {}) }],
         }),
       }

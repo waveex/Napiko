@@ -23,7 +23,7 @@ import { hasPermission, type PermissionRequest } from '../../shared/permissions'
 import {
   TEAM_NOTIFICATIONS, vehicleText, type TeamNotificationData, type TeamNotificationType,
 } from '../../shared/notifications'
-import type { WorkRequestKind } from '../../shared/workshop'
+import { allWorkDone, type WorkRequestKind } from '../../shared/workshop'
 
 export interface NotifyTeamInput {
   orgId: string
@@ -69,7 +69,7 @@ export async function notifyTeam(tx: Tx, input: NotifyTeamInput): Promise<string
   if (!recipients.length) return []
 
   const actorName = input.actorUserId ? members.find(m => m.userId === input.actorUserId)?.name : undefined
-  const data: TeamNotificationData = { ...input.data, actor: input.data.actor ?? actorName ?? 'OXY' }
+  const data: TeamNotificationData = { ...input.data, actor: input.data.actor ?? actorName ?? 'Napiko' }
   const rows = recipients.map(r => ({
     id: randomUUID(),
     orgId: input.orgId,
@@ -119,7 +119,7 @@ export async function notifyTeam(tx: Tx, input: NotifyTeamInput): Promise<string
           title: texts.title,
           body: texts.body,
           note: data.note ? String(data.note) : '',
-          organizationName: org?.name ?? 'OXY',
+          organizationName: org?.name ?? 'Napiko',
           url: `${env.appUrl}/app/n/${idOf(r.userId)}`,
           settingsUrl: `${env.appUrl}/app/notifications?tab=settings`,
           lang: locale,
@@ -389,11 +389,13 @@ export async function notifyApprovalOutcome(
   })
 }
 
-/** Wszystkie zadania zlecenia zakończone (bez anulowanych) – biuro może oznaczyć zlecenie jako gotowe do odbioru. */
+/**
+ * Wszystkie zadania robocze zlecenia zakończone (bez anulowanych i bez zadania „Wydanie auta”) –
+ * biuro może oznaczyć zlecenie jako gotowe do odbioru.
+ */
 export async function allTasksDone(tx: Tx, workOrderId: string) {
-  const rows = await tx.select({ status: task.status }).from(task).where(eq(task.workOrderId, workOrderId))
-  const active = rows.filter(r => r.status !== 'cancelled')
-  return active.length > 0 && active.every(r => r.status === 'done')
+  const rows = await tx.select({ kind: task.kind, status: task.status }).from(task).where(eq(task.workOrderId, workOrderId))
+  return allWorkDone(rows)
 }
 
 /**

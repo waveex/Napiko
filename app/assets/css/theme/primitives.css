@@ -1,52 +1,52 @@
 @theme static {
   --font-sans: 'Inter', system-ui, sans-serif;
-  --color-oxy-blue-50: #eaf8fd;
-  --color-oxy-blue-100: #d5f1fb;
-  --color-oxy-blue-200: #afe6f6;
-  --color-oxy-blue-300: #8edff4;
-  --color-oxy-blue-400: #35c1e7;
-  --color-oxy-blue-500: #00a6d6;
-  --color-oxy-blue-600: #0083af;
-  --color-oxy-blue-700: #006c96;
-  --color-oxy-blue-800: #07516d;
-  --color-oxy-blue-900: #103d51;
-  --color-oxy-blue-950: #102a38;
-  --color-oxy-violet-50: #f3edfd;
-  --color-oxy-violet-100: #ebe0fc;
-  --color-oxy-violet-200: #ddcafb;
-  --color-oxy-violet-300: #c7adf7;
-  --color-oxy-violet-400: #aa85ef;
-  --color-oxy-violet-500: #8854e8;
-  --color-oxy-violet-600: #7740ce;
-  --color-oxy-violet-700: #6936b5;
-  --color-oxy-violet-800: #532990;
-  --color-oxy-violet-900: #43216c;
-  --color-oxy-violet-950: #291d3e;
-  --color-oxy-slate-50: #f5f7fa;
-  --color-oxy-slate-100: #edf1f5;
-  --color-oxy-slate-200: #dce3ea;
-  --color-oxy-slate-300: #b5c2d0;
-  --color-oxy-slate-400: #8091a4;
-  --color-oxy-slate-500: #617387;
-  --color-oxy-slate-600: #536171;
-  --color-oxy-slate-700: #37495c;
-  --color-oxy-slate-800: #243447;
-  --color-oxy-slate-900: #172331;
-  --color-oxy-slate-950: #101720;
+  --color-napiko-blue-50: #eaf8fd;
+  --color-napiko-blue-100: #d5f1fb;
+  --color-napiko-blue-200: #afe6f6;
+  --color-napiko-blue-300: #8edff4;
+  --color-napiko-blue-400: #35c1e7;
+  --color-napiko-blue-500: #00a6d6;
+  --color-napiko-blue-600: #0083af;
+  --color-napiko-blue-700: #006c96;
+  --color-napiko-blue-800: #07516d;
+  --color-napiko-blue-900: #103d51;
+  --color-napiko-blue-950: #102a38;
+  --color-napiko-violet-50: #f3edfd;
+  --color-napiko-violet-100: #ebe0fc;
+  --color-napiko-violet-200: #ddcafb;
+  --color-napiko-violet-300: #c7adf7;
+  --color-napiko-violet-400: #aa85ef;
+  --color-napiko-violet-500: #8854e8;
+  --color-napiko-violet-600: #7740ce;
+  --color-napiko-violet-700: #6936b5;
+  --color-napiko-violet-800: #532990;
+  --color-napiko-violet-900: #43216c;
+  --color-napiko-violet-950: #291d3e;
+  --color-napiko-slate-50: #f5f7fa;
+  --color-napiko-slate-100: #edf1f5;
+  --color-napiko-slate-200: #dce3ea;
+  --color-napiko-slate-300: #b5c2d0;
+  --color-napiko-slate-400: #8091a4;
+  --color-napiko-slate-500: #617387;
+  --color-napiko-slate-600: #536171;
+  --color-napiko-slate-700: #37495c;
+  --color-napiko-slate-800: #243447;
+  --color-napiko-slate-900: #172331;
+  --color-napiko-slate-950: #101720;
 }
 
 :root {
-  --oxy-control-height: 3rem;
-  --oxy-work-action-height: 3.5rem;
-  --oxy-touch-gap: .5rem;
-  --oxy-bottom-nav-height: 4rem;
-  --oxy-radius-control: .625rem;
-  --oxy-radius-card: 1rem;
-  --oxy-motion: 150ms;
-  --oxy-page-gutter: 1rem;
-  --oxy-safe-bottom: env(safe-area-inset-bottom, 0px);
-  --oxy-shadow: 0 2px 8px rgb(16 23 32 / 4%);
+  --napiko-control-height: 3rem;
+  --napiko-work-action-height: 3.5rem;
+  --napiko-touch-gap: .5rem;
+  --napiko-bottom-nav-height: 4rem;
+  --napiko-radius-control: .625rem;
+  --napiko-radius-card: 1rem;
+  --napiko-motion: 150ms;
+  --napiko-page-gutter: 1rem;
+  --napiko-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --napiko-shadow: 0 2px 8px rgb(16 23 32 / 4%);
 }
 
-@media (min-width: 768px) { :root { --oxy-page-gutter: 1.5rem; } }
-@media (min-width: 1024px) { :root { --oxy-page-gutter: 2rem; } }
+@media (min-width: 768px) { :root { --napiko-page-gutter: 1.5rem; } }
+@media (min-width: 1024px) { :root { --napiko-page-gutter: 2rem; } }

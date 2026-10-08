@@ -61,6 +61,25 @@ export const TASK_STATUSES = [
 ] as const
 export type TaskStatus = (typeof TASK_STATUSES)[number]
 
+/**
+ * work – zwykłe zadanie robocze; handover – „Wydanie auta”, dokładane automatycznie, gdy wszystkie zadania
+ * zlecenia są zrobione (nie liczy się do postępu prac).
+ */
+export const TASK_KINDS = ['work', 'handover'] as const
+export type TaskKind = (typeof TASK_KINDS)[number]
+
+/** Tytuł zapisany w bazie; interfejs pokazuje tłumaczenie (tasks.handover). */
+export const HANDOVER_TASK_TITLE = 'Wydanie auta'
+
+/**
+ * Wszystkie zadania robocze (bez anulowanych) są zrobione – wtedy zlecenie czeka tylko na wydanie.
+ * Zadanie wydania nie bierze udziału w tej ocenie.
+ */
+export function allWorkDone(tasks: readonly { kind: TaskKind, status: TaskStatus }[]) {
+  const work = tasks.filter(t => t.kind === 'work' && t.status !== 'cancelled')
+  return work.length > 0 && work.every(t => t.status === 'done')
+}
+
 export type BadgeColor = 'neutral' | 'primary' | 'info' | 'warning' | 'success' | 'error'
 
 export const WORK_ORDER_STATUS_COLOR: Record<WorkOrderStatus, BadgeColor> = {

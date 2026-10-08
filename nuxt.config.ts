@@ -18,10 +18,10 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: { lang: 'pl' },
-      title: 'OXY',
+      title: 'Napiko',
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
-        { name: 'description', content: 'OXY – komunikacja i organizacja pracy warsztatów z klientem.' },
+        { name: 'description', content: 'Napiko – komunikacja i organizacja pracy warsztatów z klientem.' },
       ],
       link: [
         { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/icons/favicon-32.png' },
@@ -37,7 +37,7 @@ export default defineNuxtConfig({
     // Netlify udostępnia adres podglądu (DEPLOY_PRIME_URL) tylko podczas budowania, dlatego zapisujemy go w buildzie.
     buildAppUrl: process.env.CONTEXT && process.env.CONTEXT !== 'production' ? (process.env.DEPLOY_PRIME_URL ?? '') : '',
     public: {
-      appName: 'OXY',
+      appName: 'Napiko',
       // NUXT_PUBLIC_APP_URL – publiczny adres aplikacji (potrzebny m.in. aplikacji mobilnej)
       appUrl: '',
     },
@@ -101,7 +101,7 @@ export default defineNuxtConfig({
     ],
     detectBrowserLanguage: {
       useCookie: true,
-      cookieKey: 'oxy_locale',
+      cookieKey: 'napiko_locale',
       redirectOn: 'root',
     },
   },

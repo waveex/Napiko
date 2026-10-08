@@ -1,6 +1,6 @@
-# 05 — Plan prac OXY
+# 05 — Plan prac Napiko
 
-Stan na 29.09.2026. Żywa wersja ze statusami to artefakt **„Plan prac OXY”** (https://claude.ai/artifact/EcRpKhpcZeHpkwwfG4pcNN) — tam zmienia się statusy i tam są aktualne. Ten dokument to zrzut struktury planu: etapy, zadania, kto je robi i co od czego zależy.
+Stan na 29.09.2026. Żywa wersja ze statusami to artefakt **„Plan prac Napiko”** (https://claude.ai/artifact/EcRpKhpcZeHpkwwfG4pcNN) — tam zmienia się statusy i tam są aktualne. Ten dokument to zrzut struktury planu: etapy, zadania, kto je robi i co od czego zależy.
 
 Właściciel: **Claude** (budowa aplikacji), **Michał**, **prawnik**, **warsztaty** (pilotaż). Rozmiar: S — do dnia pracy, M — kilka dni, L — tydzień lub więcej. „Po:” — zadania, które muszą być skończone wcześniej.
 
@@ -28,8 +28,8 @@ Rzeczy po Twojej stronie – bez nich nie ruszy pilotaż. Można je robić równ
 - **D.1 Zatwierdź decyzje D1–D7 albo wskaż zmiany** (Michał · S · zrobione). Decyzje zapisane w dokumencie 02 (26.09.2026). D1 szerzej niż rekomendacja: auta, maszyny rolnicze i budowlane, podnośniki i wózki widłowe już w v1.0, z katalogiem pojazdów i schematami – nowy etap K. D2–D7 zgodnie z rekomendacjami.
 - **D.2 Rozmowy z 5–8 warsztatami z Podlasia** (Michał · S). Pokaż działającą aplikację (przyjęcie, akceptacja klienta, widok mechanika). Zapytaj o cenę, program do faktur, kasę fiskalną i SMS-y. Scenariusz rozmowy przygotuje Claude.
 - **D.3 Konsultacja prawna przed pilotażem** (prawnik · M). Pytania z dokumentów 02 (pkt 3), 04 (pkt 6) i 07 (pkt 7): forma dokumentowa akceptacji, treść zgody, umowa na odległość, role RODO, okresy przechowywania, SMS-y a zgody (PKE), push w telefonie klienta, strona statusu bez logowania. Doszły: odczyt kodu Aztec z dowodu rejestracyjnego (K.5), prawa do dokumentacji wgrywanej przez warsztaty (K.8), przypomnienia o terminach UDT a zgody (K.6).
-- **D.4 Regulamin, polityka prywatności, umowa powierzenia** (prawnik · M · po: D.3). Teksty prawne OXY: regulamin dla warsztatów, polityka prywatności, wzór umowy powierzenia danych (warsztat = administrator, OXY = podmiot przetwarzający).
-- **D.5 Znak „OXY” i forma prawna** (Michał · S). Sprawdzenie w bazach EUIPO i UPRP, czy nazwa nie koliduje z zarejestrowanymi znakami (D13). Forma prawna przed pierwszą umową z warsztatem.
+- **D.4 Regulamin, polityka prywatności, umowa powierzenia** (prawnik · M · po: D.3). Teksty prawne Napiko: regulamin dla warsztatów, polityka prywatności, wzór umowy powierzenia danych (warsztat = administrator, Napiko = podmiot przetwarzający).
+- **D.5 Znak „Napiko” i forma prawna** (Michał · S). Sprawdzenie w bazach EUIPO i UPRP, czy nazwa nie koliduje z zarejestrowanymi znakami (D13). Forma prawna przed pierwszą umową z warsztatem.
 - **D.6 Konta usług zewnętrznych** (Michał · S · po: D.1). Netlify Pro (region UE), magazyn plików w UE (np. OVHcloud), poczta z serwerami w UE, SMSAPI (z nazwą nadawcy), konto testowe Fakturowni, domena. Claude przygotuje listę kroków do każdego konta.
 - **D.7 Zapytania o ceny licencji danych** (Michał · S · wstrzymane). Później (26.09.2026: najpierw to, co działa bez integracji). LECTURA API – katalog maszyn budowlanych i rolniczych oraz wózków widłowych; HaynesPro albo TecAlliance – schematy elektryczne i dane serwisowe aut; PWPW – licencja dekodera kodu Aztec. Treść zapytań przygotuje Claude. Odpowiedzi są potrzebne do decyzji D14 przed v1.1.
 
@@ -52,11 +52,11 @@ Szybkie wypełnianie formularza: marki, modele, generacje i roczniki aut, maszyn
 - **K.1 Katalog marek i modeli z CEPiK** (Claude · L · wstrzymane). Później – integracja zewnętrzna. Import otwartych danych CEPiK (bezpłatne, także do użytku komercyjnego, z podaniem źródła): marki, modele i lata produkcji pojazdów zarejestrowanych w Polsce – auta osobowe, dostawcze i ciężarowe, motocykle, ciągniki rolnicze. Wspólny słownik dla wszystkich warsztatów, odświeżany okresowo.
 - **K.2 Generacje aut** (Claude · M · wstrzymane · po: K.1). Później – wymaga danych z zewnątrz (K.1). Generacje z latami produkcji dla najpopularniejszych modeli (Wikidata na licencji CC0 i uzupełnienia ręczne); wybór rocznika zawęża listę generacji. Pełniejsze dane z licencji po decyzji D14.
 - **K.3 Własny katalog marek i modeli** (Claude · M). Maszyny rolnicze, budowlane (koparki, ładowarki), podnośniki i wózki widłowe oraz podstawowa lista marek i modeli aut: własne zestawienie producentów i serii modeli, bez kopiowania cudzych katalogów (ochrona baz danych). Później rozszerzenie o dane z CEPiK (K.1) i z licencji (D14).
-- **K.4 Formularz pojazdu z podpowiedziami** (Claude · M · po: K.3). Typ → marka → model → generacja i rocznik, z wyszukiwaniem po kilku literach. Wpis spoza listy jest dozwolony; brakujące modele trafiają do panelu OXY do zatwierdzenia i dopisania do katalogu.
+- **K.4 Formularz pojazdu z podpowiedziami** (Claude · M · po: K.3). Typ → marka → model → generacja i rocznik, z wyszukiwaniem po kilku literach. Wpis spoza listy jest dozwolony; brakujące modele trafiają do panelu Napiko do zatwierdzenia i dopisania do katalogu.
 - **K.5 Skan kodu Aztec z dowodu rejestracyjnego** (Claude · M · wstrzymane · po: K.4, D.3). Później – wymaga licencji dekodera. Aparat w telefonie odczytuje z kodu dane techniczne i numer rejestracyjny (kod nie zawiera danych właściciela) i wypełnia formularz. Sposób dekodowania do potwierdzenia z prawnikiem: licencja PWPW albo dostawca komercyjny.
 - **K.6 Maszyny: motogodziny i dozór UDT** (Claude · M). Numer fabryczny, udźwig, przeglądy według motogodzin, terminy badań UDT dla wózków widłowych i podnośników. Lista zbliżających się terminów w warsztacie; przypomnienia dla klienta po zgodzie (E6.1).
 - **K.7 Schematy do oznaczania uszkodzeń** (Claude · M). Własne rysunki: sylwetki nadwozi (osobowy, kombi, SUV, dostawczy, ciężarowy, motocykl) i maszyn (ciągnik, koparka, ładowarka, podnośnik, wózek widłowy). Używane w protokole przyjęcia (E5.1) i w inspekcji (E5.4).
-- **K.8 Dokumentacja techniczna warsztatu** (Claude · M). Instrukcje serwisowe i schematy elektryczne wgrywane przez warsztat, przypięte do marki i modelu, widoczne tylko w tym warsztacie. Warsztat odpowiada za prawa do plików (zapis w regulaminie, D.4). Schematów producentów OXY nie kopiuje ani nie udostępnia innym – to utwory chronione, dostępne na licencji.
+- **K.8 Dokumentacja techniczna warsztatu** (Claude · M). Instrukcje serwisowe i schematy elektryczne wgrywane przez warsztat, przypięte do marki i modelu, widoczne tylko w tym warsztacie. Warsztat odpowiada za prawa do plików (zapis w regulaminie, D.4). Schematów producentów Napiko nie kopiuje ani nie udostępnia innym – to utwory chronione, dostępne na licencji.
 
 ### E5 · Przyjęcie pojazdu, inspekcja, raport końcowy
 
@@ -109,7 +109,7 @@ Produkcja w UE, testy w repozytorium, monitoring, import danych, pilotaż w 3–
 - **E9.2 Środowisko produkcyjne w UE** (Claude · M · po: D.6). Netlify Pro w regionie UE, baza w UE, magazyn plików i poczta w UE, domena, zmienne środowiskowe, pierwsze wdrożenie.
 - **E9.3 Monitoring i kopie zapasowe** (Claude · M · po: E9.2). Zgłaszanie błędów (dostawca w UE), kopie bazy z odtwarzaniem do punktu w czasie, sprawdzona procedura odtworzenia.
 - **E9.4 Import klientów i pojazdów** (Claude · M). Wczytanie danych z pliku CSV / Excel z innych programów warsztatowych, z podglądem i wykrywaniem duplikatów.
-- **E9.5 Panel administratora OXY** (Claude · M). Lista warsztatów, pomoc techniczna, blokada konta, podgląd kolejki zadań i błędów – bez dostępu do danych klientów warsztatów.
+- **E9.5 Panel administratora Napiko** (Claude · M). Lista warsztatów, pomoc techniczna, blokada konta, podgląd kolejki zadań i błędów – bez dostępu do danych klientów warsztatów.
 - **E9.6 Instrukcje dla warsztatu** (Claude · S). Krótkie instrukcje dla biura i mechanika ze zrzutami ekranów, plan wdrożenia w jeden dzień.
 - **E9.7 Pilotaż w 3–5 warsztatach** (warsztaty · L · po: E9.2, E4.6, E5.7, E6.2, D.4). Kryteria sukcesu (D12), np. co najmniej połowa zleceń z cyfrową akceptacją i odsetek klientów otwierających link. Zbieranie uwag i poprawki.
 
@@ -120,7 +120,7 @@ Produkcja w UE, testy w repozytorium, monitoring, import danych, pilotaż w 3–
 Konto klienta, abonamenty, magazyn, aplikacje w sklepach, offline, kasa fiskalna, raporty.
 
 - **E10.1 Konto klienta (hub)** (Claude · L · po: E6.1). Zaproszenie SMS za zgodą, historia pojazdów ze wszystkich warsztatów, przypomnienia serwisowe, przekazanie historii przy sprzedaży pojazdu: zakres prac i daty, bez cen i danych poprzedniego właściciela (D6).
-- **E10.2 Abonamenty i płatności za OXY** (Claude · L · po: D.1). Plany: mechanik solo bezpłatnie, warsztat z mechanikami w cenie i dopłatą za kolejnych; płatności kartą i BLIK, faktury za abonament, okres próbny. Pakiet SMS w abonamencie z możliwością dokupienia kolejnych (D5).
+- **E10.2 Abonamenty i płatności za Napiko** (Claude · L · po: D.1). Plany: mechanik solo bezpłatnie, warsztat z mechanikami w cenie i dopłatą za kolejnych; płatności kartą i BLIK, faktury za abonament, okres próbny. Pakiet SMS w abonamencie z możliwością dokupienia kolejnych (D5).
 - **E10.3 Magazyn części** (Claude · L · po: E4.3). Stany, przyjęcia dostaw, rezerwacje części do zleceń, marże, inwentaryzacja, zamówienia do dostawców.
 - **E10.4 Aplikacje w Google Play i App Store** (Claude · L · po: E8.1). Aplikacja mechanika i klienta (Capacitor, jedna baza kodu), logowanie w aplikacji, aparat, powiadomienia push.
 - **E10.5 Pełny tryb offline mechanika** (Claude · L · po: E8.2). Zadania, statusy i czas pracy działają bez internetu i synchronizują się po powrocie zasięgu.

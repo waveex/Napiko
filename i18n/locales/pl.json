@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "OXY",
+    "name": "Napiko",
     "tagline": "Warsztat i klient w jednym miejscu"
   },
   "common": {
@@ -531,6 +531,8 @@
     "unassign": "Zdejmij: {name}",
     "delete": "Usuń zadanie",
     "estimatedMinutes": "~{n} min",
+    "handover": "Wydanie auta",
+    "handoverHint": "Dodane automatycznie po zakończeniu prac. Zamknięcie zlecenia kończy je samo.",
     "policy": {
       "office": "Zadania przydziela biuro.",
       "self": "Mechanicy sami biorą zadania.",
@@ -915,7 +917,6 @@
     "system": "Systemowy"
   },
   "ui": {
-    "work": "Praca",
     "organization": "Organizacja",
     "mainNavigation": "Główna nawigacja",
     "more": "Więcej",
@@ -978,8 +979,8 @@
       "title": "Powiadomienia na tym urządzeniu",
       "hint": "Powiadomienie push przyjdzie także przy zamkniętej aplikacji. Na wspólnym telefonie wyłączamy je automatycznie przy wylogowaniu.",
       "serverOff": "Powiadomienia push nie są jeszcze skonfigurowane na serwerze (klucze VAPID). Działają dzwonek w aplikacji i e-maile.",
-      "iosInstallTitle": "Na iPhonie dodaj OXY do ekranu początkowego",
-      "iosInstall": "W Safari dotknij „Udostępnij”, potem „Do ekranu początkowego”. Otwórz OXY z nowej ikony i włącz powiadomienia tutaj.",
+      "iosInstallTitle": "Na iPhonie dodaj Napiko do ekranu początkowego",
+      "iosInstall": "W Safari dotknij „Udostępnij”, potem „Do ekranu początkowego”. Otwórz Napiko z nowej ikony i włącz powiadomienia tutaj.",
       "unsupported": "Ta przeglądarka nie obsługuje powiadomień push. Na telefonie użyj Chrome (Android) albo aplikacji dodanej do ekranu początkowego (iPhone).",
       "deniedTitle": "Powiadomienia są zablokowane w przeglądarce",
       "denied": "Zezwól na powiadomienia w ustawieniach strony (ikona obok adresu strony albo ustawienia telefonu), a potem odśwież stronę.",
@@ -1043,7 +1044,7 @@
       },
       "tasksCompleted": {
         "label": "Wszystkie zadania zakończone",
-        "hint": "Zlecenie można oznaczyć jako gotowe do odbioru i powiadomić klienta."
+        "hint": "Zlecenie można oznaczyć jako gotowe do odbioru i powiadomić klienta. Na liście zadań czeka „Wydanie auta”."
       }
     },
     "text": {
@@ -1129,7 +1130,7 @@
       },
       "tasksCompleted": {
         "title": "Zadania zakończone",
-        "body": "Wszystkie zadania w {order} ({vehicle}) są zakończone. Oznacz zlecenie jako gotowe do odbioru i powiadom klienta."
+        "body": "Wszystkie zadania w {order} ({vehicle}) są zakończone, a na liście czeka zadanie „Wydanie auta”. Oznacz zlecenie jako gotowe do odbioru i powiadom klienta."
       }
     }
   },

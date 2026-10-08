@@ -1,6 +1,7 @@
 /**
  * Nowe zadanie albo podzadanie w zleceniu. Przy zasadzie „mechanicy sami biorą zadania” nowe zadanie główne
- * trafia do mechaników jako powiadomienie o zadaniu do wzięcia.
+ * trafia do mechaników jako powiadomienie o zadaniu do wzięcia. Praca dodana po zakończeniu wszystkich zadań
+ * wycofuje jeszcze nietknięte zadanie „Wydanie auta” (zob. syncHandoverTask).
  */
 import { and, eq, isNull, sql } from 'drizzle-orm'
 import { withTenant } from '../../../db/tenant'
@@ -23,13 +24,16 @@ export default defineEventHandler(async (event) => {
 
     // Te same reguły pilnuje wyzwalacz w bazie – tu dajemy czytelny komunikat zamiast błędu 500.
     if (input.parentId) {
-      const [parent] = await tx.select({ workOrderId: task.workOrderId, parentId: task.parentId }).from(task)
+      const [parent] = await tx.select({ workOrderId: task.workOrderId, parentId: task.parentId, kind: task.kind }).from(task)
         .where(eq(task.id, input.parentId)).limit(1)
       if (!parent || parent.workOrderId !== workOrderId) {
         throw createError({ statusCode: 422, message: 'Zadanie nadrzędne musi należeć do tego zlecenia.' })
       }
       if (parent.parentId) {
         throw createError({ statusCode: 422, message: 'Podzadanie nie może mieć własnych podzadań.' })
+      }
+      if (parent.kind === 'handover') {
+        throw createError({ statusCode: 422, message: 'Wydanie auta nie ma podzadań.' })
       }
     }
 
@@ -58,6 +62,7 @@ export default defineEventHandler(async (event) => {
       data: { number: order.number, title: row!.title, subtask: !!input.parentId },
       ...requestMeta(event),
     })
+    await syncHandoverTask(tx, ctx, order, requestMeta(event))
     if (!input.parentId) {
       const sent = await notifyTasksAvailable(tx, {
         orgId: ctx.orgId,

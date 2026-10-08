@@ -1,4 +1,4 @@
-# OXY – architektura i infrastruktura (fundament techniczny)
+# Napiko – architektura i infrastruktura (fundament techniczny)
 
 **Faza:** 3 – projekt (fundament techniczny) · **Wersja:** 0.3 · **Data:** 29.09.2026
 **Powiązane:** [01-raport-analityczny.md](01-raport-analityczny.md), [02-decyzje-produktowe.md](02-decyzje-produktowe.md), [07-powiadomienia.md](07-powiadomienia.md), [08-przeglad-architektury.md](08-przeglad-architektury.md), [README](../README.md)

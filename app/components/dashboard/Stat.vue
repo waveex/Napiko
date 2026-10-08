@@ -38,8 +38,8 @@ const deltaIcon = computed(() => ({
   <component
     :is="to ? NuxtLink : 'div'"
     :to="to"
-    class="oxy-surface flex min-w-0 flex-col gap-1 p-4"
-    :class="{ 'oxy-surface-link': to }"
+    class="napiko-surface flex min-w-0 flex-col gap-1 p-4"
+    :class="{ 'napiko-surface-link': to }"
   >
     <span class="flex items-center gap-2 text-sm text-muted">
       <UIcon

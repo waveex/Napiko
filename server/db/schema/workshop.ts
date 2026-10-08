@@ -3,10 +3,10 @@
  * Migracja: netlify/database/migrations/20260926130000_workshop-core.
  * Klucze obce w bazie są złożone (org_id, id) – nie da się powiązać danych dwóch warsztatów.
  */
-import { relations } from 'drizzle-orm'
+import { relations, sql } from 'drizzle-orm'
 import { boolean, date, index, integer, jsonb, pgTable, primaryKey, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core'
 import { organization, user } from './auth'
-import { CUSTOMER_KINDS, METER_UNITS, TASK_STATUSES, VEHICLE_TYPES, WORK_ORDER_STATUSES } from '../../../shared/workshop'
+import { CUSTOMER_KINDS, METER_UNITS, TASK_KINDS, TASK_STATUSES, VEHICLE_TYPES, WORK_ORDER_STATUSES } from '../../../shared/workshop'
 
 const timestamps = {
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
@@ -96,6 +96,8 @@ export const task = pgTable('task', {
   orgId: uuid('org_id').notNull().references(() => organization.id, { onDelete: 'cascade' }),
   workOrderId: uuid('work_order_id').notNull(),
   parentId: uuid('parent_id'),
+  /** work – zadanie robocze, handover – „Wydanie auta” dokładane automatycznie po zakończeniu prac. */
+  kind: text('kind', { enum: TASK_KINDS }).notNull().default('work'),
   title: text('title').notNull(),
   description: text('description'),
   status: text('status', { enum: TASK_STATUSES }).notNull().default('todo'),
@@ -109,6 +111,7 @@ export const task = pgTable('task', {
   uniqueIndex('task_org_id_uq').on(t.orgId, t.id),
   index('task_org_work_order_idx').on(t.orgId, t.workOrderId),
   index('task_parent_idx').on(t.parentId),
+  uniqueIndex('task_handover_per_order_uq').on(t.workOrderId).where(sql`${t.kind} = 'handover'`),
 ])
 
 export const taskAssignment = pgTable('task_assignment', {

@@ -1,43 +1,47 @@
-  body { background: var(--oxy-page); color: var(--oxy-text); }
+  body { background: var(--napiko-page); color: var(--napiko-text); }
   button, a, input, select, textarea { touch-action: manipulation; }
-  :focus-visible { outline: 3px solid var(--oxy-action-focus); outline-offset: 3px; }
-  .oxy-control { min-height: var(--oxy-control-height); min-width: var(--oxy-control-height); font-size: 1rem; border-radius: var(--oxy-radius-control); }
-  .oxy-primary { background: var(--oxy-action-base); color: var(--oxy-action-contrast); }
-  .oxy-primary:hover:not(:disabled) { background: var(--oxy-action-hover); }
-  .oxy-primary:active:not(:disabled) { background: var(--oxy-action-active); }
-  .oxy-work-actions button, .oxy-work-actions a { min-height: var(--oxy-work-action-height); font-size: 1rem; justify-content: center; }
-  .oxy-brand { display: inline-flex; align-items: center; gap: .75rem; font-size: 1.5rem; font-weight: 800; letter-spacing: -.06em; }
-  .oxy-brand-mark { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: .75rem; background: var(--oxy-brand-metal); color: white; }
-  .oxy-surface { border: 1px solid var(--oxy-border); border-radius: var(--oxy-radius-card); background: var(--oxy-surface); box-shadow: var(--oxy-shadow); }
-  /* Modyfikatory po .oxy-surface – klasy narzędziowe (border-*, ring-*) nie nadpisują reguł spoza warstw. */
-  .oxy-surface-active { border-color: var(--oxy-action-base); box-shadow: 0 0 0 3px color-mix(in srgb, var(--oxy-action-base) 25%, transparent); }
-  .oxy-surface-link { transition: border-color var(--oxy-motion); }
-  .oxy-surface-link:hover { border-color: var(--oxy-action-base); }
-  .oxy-intro { padding-block: .25rem .5rem; }
-  .oxy-intro h2 { font-size: clamp(1.5rem, 2vw, 1.875rem); font-weight: 700; letter-spacing: -.035em; }
-  .oxy-intro p { margin-top: .375rem; color: var(--oxy-text-muted); max-width: 65ch; }
-  .oxy-dashboard { padding-top: env(safe-area-inset-top, 0px); padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px); background: var(--oxy-page); }
-  .oxy-panel-body { padding: var(--oxy-page-gutter); scroll-padding-block: 1rem 6rem; }
-  .oxy-bottom-nav { position: fixed; inset: auto 0 0; z-index: 30; display: flex; gap: .25rem; min-height: var(--oxy-bottom-nav-height); padding: .25rem max(.5rem, env(safe-area-inset-right, 0px)) calc(.25rem + var(--oxy-safe-bottom)) max(.5rem, env(safe-area-inset-left, 0px)); background: var(--oxy-surface); border-top: 1px solid var(--oxy-border); }
-  .oxy-bottom-item { display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: .25rem; min-width: 0; min-height: 3.5rem; padding: .25rem; border-radius: .75rem; font-size: .75rem; font-weight: 600; color: var(--oxy-text-muted); text-align: center; overflow-wrap: anywhere; }
-  .oxy-bottom-item[aria-current='page'], .oxy-bottom-item[aria-expanded='true'] { background: var(--oxy-action-soft); color: var(--oxy-action-base); }
-  .oxy-notification { display: flex; width: 100%; align-items: flex-start; gap: .75rem; padding: .75rem; border-radius: .75rem; text-align: start; color: var(--oxy-text); transition: background-color var(--oxy-motion); }
-  .oxy-notification:hover { background: var(--oxy-surface-raised); }
-  .oxy-notification-unread { background: var(--oxy-action-soft); }
-  .oxy-notification-unread:hover { background: var(--oxy-action-soft); box-shadow: inset 0 0 0 1px var(--oxy-border-control); }
-  .oxy-bell-count { position: absolute; top: .25rem; inset-inline-end: .125rem; display: grid; place-items: center; min-width: 1.25rem; height: 1.25rem; padding-inline: .3125rem; border-radius: 999px; background: var(--oxy-action-base); color: var(--oxy-action-contrast); font-size: .75rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; box-shadow: 0 0 0 2px var(--oxy-surface); }
-  /* Telefon: dzwonek w prawym górnym rogu, w linii nagłówka strony (panel boczny jest ukryty) */
-  .oxy-bell-mobile { position: fixed; z-index: 35; top: calc(env(safe-area-inset-top, 0px) + 1rem); inset-inline-end: calc(env(safe-area-inset-right, 0px) + .5rem); border-radius: var(--oxy-radius-control); background: var(--oxy-surface); }
-  .oxy-approval-bar { position: sticky; bottom: 0; z-index: 10; padding: 1rem 0 calc(1rem + var(--oxy-safe-bottom)); background: var(--oxy-page); border-top: 1px solid var(--oxy-border); }
-  .oxy-dialog { z-index: 50; max-height: calc(var(--oxy-viewport-height, 100dvh) - 2rem); }
-  .oxy-dialog-overlay { z-index: 40; }
+  :focus-visible { outline: 3px solid var(--napiko-action-focus); outline-offset: 3px; }
+  .napiko-control { min-height: var(--napiko-control-height); min-width: var(--napiko-control-height); font-size: 1rem; border-radius: var(--napiko-radius-control); }
+  .napiko-primary { background: var(--napiko-action-base); color: var(--napiko-action-contrast); }
+  .napiko-primary:hover:not(:disabled) { background: var(--napiko-action-hover); }
+  .napiko-primary:active:not(:disabled) { background: var(--napiko-action-active); }
+  .napiko-work-actions button, .napiko-work-actions a { min-height: var(--napiko-work-action-height); font-size: 1rem; justify-content: center; }
+  .napiko-brand { display: inline-flex; align-items: center; gap: .75rem; font-size: 1.5rem; font-weight: 800; letter-spacing: -.06em; }
+  .napiko-brand-mark { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: .75rem; background: var(--napiko-brand-metal); color: white; }
+  .napiko-surface { border: 1px solid var(--napiko-border); border-radius: var(--napiko-radius-card); background: var(--napiko-surface); box-shadow: var(--napiko-shadow); }
+  /* Modyfikatory po .napiko-surface – klasy narzędziowe (border-*, ring-*) nie nadpisują reguł spoza warstw. */
+  .napiko-surface-active { border-color: var(--napiko-action-base); box-shadow: 0 0 0 3px color-mix(in srgb, var(--napiko-action-base) 25%, transparent); }
+  .napiko-surface-link { transition: border-color var(--napiko-motion); }
+  .napiko-surface-link:hover { border-color: var(--napiko-action-base); }
+  .napiko-intro { padding-block: .25rem .5rem; }
+  .napiko-intro h2 { font-size: clamp(1.5rem, 2vw, 1.875rem); font-weight: 700; letter-spacing: -.035em; }
+  .napiko-intro p { margin-top: .375rem; color: var(--napiko-text-muted); max-width: 65ch; }
+  .napiko-dashboard { padding-top: env(safe-area-inset-top, 0px); padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px); background: var(--napiko-page); }
+  /* Górny pasek nawigacji – tylko na komputerze (≥ 1024 px); niżej działa dolna nawigacja */
+  .napiko-topbar { display: none; flex-shrink: 0; align-items: center; gap: 1rem; min-height: 4.5rem; padding-inline: var(--napiko-page-gutter); background: var(--napiko-surface); border-bottom: 1px solid var(--napiko-border); }
+  /* Nazwa warsztatu ustępuje miejsca pozycjom menu: zwęża się i kończy wielokropkiem */
+  .napiko-topbar-org { flex: 0 1 16rem; min-width: 4rem; }
+  .napiko-topbar-org [data-slot='label'] { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .napiko-panel-body { padding: var(--napiko-page-gutter); scroll-padding-block: 1rem 6rem; }
+  .napiko-bottom-nav { position: fixed; inset: auto 0 0; z-index: 30; display: flex; gap: .25rem; min-height: var(--napiko-bottom-nav-height); padding: .25rem max(.5rem, env(safe-area-inset-right, 0px)) calc(.25rem + var(--napiko-safe-bottom)) max(.5rem, env(safe-area-inset-left, 0px)); background: var(--napiko-surface); border-top: 1px solid var(--napiko-border); }
+  .napiko-bottom-item { display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: .25rem; min-width: 0; min-height: 3.5rem; padding: .25rem; border-radius: .75rem; font-size: .75rem; font-weight: 600; color: var(--napiko-text-muted); text-align: center; overflow-wrap: anywhere; }
+  .napiko-bottom-item[aria-current='page'], .napiko-bottom-item[aria-expanded='true'] { background: var(--napiko-action-soft); color: var(--napiko-action-base); }
+  .napiko-notification { display: flex; width: 100%; align-items: flex-start; gap: .75rem; padding: .75rem; border-radius: .75rem; text-align: start; color: var(--napiko-text); transition: background-color var(--napiko-motion); }
+  .napiko-notification:hover { background: var(--napiko-surface-raised); }
+  .napiko-notification-unread { background: var(--napiko-action-soft); }
+  .napiko-notification-unread:hover { background: var(--napiko-action-soft); box-shadow: inset 0 0 0 1px var(--napiko-border-control); }
+  .napiko-bell-count { position: absolute; top: .25rem; inset-inline-end: .125rem; display: grid; place-items: center; min-width: 1.25rem; height: 1.25rem; padding-inline: .3125rem; border-radius: 999px; background: var(--napiko-action-base); color: var(--napiko-action-contrast); font-size: .75rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; box-shadow: 0 0 0 2px var(--napiko-surface); }
+  /* Telefon: dzwonek w prawym górnym rogu, w linii nagłówka strony (górny pasek nawigacji jest ukryty) */
+  .napiko-bell-mobile { position: fixed; z-index: 35; top: calc(env(safe-area-inset-top, 0px) + 1rem); inset-inline-end: calc(env(safe-area-inset-right, 0px) + .5rem); border-radius: var(--napiko-radius-control); background: var(--napiko-surface); }
+  .napiko-approval-bar { position: sticky; bottom: 0; z-index: 10; padding: 1rem 0 calc(1rem + var(--napiko-safe-bottom)); background: var(--napiko-page); border-top: 1px solid var(--napiko-border); }
+  .napiko-dialog { z-index: 50; max-height: calc(var(--napiko-viewport-height, 100dvh) - 2rem); }
+  .napiko-dialog-overlay { z-index: 40; }
   @media (max-width: 1023px) {
-    .oxy-dashboard { bottom: calc(var(--oxy-bottom-nav-height) + .5rem + var(--oxy-safe-bottom)); }
-    .oxy-panel-body { padding-bottom: 1.5rem; }
+    .napiko-dashboard { bottom: calc(var(--napiko-bottom-nav-height) + .5rem + var(--napiko-safe-bottom)); }
+    .napiko-panel-body { padding-bottom: 1.5rem; }
   }
-  @media (min-width: 1024px) { .oxy-bottom-nav, .oxy-bell-mobile { display: none; } }
-  @media (max-width: 639px) {
-    .oxy-dialog { top: var(--oxy-viewport-top, 0px); left: 0; translate: none; transform: none; width: 100%; max-width: none; height: var(--oxy-viewport-height, 100dvh); max-height: var(--oxy-viewport-height, 100dvh); border-radius: 0; padding-top: env(safe-area-inset-top, 0px); padding-bottom: var(--oxy-safe-bottom); }
+  @media (min-width: 1024px) { .napiko-bottom-nav, .napiko-bell-mobile { display: none; } .napiko-topbar { display: flex; } }  @media (max-width: 639px) {
+    .napiko-dialog { top: var(--napiko-viewport-top, 0px); left: 0; translate: none; transform: none; width: 100%; max-width: none; height: var(--napiko-viewport-height, 100dvh); max-height: var(--napiko-viewport-height, 100dvh); border-radius: 0; padding-top: env(safe-area-inset-top, 0px); padding-bottom: var(--napiko-safe-bottom); }
   }
 
 @media (prefers-reduced-motion: reduce) {

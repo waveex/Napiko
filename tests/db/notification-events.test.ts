@@ -32,7 +32,7 @@ let mechanic2: Ctx
 let env: Env
 
 function testEnv(): Env {
-  return { ...getEnv(), VAPID_PUBLIC_KEY: 'B'.repeat(87), VAPID_PRIVATE_KEY: 'p'.repeat(43), appUrl: 'https://oxy.test' }
+  return { ...getEnv(), VAPID_PUBLIC_KEY: 'B'.repeat(87), VAPID_PRIVATE_KEY: 'p'.repeat(43), appUrl: 'https://napiko.test' }
 }
 
 async function seedOrder(number: string, contact: { phone?: string | null, email?: string | null } = {}, vehicleData: Partial<typeof vehicle.$inferInsert> = {}) {
@@ -184,12 +184,12 @@ describe('wiadomości do klienta', () => {
     }))
     expect(confirmed.map(r => r.via)).toEqual(['sms', 'email'])
     const smsJob = (await withSystem(db, tx => tx.select().from(job).where(sql`${job.payload}->>'notificationId' = ${confirmed[0]!.id}`)))[0]!
-    expect((smsJob.payload.sms as { message: string }).message).toMatch(/^Warsztat \w+: naprawa zakonczona, Skoda Octavia BI7777 czeka na odbior\. Szczegoly: https:\/\/oxy\.test\/s\/[\w-]{24}$/)
+    expect((smsJob.payload.sms as { message: string }).message).toMatch(/^Warsztat \w+: naprawa zakonczona, Skoda Octavia BI7777 czeka na odbior\. Szczegoly: https:\/\/napiko\.test\/s\/[\w-]{24}$/)
     const emailJob = (await withSystem(db, tx => tx.select().from(job).where(sql`${job.payload}->>'notificationId' = ${confirmed[1]!.id}`)))[0]!
     expect(emailJob.payload.email).toMatchObject({
       to: 'anna@example.com',
       template: 'order-ready',
-      data: { unsubscribeUrl: expect.stringMatching(/^https:\/\/oxy\.test\/api\/public\/status\/[\w-]{24}\/unsubscribe$/), preferencesUrl: expect.stringMatching(/#powiadomienia$/) },
+      data: { unsubscribeUrl: expect.stringMatching(/^https:\/\/napiko\.test\/api\/public\/status\/[\w-]{24}\/unsubscribe$/), preferencesUrl: expect.stringMatching(/#powiadomienia$/) },
     })
   })
 
@@ -214,7 +214,7 @@ describe('wiadomości do klienta', () => {
     const input = {
       orgId: office.orgId, workOrderId: o.id, approvalId: approval!.id, kind: 'work_requests' as const, channel: 'sms' as const,
       recipient: '+48600999888', sentBy: office.userId, organizationName: 'Auto Serwis Łódź', smsFrom: null,
-      vehicle: 'Skoda Octavia BI7777', orderNumber: o.number, url: 'https://oxy.test/approve/abc', message: null, expires: '01.10.2026',
+      vehicle: 'Skoda Octavia BI7777', orderNumber: o.number, url: 'https://napiko.test/approve/abc', message: null, expires: '01.10.2026',
     }
     const bySms = await withTenant(db, office, tx => queueApprovalDelivery(tx, env, input))
     expect(bySms).toMatchObject({ status: 'queued', via: 'sms' })
@@ -229,7 +229,7 @@ describe('wiadomości do klienta', () => {
     expect(pushJob!.payload).toMatchObject({
       push: { title: 'Auto Serwis Łódź', body: 'Prosimy o decyzję w sprawie dodatkowych prac (Skoda Octavia BI7777).' },
       // SMS jako zapas, bez polskich znaków
-      sms: { message: 'Auto Serwis Lodz: prosimy o decyzje w sprawie dodatkowych prac (Skoda Octavia BI7777). Opis i ceny: https://oxy.test/approve/abc' },
+      sms: { message: 'Auto Serwis Lodz: prosimy o decyzje w sprawie dodatkowych prac (Skoda Octavia BI7777). Opis i ceny: https://napiko.test/approve/abc' },
     })
   })
 })
@@ -256,12 +256,12 @@ describe('sprzątanie', () => {
 
 describe('szablony i teksty', () => {
   it('e-mail zespołu w języku warsztatu, z linkiem do ustawień', () => {
-    const pl = renderEmail({ to: 'a@example.com', template: 'team-notification', data: { title: 'Nowe zadanie', body: 'Treść', organizationName: 'Warsztat', url: 'https://oxy.test/app/n/1', settingsUrl: 'https://oxy.test/app/notifications', lang: 'pl' } })
+    const pl = renderEmail({ to: 'a@example.com', template: 'team-notification', data: { title: 'Nowe zadanie', body: 'Treść', organizationName: 'Warsztat', url: 'https://napiko.test/app/n/1', settingsUrl: 'https://napiko.test/app/notifications', lang: 'pl' } })
     expect(pl.subject).toBe('Nowe zadanie – Warsztat')
-    expect(pl.html).toContain('Otwórz w OXY')
-    expect(pl.text).toContain('Ustawienia powiadomień: https://oxy.test/app/notifications')
-    const en = renderEmail({ to: 'a@example.com', template: 'team-notification', data: { title: 'New task', body: 'Body', organizationName: 'Garage', url: 'https://oxy.test/app/n/1', lang: 'en' } })
-    expect(en.html).toContain('Open in OXY')
+    expect(pl.html).toContain('Otwórz w Napiko')
+    expect(pl.text).toContain('Ustawienia powiadomień: https://napiko.test/app/notifications')
+    const en = renderEmail({ to: 'a@example.com', template: 'team-notification', data: { title: 'New task', body: 'Body', organizationName: 'Garage', url: 'https://napiko.test/app/n/1', lang: 'en' } })
+    expect(en.html).toContain('Open in Napiko')
   })
 
   it('e-mail do klienta: nadawca to warsztat, rezygnacja jednym kliknięciem (RFC 8058), treść bez wstrzykniętego HTML', () => {
@@ -269,9 +269,9 @@ describe('szablony i teksty', () => {
       to: 'klient@example.com',
       template: 'order-received',
       data: {
-        organizationName: 'Auto <b>Serwis</b>', vehicle: 'Kia Ceed', orderNumber: 'ZL/1', url: 'https://oxy.test/s/abc', phone: '85 123 45 67',
-        address: 'ul. Lipowa 1, Białystok', promised: '30.09.2026, 16:00', preferencesUrl: 'https://oxy.test/s/abc#powiadomienia',
-        unsubscribeUrl: 'https://oxy.test/api/public/status/abc/unsubscribe',
+        organizationName: 'Auto <b>Serwis</b>', vehicle: 'Kia Ceed', orderNumber: 'ZL/1', url: 'https://napiko.test/s/abc', phone: '85 123 45 67',
+        address: 'ul. Lipowa 1, Białystok', promised: '30.09.2026, 16:00', preferencesUrl: 'https://napiko.test/s/abc#powiadomienia',
+        unsubscribeUrl: 'https://napiko.test/api/public/status/abc/unsubscribe',
       },
     })
     expect(email.subject).toBe('Auto <b>Serwis</b>: przyjęliśmy pojazd Kia Ceed')
@@ -279,15 +279,15 @@ describe('szablony i teksty', () => {
     expect(email.html).not.toContain('<b>Serwis</b>')
     expect(email.html).toContain('Planowany termin odbioru: 30.09.2026, 16:00.')
     expect(email.headers).toEqual({
-      'List-Unsubscribe': '<https://oxy.test/api/public/status/abc/unsubscribe>',
+      'List-Unsubscribe': '<https://napiko.test/api/public/status/abc/unsubscribe>',
       'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
     })
   })
 
   it('SMS: bez polskich znaków, w logach bez numeru i tokenów', () => {
     expect(toSmsText('Źdźbło – „żółć” … ok')).toBe('Zdzblo - "zolc" ... ok')
-    expect(redactSms({ to: '+48600100200', message: 'Status: https://oxy.test/s/AbCdEf123456789012345678 i https://oxy.test/approve/xyz_-1' }))
-      .toBe('+••••••••200: Status: https://oxy.test/s/… i https://oxy.test/approve/…')
+    expect(redactSms({ to: '+48600100200', message: 'Status: https://napiko.test/s/AbCdEf123456789012345678 i https://napiko.test/approve/xyz_-1' }))
+      .toBe('+••••••••200: Status: https://napiko.test/s/… i https://napiko.test/approve/…')
   })
 
   it('strona statusu: numer i e-mail klienta zamaskowane', () => {

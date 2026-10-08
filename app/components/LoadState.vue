@@ -26,7 +26,7 @@ defineEmits<{ retry: [] }>()
   <div
     v-else-if="pending"
     role="status"
-    class="oxy-surface space-y-4 p-6"
+    class="napiko-surface space-y-4 p-6"
   >
     <p class="text-muted">
       {{ $t('ui.loading') }}

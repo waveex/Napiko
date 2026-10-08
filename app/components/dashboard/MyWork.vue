@@ -161,7 +161,7 @@ async function sendNeed(input: z.output<typeof workRequestCreateSchema>, files: 
 
         <div
           v-if="later.length"
-          class="oxy-surface p-4"
+          class="napiko-surface p-4"
         >
           <h3 class="font-semibold">
             {{ $t('dashboard.work.later') }}
@@ -202,7 +202,7 @@ async function sendNeed(input: z.output<typeof workRequestCreateSchema>, files: 
 
         <div
           v-if="mine.requests.length"
-          class="oxy-surface p-4"
+          class="napiko-surface p-4"
         >
           <h3 class="font-semibold">
             {{ $t('dashboard.work.myRequests') }}

@@ -2,7 +2,7 @@
 const { t } = useI18n()
 
 useSeoMeta({
-  title: () => `OXY – ${t('app.tagline')}`,
+  title: () => `Napiko – ${t('app.tagline')}`,
   description: () => t('landing.description'),
 })
 

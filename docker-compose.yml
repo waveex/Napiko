@@ -1,4 +1,4 @@
-# Lokalne środowisko OXY: PostgreSQL, magazyn plików S3 (MinIO) i testowa skrzynka pocztowa (Mailpit).
+# Lokalne środowisko Napiko: PostgreSQL, magazyn plików S3 (MinIO) i testowa skrzynka pocztowa (Mailpit).
 #   pnpm infra:up     – uruchom
 #   pnpm infra:down   – zatrzymaj (dane zostają w wolumenach)
 name: oxy

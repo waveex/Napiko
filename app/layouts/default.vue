@@ -10,7 +10,7 @@ const { data: session } = await useAuthSession()
           to="/"
           class="font-bold text-lg tracking-tight"
         >
-          OXY
+          Napiko
         </NuxtLink>
         <div class="flex flex-wrap items-center gap-2">
           <ThemeSwitcher />
@@ -39,7 +39,7 @@ const { data: session } = await useAuthSession()
       <slot />
     </main>
     <footer class="border-t border-default py-6 text-sm text-muted">
-      <UContainer>© {{ new Date().getFullYear() }} OXY</UContainer>
+      <UContainer>© {{ new Date().getFullYear() }} Napiko</UContainer>
     </footer>
   </div>
 </template>

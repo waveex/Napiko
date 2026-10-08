@@ -1,5 +1,5 @@
 /*
- * OXY – service worker: wyłącznie powiadomienia push (zespół warsztatu i klienci na stronie statusu naprawy).
+ * Napiko – service worker: wyłącznie powiadomienia push (zespół warsztatu i klienci na stronie statusu naprawy).
  * Nie przechowuje stron ani danych w pamięci podręcznej – aplikacja zawsze działa z sieci.
  *
  * Treść wiadomości (JSON) przygotowuje serwer: server/lib/push.ts (PushMessage: title, body, url, tag, lang).
@@ -34,7 +34,7 @@ self.addEventListener('push', (event) => {
   }
   const url = safeUrl(message.url)
   const customer = new URL(url).pathname.startsWith('/s/')
-  const title = message.title || 'OXY'
+  const title = message.title || 'Napiko'
   const options = {
     body: message.body || '',
     lang: message.lang || 'pl',
@@ -48,7 +48,7 @@ self.addEventListener('push', (event) => {
     await self.registration.showNotification(title, options)
     // Otwarta aplikacja odświeża licznik w dzwonku bez czekania na kolejne sprawdzenie
     const windows = await self.clients.matchAll({ type: 'window', includeUncontrolled: true })
-    for (const client of windows) client.postMessage({ type: 'oxy:push', url })
+    for (const client of windows) client.postMessage({ type: 'napiko:push', url })
   })())
 })
 

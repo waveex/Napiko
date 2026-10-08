@@ -26,8 +26,8 @@ const tone: Record<BadgeColor, string> = {
 <template>
   <button
     type="button"
-    class="oxy-notification"
-    :class="{ 'oxy-notification-unread': unread }"
+    class="napiko-notification"
+    :class="{ 'napiko-notification-unread': unread }"
     :aria-label="`${content.title}. ${content.body}${unread ? ` (${t('notifications.unread')})` : ''}`"
     @click="$emit('open')"
   >

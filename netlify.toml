@@ -1,4 +1,4 @@
-# Netlify: OXY (Nuxt 4 + Nitro; preset "netlify" wykrywany automatycznie podczas budowania)
+# Netlify: Napiko (Nuxt 4 + Nitro; preset "netlify" wykrywany automatycznie podczas budowania)
 #
 # Zmienne środowiskowe ustaw w: Project configuration → Environment variables (lista w .env.example).
 # Baza: Netlify Database (Neon) – adres połączenia dostarcza platforma, migracje z

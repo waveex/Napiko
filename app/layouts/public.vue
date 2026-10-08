@@ -1,7 +1,7 @@
 <template>
   <div class="flex min-h-dvh flex-col bg-muted">
     <header class="flex flex-wrap items-center justify-between gap-3 border-b border-default bg-default px-4 py-3 sm:px-6">
-      <OxyBrand />
+      <NapikoBrand />
       <div class="flex gap-2">
         <ThemeSwitcher /><LocaleSwitcher />
       </div>
@@ -13,7 +13,7 @@
       {{ $t('approve.footer') }} · <NuxtLink
         to="/"
         class="font-semibold"
-      >OXY</NuxtLink>
+      >Napiko</NuxtLink>
     </footer>
   </div>
 </template>

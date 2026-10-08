@@ -1,9 +1,9 @@
 {
-  "name": "oxy",
+  "name": "napiko",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "OXY – komunikacja i organizacja pracy warsztatów z klientem",
+  "description": "Napiko – komunikacja i organizacja pracy warsztatów z klientem",
   "packageManager": "pnpm@10.28.0",
   "engines": {
     "node": ">=22.12"
@@ -19,6 +19,8 @@
     "lint:fix": "eslint . --fix",
     "typecheck": "nuxt typecheck",
     "test": "vitest run",
+    "test:sms": "vitest run --config vitest.sms.config.ts",
+    "sms:check": "node scripts/check-smsapi.mjs",
     "test:watch": "vitest",
     "test:ui": "node --experimental-strip-types --test tests/ui/*.spec.ts",
     "infra:up": "docker compose up -d --wait",

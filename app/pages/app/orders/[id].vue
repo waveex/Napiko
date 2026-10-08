@@ -165,7 +165,8 @@ async function work(taskId: string, action: 'start' | 'pause') {
 const reportOpen = ref(false)
 const reportTaskId = ref<string | null>(null)
 const { saving: reporting, submit: submitNeed } = useReportNeed()
-const taskOptions = computed(() => (order.value?.tasks ?? []).flatMap(task => [
+// Zgłoszenia potrzeb dotyczą prac, nie wydania auta
+const taskOptions = computed(() => (order.value?.tasks ?? []).filter(task => task.kind !== 'handover').flatMap(task => [
   { id: task.id, title: task.title },
   ...task.subtasks.map(sub => ({ id: sub.id, title: `${task.title} › ${sub.title}` })),
 ]))
@@ -232,7 +233,9 @@ async function removeAttachment(attachmentId: string) {
 }
 
 const progress = computed(() => {
-  const all = (order.value?.tasks ?? []).flatMap(task => [task, ...task.subtasks]).filter(task => task.status !== 'cancelled')
+  // „Wydanie auta” nie liczy się do postępu prac
+  const all = (order.value?.tasks ?? []).filter(task => task.kind !== 'handover')
+    .flatMap(task => [task, ...task.subtasks]).filter(task => task.status !== 'cancelled')
   return { done: all.filter(task => task.status === 'done').length, total: all.length }
 })
 
@@ -286,7 +289,7 @@ useHead({ title: () => order.value?.number ?? t('orders.title') })
     <template #body>
       <div
         v-if="order"
-        class="oxy-surface flex flex-wrap items-center justify-between gap-4 p-5"
+        class="napiko-surface flex flex-wrap items-center justify-between gap-4 p-5"
       >
         <div>
           <VehicleLabel

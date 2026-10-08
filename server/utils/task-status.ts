@@ -5,6 +5,8 @@
  *  - zatrzymanie liczników czasu, gdy zadanie przestaje być „w trakcie”,
  *  - automatyczne przejście przyjętego zlecenia do realizacji,
  *  - wpisy w dzienniku zdarzeń,
+ *  - zadanie „Wydanie auta”: dokładane, gdy zakończono ostatnie zadanie zlecenia, i wycofywane, gdy praca wróci
+ *    (zob. syncHandoverTask),
  *  - powiadomienie biura, gdy zakończono ostatnie zadanie zlecenia (można wydać pojazd).
  */
 import { and, eq, isNull, sql } from 'drizzle-orm'
@@ -12,7 +14,7 @@ import type { Tx } from '../db/client'
 import { recordAudit } from '../db/audit'
 import { notifyIfAllTasksDone } from '../db/notifications'
 import { task, timeEntry, workOrder } from '../db/schema'
-import type { TaskStatus, WorkOrderStatus } from '../../shared/workshop'
+import { allWorkDone, HANDOVER_TASK_TITLE, type TaskKind, type TaskStatus, type WorkOrderStatus } from '../../shared/workshop'
 
 /** Kto wykonuje zmianę: członek zespołu albo – przy decyzji klienta przez link – system (userId: null). */
 export interface Actor {
@@ -28,6 +30,7 @@ export interface RequestMeta {
 export interface TaskRef {
   id: string
   title: string
+  kind: TaskKind
   status: TaskStatus
   startedAt: Date | null
 }
@@ -85,10 +88,80 @@ export async function applyTaskStatus(
     order.status = 'in_progress'
   }
 
-  if (next === 'done') {
-    await notifyIfAllTasksDone(tx, { orgId: ctx.orgId, actorUserId: ctx.userId, workOrderId: order.id })
+  // Wydanie auta nie zmienia stanu prac, więc nie dokłada się ani nie wycofuje samo przez siebie
+  if (current.kind === 'work') {
+    await syncHandoverTask(tx, ctx, order, meta)
+    if (next === 'done') {
+      await notifyIfAllTasksDone(tx, { orgId: ctx.orgId, actorUserId: ctx.userId, workOrderId: order.id })
+    }
   }
   return true
+}
+
+/**
+ * Zadanie „Wydanie auta” podąża za stanem prac:
+ *  - wszystkie zadania robocze zrobione i nie ma jeszcze wydania → dokładamy je na koniec listy,
+ *  - praca wróciła (nowe zadanie, cofnięty status, usunięte zadanie), a wydanie jest nietknięte → wycofujemy je,
+ *  - wydanie, którym ktoś już się zajął (zrobione, anulowane, rozpoczęte), zostaje bez zmian –
+ *    anulowanego nie dokładamy ponownie.
+ * Wołamy to po każdej zmianie zbioru albo statusów zadań (dla zleceń zamkniętych i anulowanych nic nie robi).
+ */
+export async function syncHandoverTask(tx: Tx, ctx: Actor, order: OrderRef, meta: RequestMeta) {
+  if (order.status === 'closed' || order.status === 'cancelled') return
+
+  const rows = await tx
+    .select({ id: task.id, kind: task.kind, status: task.status, parentId: task.parentId, position: task.position, startedAt: task.startedAt })
+    .from(task)
+    .where(eq(task.workOrderId, order.id))
+  const handover = rows.find(r => r.kind === 'handover')
+
+  if (allWorkDone(rows)) {
+    if (handover) return
+    const next = rows.reduce((max, r) => (r.parentId ? max : Math.max(max, r.position + 1)), 0)
+    // Dwa równoległe zakończenia ostatnich zadań: wygrywa pierwsze, drugie trafia w indeks unikalny i nic nie robi
+    const [created] = await tx.insert(task).values({
+      orgId: ctx.orgId,
+      workOrderId: order.id,
+      kind: 'handover',
+      title: HANDOVER_TASK_TITLE,
+      position: next,
+    }).onConflictDoNothing().returning({ id: task.id })
+    if (!created) return
+    await recordAudit(tx, {
+      orgId: ctx.orgId,
+      actorUserId: ctx.userId,
+      action: 'task.created',
+      entityType: 'task',
+      entityId: created.id,
+      data: { number: order.number, title: HANDOVER_TASK_TITLE, subtask: false, kind: 'handover', automatic: true },
+      ...meta,
+    })
+    return
+  }
+
+  if (handover && handover.status === 'todo' && !handover.startedAt) {
+    await tx.delete(task).where(eq(task.id, handover.id))
+    await recordAudit(tx, {
+      orgId: ctx.orgId,
+      actorUserId: ctx.userId,
+      action: 'task.deleted',
+      entityType: 'task',
+      entityId: handover.id,
+      data: { number: order.number, title: HANDOVER_TASK_TITLE, subtask: false, kind: 'handover', automatic: true },
+      ...meta,
+    })
+  }
+}
+
+/** Zamknięcie zlecenia oznacza, że pojazd został wydany – otwarte zadanie wydania kończymy razem z nim. */
+export async function completeHandoverOnClose(tx: Tx, ctx: Actor, order: OrderRef, meta: RequestMeta) {
+  const [handover] = await tx
+    .select({ id: task.id, title: task.title, kind: task.kind, status: task.status, startedAt: task.startedAt })
+    .from(task)
+    .where(and(eq(task.workOrderId, order.id), eq(task.kind, 'handover')))
+    .limit(1)
+  if (!handover || handover.status === 'done' || handover.status === 'cancelled') return
+  await applyTaskStatus(tx, ctx, handover, order, 'done', meta)
 }
 
 /** Czy ktoś jeszcze pracuje nad zadaniem (uruchomiony licznik). */

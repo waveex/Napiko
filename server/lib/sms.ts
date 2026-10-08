@@ -4,6 +4,17 @@
  * Wiadomości wysyłamy z kolejki zadań, więc awaria bramki nie blokuje pracy warsztatu (ponowienia).
  */
 import type { Env } from './env'
+import { z } from 'zod'
+
+const smsapiResponseSchema = z.object({
+  count: z.literal(1),
+  list: z.array(z.object({
+    id: z.string().min(1),
+    error: z.number().nullish(),
+  })).length(1),
+})
+
+const smsapiErrorSchema = z.object({ error: z.number().int().positive() })
 
 export interface OutgoingSms {
   /** Numer w formacie międzynarodowym, np. +48600100200. */
@@ -72,16 +83,23 @@ export function createSmsSender(env: Env) {
         const response = await fetch('https://api.smsapi.pl/sms.do', {
           method: 'POST',
           headers: { Authorization: `Bearer ${token}` },
+          redirect: 'error',
           body,
           signal: AbortSignal.timeout(15_000),
         })
-        const data = await response.json().catch(() => null) as { error?: number, message?: string } | null
-        if (data?.error === SMSAPI_DUPLICATE_IDX) {
+        const data: unknown = await response.json().catch(() => null)
+        const apiError = smsapiErrorSchema.safeParse(data)
+        if (response.ok && sms.idempotencyKey && apiError.success && apiError.data.error === SMSAPI_DUPLICATE_IDX) {
           console.info(`[sms] pominięto duplikat (idx) ${redactSms(sms)}`)
           return
         }
-        if (!response.ok || data?.error) {
-          throw new Error(`SMSAPI: ${data?.message ?? `HTTP ${response.status}`}`)
+        if (!response.ok || apiError.success) {
+          // Odpowiedź dostawcy może zawierać dane odbiorcy – zapisujemy wyłącznie kod.
+          throw new Error(`SMSAPI: HTTP ${response.status}${apiError.success ? `, kod ${apiError.data.error}` : ''}`)
+        }
+        const accepted = smsapiResponseSchema.safeParse(data)
+        if (!accepted.success || accepted.data.list[0]?.error) {
+          throw new Error('SMSAPI: brak poprawnego potwierdzenia przyjęcia wiadomości.')
         }
       },
     }

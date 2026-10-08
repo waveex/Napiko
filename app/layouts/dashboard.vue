@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { data: me } = await useMe()
 const route = useRoute()
-const { work, management, mobile, more } = useWorkshopNavigation()
+const { mobile, more } = useWorkshopNavigation()
 const moreOpen = ref(false)
 watch(() => route.fullPath, () => {
   moreOpen.value = false
@@ -34,65 +34,29 @@ useHead({
   meta: [
     { name: 'theme-color', content: '#006c96' },
     { name: 'apple-mobile-web-app-capable', content: 'yes' },
-    { name: 'apple-mobile-web-app-title', content: 'OXY' },
+    { name: 'apple-mobile-web-app-title', content: 'Napiko' },
   ],
 })
 </script>
 
 <template>
-  <UDashboardGroup class="oxy-dashboard">
-    <UDashboardSidebar
-      :collapsible="false"
-      :resizable="false"
-      :ui="{ root: 'bg-default', header: 'h-auto flex-col items-stretch gap-5 py-6', footer: 'border-t border-default flex-col items-stretch gap-3 p-4' }"
-    >
-      <template #header>
-        <div class="flex items-center justify-between gap-2 ps-3">
-          <OxyBrand />
-          <NotificationBell v-if="hasOrganization" />
-        </div>
-        <OrgSwitcher />
-      </template>
-      <template #default>
-        <p class="px-3 pb-2 text-xs font-semibold uppercase tracking-widest text-muted">
-          {{ $t('ui.work') }}
-        </p>
-        <UNavigationMenu
-          :items="work"
-          orientation="vertical"
-        />
-        <template v-if="management.length">
-          <p class="px-3 pb-2 pt-8 text-xs font-semibold uppercase tracking-widest text-muted">
-            {{ $t('ui.organization') }}
-          </p>
-          <UNavigationMenu
-            :items="management"
-            orientation="vertical"
-          />
-        </template>
-      </template>
-      <template #footer>
-        <div class="flex items-center justify-between gap-2">
-          <span class="text-sm text-muted">{{ $t('theme.title') }}</span><ThemeSwitcher />
-        </div>
-        <UserMenu />
-      </template>
-    </UDashboardSidebar>
+  <UDashboardGroup class="napiko-dashboard flex-col">
+    <TopNavbar :notifications="hasOrganization" />
     <slot />
     <NotificationBell
       v-if="hasOrganization"
-      class="oxy-bell-mobile"
+      class="napiko-bell-mobile"
     />
     <NotificationsSlideover v-if="hasOrganization" />
     <nav
-      class="oxy-bottom-nav"
+      class="napiko-bottom-nav"
       :aria-label="$t('ui.mainNavigation')"
     >
       <NuxtLink
         v-for="item in mobile"
         :key="String(item.to)"
         :to="item.to"
-        class="oxy-bottom-item"
+        class="napiko-bottom-item"
         :aria-current="active(item.to) ? 'page' : undefined"
       >
         <UIcon
@@ -102,9 +66,9 @@ useHead({
       </NuxtLink>
       <button
         type="button"
-        class="oxy-bottom-item"
+        class="napiko-bottom-item"
         :aria-expanded="moreOpen"
-        aria-controls="oxy-more-menu"
+        aria-controls="napiko-more-menu"
         :aria-current="more.some(item => active(item.to)) ? 'page' : undefined"
         @click="moreOpen = true"
       >
@@ -121,7 +85,7 @@ useHead({
     >
       <template #body>
         <div
-          id="oxy-more-menu"
+          id="napiko-more-menu"
           class="space-y-6"
         >
           <UNavigationMenu
