@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import { en, pl } from '@nuxt/ui/locale'
+import { BRAND_COLORS } from '#shared/brand'
 
 const { locale } = useI18n()
 const route = useRoute()
+const colorMode = useColorMode()
 const uiLocale = computed(() => (locale.value === 'en' ? en : pl))
+const themeContext = computed(() => resolveThemeContext(route.meta.themeContext))
 
-useHead({ htmlAttrs: { 'lang': () => locale.value, 'data-napiko-theme': () => resolveThemeContext(route.meta.themeContext) } })
+// Kontekst (warsztat / klient) i jasność są niezależne; pasek przeglądarki podąża za obiema osiami
+useHead({
+  htmlAttrs: { 'lang': () => locale.value, 'data-napiko-theme': () => themeContext.value },
+  meta: [{ name: 'theme-color', content: () => BRAND_COLORS[themeContext.value][colorMode.value === 'dark' ? 'themeColorDark' : 'themeColor'] }],
+})
 
 // VisualViewport follows the actual keyboard-reduced space, also in a webview.
 onMounted(() => {

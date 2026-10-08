@@ -1,8 +1,8 @@
 export default defineAppConfig({
   ui: {
     colors: {
-      primary: 'napiko-blue',
-      neutral: 'napiko-slate',
+      primary: 'napiko-primary',
+      neutral: 'napiko-neutral',
     },
     button: {
       slots: { base: 'napiko-control gap-2 px-4 font-semibold transition-colors duration-150', label: 'whitespace-normal text-start' },

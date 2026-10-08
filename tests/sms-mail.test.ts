@@ -4,6 +4,7 @@
 import { afterEach, expect, it, vi } from 'vitest'
 import { createSmsSender, smsapiIdx } from '../server/lib/sms'
 import { messageIdFor } from '../server/lib/mailer'
+import { renderEmail } from '../server/lib/email-templates'
 import { getEnv } from '../server/lib/env'
 
 afterEach(() => {
@@ -85,4 +86,37 @@ it('weryfikuje token przy starcie i pozwala na pusty token w trybie log', () => 
 it('Message-ID w domenie nadawcy, stały dla klucza', () => {
   expect(messageIdFor('job-1-email', 'Napiko <no-reply@napiko.pl>')).toBe('<napiko-job-1-email@napiko.pl>')
   expect(messageIdFor('job-1-email', 'Napiko <no-reply@napiko.pl>')).toBe(messageIdFor('job-1-email', 'Napiko <no-reply@napiko.pl>'))
+})
+
+const appUrl = 'https://napiko.test'
+
+it('e-mail platformy: logo Napiko, paleta warsztatu i przycisk w ciemniejszym pomarańczu', () => {
+  const email = renderEmail({ to: 'a@example.com', template: 'reset-password', data: { name: 'Anna', url: `${appUrl}/reset?token=1` } }, { appUrl })
+  expect(email.html).toContain(`src="${appUrl}/brand/napiko-logo-workshop-email.png"`)
+  expect(email.html).toContain('alt="Napiko"')
+  expect(email.html).toContain('background:#BD3619;color:#ffffff')
+  expect(email.html).toContain('<meta name="color-scheme" content="light">')
+  expect(email.html).not.toContain('napiko-logo-customer')
+  expect(email.text).toContain(`${appUrl}/reset?token=1`)
+})
+
+it('e-mail do klienta: nazwa warsztatu na pierwszym planie, paleta klienta, Napiko jako oznaczenie platformy', () => {
+  const data = { organizationName: 'Auto Serwis', vehicle: 'Kia Ceed', orderNumber: 'ZL/1', url: `${appUrl}/s/abc` }
+  for (const template of ['order-ready', 'order-received', 'approval-request', 'estimate-request'] as const) {
+    const email = renderEmail({ to: 'klient@example.com', template, data: { ...data, total: '100,00 zł', expires: '30.09.2026' } }, { appUrl })
+    expect(email.html, template).toContain('font-size:18px">Auto Serwis</p>')
+    expect(email.html, template).toContain('background:#68418C;color:#ffffff')
+    expect(email.html, template).toContain(`src="${appUrl}/brand/napiko-logo-customer-email.png"`)
+    expect(email.html, template).not.toContain('napiko-logo-workshop')
+    expect(email.html, template).toContain('Wiadomość wysłana przez platformę Napiko.')
+    // wersja tekstowa jest kompletna bez obrazów
+    expect(email.text, template).toContain(`${appUrl}/s/abc`)
+    expect(email.text, template).toContain('Wiadomość wysłana przez platformę Napiko.')
+  }
+})
+
+it('bez adresu aplikacji e-mail nie wskazuje obrazów, a nagłówek zostaje tekstowy', () => {
+  const email = renderEmail({ to: 'a@example.com', template: 'verify-email', data: { name: 'Anna', url: `${appUrl}/verify` } })
+  expect(email.html).not.toContain('<img')
+  expect(email.html).toContain('>Napiko</span>')
 })

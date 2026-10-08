@@ -1,57 +1,118 @@
 /* Context and brightness are independent. All overlays inherit from html. */
 :root {
-  --napiko-brand-base: var(--color-napiko-blue-500);
-  --napiko-brand-light: var(--color-napiko-blue-300);
-  --napiko-brand-deep: var(--color-napiko-blue-800);
-  --napiko-action-base: var(--color-napiko-blue-700);
-  --napiko-action-hover: var(--color-napiko-blue-800);
-  --napiko-action-active: var(--color-napiko-blue-900);
-  --napiko-action-soft: var(--color-napiko-blue-50);
+  --napiko-brand-base: var(--color-napiko-orange-500);
+  --napiko-brand-light: var(--color-napiko-orange-300);
+  --napiko-brand-deep: var(--color-napiko-orange-700);
+  --napiko-action-base: var(--color-napiko-orange-600);
+  --napiko-action-hover: var(--color-napiko-orange-700);
+  --napiko-action-active: var(--color-napiko-orange-800);
+  --napiko-action-soft: var(--color-napiko-orange-100);
   --napiko-action-contrast: #fff;
-  --napiko-action-focus: var(--color-napiko-blue-700);
-  --napiko-page: var(--color-napiko-slate-50);
+  --napiko-action-focus: var(--color-napiko-orange-600);
+  --napiko-page: var(--color-napiko-graphite-50);
   --napiko-surface: #fff;
-  --napiko-surface-raised: var(--color-napiko-slate-100);
-  --napiko-text: var(--color-napiko-slate-900);
-  --napiko-text-muted: var(--color-napiko-slate-600);
-  --napiko-border: var(--color-napiko-slate-200);
-  --napiko-border-control: var(--color-napiko-slate-500);
+  --napiko-surface-raised: var(--color-napiko-graphite-100);
+  --napiko-text: var(--color-napiko-graphite-900);
+  --napiko-text-muted: var(--color-napiko-graphite-600);
+  --napiko-border: var(--color-napiko-graphite-200);
+  --napiko-border-control: var(--color-napiko-graphite-500);
+  /* Skale Nuxt UI (app.config.ts: primary, neutral) podążają za kontekstem, a nie za jednym kolorem. */
+  --color-napiko-primary-50: var(--color-napiko-orange-50);
+  --color-napiko-primary-100: var(--color-napiko-orange-100);
+  --color-napiko-primary-200: var(--color-napiko-orange-200);
+  --color-napiko-primary-300: var(--color-napiko-orange-300);
+  --color-napiko-primary-400: var(--color-napiko-orange-400);
+  --color-napiko-primary-500: var(--color-napiko-orange-500);
+  --color-napiko-primary-600: var(--color-napiko-orange-600);
+  --color-napiko-primary-700: var(--color-napiko-orange-700);
+  --color-napiko-primary-800: var(--color-napiko-orange-800);
+  --color-napiko-primary-900: var(--color-napiko-orange-900);
+  --color-napiko-primary-950: var(--color-napiko-orange-950);
+  --color-napiko-neutral-50: var(--color-napiko-graphite-50);
+  --color-napiko-neutral-100: var(--color-napiko-graphite-100);
+  --color-napiko-neutral-200: var(--color-napiko-graphite-200);
+  --color-napiko-neutral-300: var(--color-napiko-graphite-300);
+  --color-napiko-neutral-400: var(--color-napiko-graphite-400);
+  --color-napiko-neutral-500: var(--color-napiko-graphite-500);
+  --color-napiko-neutral-600: var(--color-napiko-graphite-600);
+  --color-napiko-neutral-700: var(--color-napiko-graphite-700);
+  --color-napiko-neutral-800: var(--color-napiko-graphite-800);
+  --color-napiko-neutral-900: var(--color-napiko-graphite-900);
+  --color-napiko-neutral-950: var(--color-napiko-graphite-950);
 }
 
 :root[data-napiko-theme='customer'] {
-  --napiko-brand-base: var(--color-napiko-violet-500);
+  --napiko-brand-base: var(--color-napiko-violet-600);
   --napiko-brand-light: var(--color-napiko-violet-300);
-  --napiko-brand-deep: var(--color-napiko-violet-900);
-  --napiko-action-base: var(--color-napiko-violet-700);
-  --napiko-action-hover: var(--color-napiko-violet-800);
-  --napiko-action-active: var(--color-napiko-violet-900);
-  --napiko-action-soft: var(--color-napiko-violet-50);
-  --napiko-action-focus: var(--color-napiko-violet-700);
+  --napiko-brand-deep: var(--color-napiko-violet-800);
+  --napiko-action-base: var(--color-napiko-violet-600);
+  --napiko-action-hover: var(--color-napiko-violet-700);
+  --napiko-action-active: var(--color-napiko-violet-800);
+  --napiko-action-soft: var(--color-napiko-violet-100);
+  --napiko-action-focus: var(--color-napiko-violet-600);
+  --napiko-page: var(--color-napiko-plum-50);
+  --napiko-surface-raised: var(--color-napiko-plum-100);
+  --napiko-text: var(--color-napiko-plum-900);
+  --napiko-text-muted: var(--color-napiko-plum-600);
+  --napiko-border: var(--color-napiko-plum-200);
+  --napiko-border-control: var(--color-napiko-plum-500);
+  --color-napiko-primary-50: var(--color-napiko-violet-50);
+  --color-napiko-primary-100: var(--color-napiko-violet-100);
+  --color-napiko-primary-200: var(--color-napiko-violet-200);
+  --color-napiko-primary-300: var(--color-napiko-violet-300);
+  --color-napiko-primary-400: var(--color-napiko-violet-400);
+  --color-napiko-primary-500: var(--color-napiko-violet-500);
+  --color-napiko-primary-600: var(--color-napiko-violet-600);
+  --color-napiko-primary-700: var(--color-napiko-violet-700);
+  --color-napiko-primary-800: var(--color-napiko-violet-800);
+  --color-napiko-primary-900: var(--color-napiko-violet-900);
+  --color-napiko-primary-950: var(--color-napiko-violet-950);
+  --color-napiko-neutral-50: var(--color-napiko-plum-50);
+  --color-napiko-neutral-100: var(--color-napiko-plum-100);
+  --color-napiko-neutral-200: var(--color-napiko-plum-200);
+  --color-napiko-neutral-300: var(--color-napiko-plum-300);
+  --color-napiko-neutral-400: var(--color-napiko-plum-400);
+  --color-napiko-neutral-500: var(--color-napiko-plum-500);
+  --color-napiko-neutral-600: var(--color-napiko-plum-600);
+  --color-napiko-neutral-700: var(--color-napiko-plum-700);
+  --color-napiko-neutral-800: var(--color-napiko-plum-800);
+  --color-napiko-neutral-900: var(--color-napiko-plum-900);
+  --color-napiko-neutral-950: var(--color-napiko-plum-950);
 }
 
 :root.dark {
-  --napiko-page: var(--color-napiko-slate-950);
-  --napiko-surface: var(--color-napiko-slate-900);
-  --napiko-surface-raised: var(--color-napiko-slate-800);
-  --napiko-text: var(--color-napiko-slate-50);
-  --napiko-text-muted: var(--color-napiko-slate-300);
-  --napiko-border: var(--color-napiko-slate-700);
-  --napiko-border-control: var(--color-napiko-slate-400);
-  --napiko-action-base: var(--color-napiko-blue-300);
-  --napiko-action-hover: var(--color-napiko-blue-200);
-  --napiko-action-active: var(--color-napiko-blue-100);
-  --napiko-action-soft: var(--color-napiko-blue-950);
-  --napiko-action-contrast: var(--color-napiko-slate-900);
-  --napiko-action-focus: var(--color-napiko-blue-300);
+  --napiko-brand-base: var(--color-napiko-orange-500);
+  --napiko-action-base: var(--color-napiko-orange-400);
+  --napiko-action-hover: var(--color-napiko-orange-300);
+  --napiko-action-active: var(--color-napiko-orange-200);
+  --napiko-action-soft: var(--color-napiko-orange-900);
+  --napiko-action-contrast: var(--color-napiko-graphite-900);
+  --napiko-action-focus: var(--color-napiko-orange-400);
+  --napiko-page: var(--color-napiko-graphite-950);
+  --napiko-surface: var(--color-napiko-graphite-800);
+  --napiko-surface-raised: var(--color-napiko-graphite-700);
+  --napiko-text: var(--color-napiko-graphite-50);
+  --napiko-text-muted: var(--color-napiko-graphite-300);
+  --napiko-border: var(--color-napiko-graphite-700);
+  --napiko-border-control: var(--color-napiko-graphite-400);
   --napiko-shadow: none;
 }
 
 :root.dark[data-napiko-theme='customer'] {
+  --napiko-brand-base: var(--color-napiko-violet-400);
   --napiko-action-base: var(--color-napiko-violet-300);
   --napiko-action-hover: var(--color-napiko-violet-200);
   --napiko-action-active: var(--color-napiko-violet-100);
-  --napiko-action-soft: var(--color-napiko-violet-950);
+  --napiko-action-soft: var(--color-napiko-violet-900);
+  --napiko-action-contrast: var(--color-napiko-violet-950);
   --napiko-action-focus: var(--color-napiko-violet-300);
+  --napiko-page: var(--color-napiko-plum-950);
+  --napiko-surface: var(--color-napiko-plum-800);
+  --napiko-surface-raised: var(--color-napiko-plum-700);
+  --napiko-text: var(--color-napiko-plum-50);
+  --napiko-text-muted: var(--color-napiko-plum-300);
+  --napiko-border: var(--color-napiko-plum-700);
+  --napiko-border-control: var(--color-napiko-plum-400);
 }
 
 :root, :root.dark {
@@ -69,5 +130,6 @@
   --ui-border-muted: var(--napiko-border);
   --ui-border-accented: var(--napiko-border-control);
   --ui-radius: .3125rem;
+  /* Opcjonalny efekt dużych powierzchni marki (okładki, ilustracje). Nie stosować pod tekstem ani na przyciskach. */
   --napiko-brand-metal: linear-gradient(120deg, var(--napiko-brand-deep), var(--napiko-brand-base) 60%, var(--napiko-brand-light));
 }

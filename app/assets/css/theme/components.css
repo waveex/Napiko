@@ -6,8 +6,11 @@
   .napiko-primary:hover:not(:disabled) { background: var(--napiko-action-hover); }
   .napiko-primary:active:not(:disabled) { background: var(--napiko-action-active); }
   .napiko-work-actions button, .napiko-work-actions a { min-height: var(--napiko-work-action-height); font-size: 1rem; justify-content: center; }
-  .napiko-brand { display: inline-flex; align-items: center; gap: .75rem; font-size: 1.5rem; font-weight: 800; letter-spacing: -.06em; }
-  .napiko-brand-mark { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: .75rem; background: var(--napiko-brand-metal); color: white; }
+  /* Logo: dwa obrazy (jasne i ciemne tło), widoczny jest jeden – wybór po klasie .dark, bez JavaScriptu */
+  .napiko-brand { display: inline-flex; align-items: center; flex-shrink: 0; border-radius: .25rem; }
+  .napiko-logo { display: block; width: auto; height: 2.25rem; }
+  .napiko-logo[data-tone='dark'], .dark .napiko-logo[data-tone='light'] { display: none; }
+  .dark .napiko-logo[data-tone='dark'] { display: block; }
   .napiko-surface { border: 1px solid var(--napiko-border); border-radius: var(--napiko-radius-card); background: var(--napiko-surface); box-shadow: var(--napiko-shadow); }
   /* Modyfikatory po .napiko-surface – klasy narzędziowe (border-*, ring-*) nie nadpisują reguł spoza warstw. */
   .napiko-surface-active { border-color: var(--napiko-action-base); box-shadow: 0 0 0 3px color-mix(in srgb, var(--napiko-action-base) 25%, transparent); }

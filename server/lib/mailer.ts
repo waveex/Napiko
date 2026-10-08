@@ -22,7 +22,7 @@ export function createMailer(env: Env) {
   })
   return {
     async send(email: OutgoingEmail) {
-      const { subject, text, html, headers } = renderEmail(email)
+      const { subject, text, html, headers } = renderEmail(email, { appUrl: env.appUrl })
       await transport.sendMail({
         from: env.MAIL_FROM,
         to: email.to,

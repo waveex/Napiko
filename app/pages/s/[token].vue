@@ -5,6 +5,7 @@
  */
 import { STATUS_STEPS, type StatusStep } from '#shared/notifications'
 import { VEHICLE_TYPE_INFO, type VehicleType } from '#shared/workshop'
+import { brandIcon } from '#shared/brand'
 import type { PushSupport } from '~/utils/push'
 
 definePageMeta({ layout: 'public', themeContext: 'customer' })
@@ -17,12 +18,11 @@ const toast = useToast()
 useHead({
   link: [
     { rel: 'manifest', href: `/api/public/status/${token}/manifest` },
-    { rel: 'apple-touch-icon', href: '/icons/customer-apple-touch-icon.png' },
+    { rel: 'apple-touch-icon', href: brandIcon('customer-apple-touch-icon') },
   ],
   meta: [
     { name: 'robots', content: 'noindex, nofollow' },
     { name: 'referrer', content: 'no-referrer' },
-    { name: 'theme-color', content: '#6936b5' },
     { name: 'apple-mobile-web-app-capable', content: 'yes' },
   ],
 })

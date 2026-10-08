@@ -2,6 +2,8 @@
 
 Data: 28.09.2026 · Branch: `codex/design-blue-violet` · Status: plan do wdrożenia
 
+> **Aktualizacja 08.10.2026:** kierunek kolorystyczny z sekcji 1 i 3 (niebieski / metaliczny fiolet) zastąpiła wdrożona identyfikacja pomarańcz–grafit dla warsztatu i fiolet–lawenda dla klienta, ze znakiem z kluczem. Opis i zasady: [12-identyfikacja-wizualna.md](12-identyfikacja-wizualna.md). Reszta planu (układ, nawigacja, zasady UI) pozostaje aktualna.
+
 ## 1. Kierunek
 
 Przyjazne narzędzie do pracy w warsztacie i spokojnej komunikacji z klientem. Zachowujemy istniejący układ aplikacji, ale nadajemy mu własny charakter, porządkujemy ważność informacji i ułatwiamy wykonanie następnego kroku.

@@ -5,6 +5,7 @@
 import { eq } from 'drizzle-orm'
 import { organization } from '../../../../db/schema'
 import { statusTokenSchema } from '../../../../../shared/notifications'
+import { BRAND_COLORS, brandIcon } from '../../../../../shared/brand'
 
 export default defineEventHandler(async (event) => {
   const { token } = await getValidatedRouterParams(event, params => statusTokenSchema.parse(params))
@@ -25,13 +26,13 @@ export default defineEventHandler(async (event) => {
     start_url: `/s/${token}`,
     scope: '/',
     display: 'standalone',
-    background_color: '#f5f7fa',
-    theme_color: '#6936b5',
+    background_color: BRAND_COLORS.customer.background,
+    theme_color: BRAND_COLORS.customer.themeColor,
     lang: 'pl',
     icons: [
-      { src: '/icons/customer-192.png', sizes: '192x192', type: 'image/png' },
-      { src: '/icons/customer-512.png', sizes: '512x512', type: 'image/png' },
-      { src: '/icons/customer-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+      { src: brandIcon('customer-192'), sizes: '192x192', type: 'image/png' },
+      { src: brandIcon('customer-512'), sizes: '512x512', type: 'image/png' },
+      { src: brandIcon('customer-maskable-512'), sizes: '512x512', type: 'image/png', purpose: 'maskable' },
     ],
   }
 })

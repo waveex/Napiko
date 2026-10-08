@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { TASK_STATUS_ICON, VEHICLE_TYPE_INFO } from './shared/workshop'
 import { TEAM_NOTIFICATIONS } from './shared/notifications'
+import { brandIcon } from './shared/brand'
 
 /** Ikony wybierane w kodzie dynamicznie (rodzaje pojazdów, statusy zadań, typy powiadomień) – skaner ich nie widzi. */
 const dynamicIcons = [
@@ -24,7 +25,7 @@ export default defineNuxtConfig({
         { name: 'description', content: 'Napiko – komunikacja i organizacja pracy warsztatów z klientem.' },
       ],
       link: [
-        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/icons/favicon-32.png' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', href: brandIcon('favicon-32') },
       ],
     },
   },

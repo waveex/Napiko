@@ -6,12 +6,7 @@ const { data: session } = await useAuthSession()
   <div class="min-h-dvh flex flex-col">
     <header class="border-b border-default">
       <UContainer class="min-h-20 flex flex-wrap items-center justify-between gap-3 py-3">
-        <NuxtLink
-          to="/"
-          class="font-bold text-lg tracking-tight"
-        >
-          Napiko
-        </NuxtLink>
+        <NapikoBrand to="/" />
         <div class="flex flex-wrap items-center gap-2">
           <ThemeSwitcher />
           <LocaleSwitcher />

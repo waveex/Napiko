@@ -1,38 +1,56 @@
 @theme static {
   --font-sans: 'Inter', system-ui, sans-serif;
-  --color-napiko-blue-50: #eaf8fd;
-  --color-napiko-blue-100: #d5f1fb;
-  --color-napiko-blue-200: #afe6f6;
-  --color-napiko-blue-300: #8edff4;
-  --color-napiko-blue-400: #35c1e7;
-  --color-napiko-blue-500: #00a6d6;
-  --color-napiko-blue-600: #0083af;
-  --color-napiko-blue-700: #006c96;
-  --color-napiko-blue-800: #07516d;
-  --color-napiko-blue-900: #103d51;
-  --color-napiko-blue-950: #102a38;
-  --color-napiko-violet-50: #f3edfd;
-  --color-napiko-violet-100: #ebe0fc;
-  --color-napiko-violet-200: #ddcafb;
-  --color-napiko-violet-300: #c7adf7;
-  --color-napiko-violet-400: #aa85ef;
-  --color-napiko-violet-500: #8854e8;
-  --color-napiko-violet-600: #7740ce;
-  --color-napiko-violet-700: #6936b5;
-  --color-napiko-violet-800: #532990;
-  --color-napiko-violet-900: #43216c;
-  --color-napiko-violet-950: #291d3e;
-  --color-napiko-slate-50: #f5f7fa;
-  --color-napiko-slate-100: #edf1f5;
-  --color-napiko-slate-200: #dce3ea;
-  --color-napiko-slate-300: #b5c2d0;
-  --color-napiko-slate-400: #8091a4;
-  --color-napiko-slate-500: #617387;
-  --color-napiko-slate-600: #536171;
-  --color-napiko-slate-700: #37495c;
-  --color-napiko-slate-800: #243447;
-  --color-napiko-slate-900: #172331;
-  --color-napiko-slate-950: #101720;
+  /* Warsztat (biuro, właściciel, mechanik). Kotwice z pakietu marki: 100 tło wyróżnienia, 400 akcja w trybie ciemnym,
+     500 pomarańcz znaku, 600 akcja z białym tekstem, 700 hover, 800 active. */
+  --color-napiko-orange-50: #fff6f2;
+  --color-napiko-orange-100: #fcebe5;
+  --color-napiko-orange-200: #f8d3c7;
+  --color-napiko-orange-300: #ffb59c;
+  --color-napiko-orange-400: #ff936d;
+  --color-napiko-orange-500: #e84924;
+  --color-napiko-orange-600: #bd3619;
+  --color-napiko-orange-700: #a52e15;
+  --color-napiko-orange-800: #8b2713;
+  --color-napiko-orange-900: #4a2014;
+  --color-napiko-orange-950: #2c120b;
+  /* Klient. Kotwice: 100 tło wyróżnienia, 300 akcja w trybie ciemnym, 400 znak w trybie ciemnym,
+     600 fiolet znaku i akcji, 700 hover, 800 active, 950 tekst na akcji w trybie ciemnym. */
+  --color-napiko-violet-50: #f8f3fb;
+  --color-napiko-violet-100: #efe7f5;
+  --color-napiko-violet-200: #e0d1ec;
+  --color-napiko-violet-300: #c6a5df;
+  --color-napiko-violet-400: #b99acc;
+  --color-napiko-violet-500: #8c63af;
+  --color-napiko-violet-600: #68418c;
+  --color-napiko-violet-700: #573574;
+  --color-napiko-violet-800: #46295f;
+  --color-napiko-violet-900: #34213f;
+  --color-napiko-violet-950: #241b2b;
+  /* Neutralne warsztatu: ciepły grafit. 50 tło strony, 100 powierzchnia podniesiona, 500 obramowanie kontrolek,
+     600 tekst pomocniczy, 900 tekst; w trybie ciemnym 950 tło, 800 karty, 700 podniesione, 300 tekst pomocniczy. */
+  --color-napiko-graphite-50: #f3f1eb;
+  --color-napiko-graphite-100: #eae7df;
+  --color-napiko-graphite-200: #dcd8ce;
+  --color-napiko-graphite-300: #c3beb6;
+  --color-napiko-graphite-400: #8c8984;
+  --color-napiko-graphite-500: #817a70;
+  --color-napiko-graphite-600: #62605c;
+  --color-napiko-graphite-700: #33373b;
+  --color-napiko-graphite-800: #24272b;
+  --color-napiko-graphite-900: #202326;
+  --color-napiko-graphite-950: #181a1d;
+  /* Neutralne klienta: śliwka z lawendowym tłem; stopnie jak w skali graphite. */
+  --color-napiko-plum-50: #f7f4fa;
+  --color-napiko-plum-100: #eee9f3;
+  --color-napiko-plum-200: #dfd6e8;
+  --color-napiko-plum-300: #c8b7d2;
+  --color-napiko-plum-400: #96839f;
+  --color-napiko-plum-500: #8d7d96;
+  --color-napiko-plum-600: #716477;
+  --color-napiko-plum-700: #3a2f43;
+  --color-napiko-plum-800: #2d2434;
+  --color-napiko-plum-900: #292330;
+  --color-napiko-plum-950: #211a28;
 }
 
 :root {
@@ -45,7 +63,7 @@
   --napiko-motion: 150ms;
   --napiko-page-gutter: 1rem;
   --napiko-safe-bottom: env(safe-area-inset-bottom, 0px);
-  --napiko-shadow: 0 2px 8px rgb(16 23 32 / 4%);
+  --napiko-shadow: 0 2px 8px rgb(24 26 29 / 5%);
 }
 
 @media (min-width: 768px) { :root { --napiko-page-gutter: 1.5rem; } }

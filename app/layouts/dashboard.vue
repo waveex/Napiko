@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { brandIcon } from '#shared/brand'
+
 const { data: me } = await useMe()
 const route = useRoute()
 const { mobile, more } = useWorkshopNavigation()
@@ -29,10 +31,9 @@ onBeforeUnmount(() => stopPolling?.())
 useHead({
   link: [
     { rel: 'manifest', href: '/manifest.webmanifest' },
-    { rel: 'apple-touch-icon', href: '/icons/apple-touch-icon.png' },
+    { rel: 'apple-touch-icon', href: brandIcon('apple-touch-icon') },
   ],
   meta: [
-    { name: 'theme-color', content: '#006c96' },
     { name: 'apple-mobile-web-app-capable', content: 'yes' },
     { name: 'apple-mobile-web-app-title', content: 'Napiko' },
   ],
